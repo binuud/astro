@@ -218,8 +218,8 @@ message AstroObject {
 }
 
 service Astro {
-    rpc Update(UserUpdateRequest) returns (AstroObject) {} 
-    rpc Get(UserGetRequest) returns (AstroObject) {} 
+    rpc Update(UserUpdateRequest) returns (UserUpdateResponse) {} 
+    rpc Get(UserGetRequest) returns (UserGetResponse) {} 
 }
 
 message UserUpdateRequest {
@@ -233,4 +233,9 @@ message UserUpdateResponse {
 
 message UserGetRequest {
     string uuid = 1;
+}
+
+
+message UserGetResponse {
+    AstroObject astro = 1;
 }

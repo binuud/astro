@@ -1542,6 +1542,53 @@ func (x *UserGetRequest) GetUuid() string {
 	return ""
 }
 
+type UserGetResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Astro *AstroObject `protobuf:"bytes,1,opt,name=astro,proto3" json:"astro,omitempty"`
+}
+
+func (x *UserGetResponse) Reset() {
+	*x = UserGetResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_astrocalc_astro_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserGetResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserGetResponse) ProtoMessage() {}
+
+func (x *UserGetResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_astrocalc_astro_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserGetResponse.ProtoReflect.Descriptor instead.
+func (*UserGetResponse) Descriptor() ([]byte, []int) {
+	return file_astrocalc_astro_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *UserGetResponse) GetAstro() *AstroObject {
+	if x != nil {
+		return x.Astro
+	}
+	return nil
+}
+
 var File_astrocalc_astro_proto protoreflect.FileDescriptor
 
 var file_astrocalc_astro_proto_rawDesc = []byte{
@@ -1795,15 +1842,20 @@ var file_astrocalc_astro_proto_rawDesc = []byte{
 	0x73, 0x65, 0x72, 0x2e, 0x41, 0x73, 0x74, 0x72, 0x6f, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x52,
 	0x05, 0x61, 0x73, 0x74, 0x72, 0x6f, 0x22, 0x24, 0x0a, 0x0e, 0x55, 0x73, 0x65, 0x72, 0x47, 0x65,
 	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x75, 0x69, 0x64,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x75, 0x75, 0x69, 0x64, 0x32, 0x71, 0x0a, 0x05,
-	0x41, 0x73, 0x74, 0x72, 0x6f, 0x12, 0x36, 0x0a, 0x06, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12,
-	0x17, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x55, 0x70, 0x64, 0x61, 0x74,
-	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e,
-	0x41, 0x73, 0x74, 0x72, 0x6f, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x22, 0x00, 0x12, 0x30, 0x0a,
-	0x03, 0x47, 0x65, 0x74, 0x12, 0x14, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x55, 0x73, 0x65, 0x72,
-	0x47, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x75, 0x73, 0x65,
-	0x72, 0x2e, 0x41, 0x73, 0x74, 0x72, 0x6f, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x22, 0x00, 0x42,
-	0x06, 0x5a, 0x04, 0x2e, 0x2f, 0x67, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x75, 0x75, 0x69, 0x64, 0x22, 0x3a, 0x0a, 0x0f,
+	0x55, 0x73, 0x65, 0x72, 0x47, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x27, 0x0a, 0x05, 0x61, 0x73, 0x74, 0x72, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x11,
+	0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x41, 0x73, 0x74, 0x72, 0x6f, 0x4f, 0x62, 0x6a, 0x65, 0x63,
+	0x74, 0x52, 0x05, 0x61, 0x73, 0x74, 0x72, 0x6f, 0x32, 0x7c, 0x0a, 0x05, 0x41, 0x73, 0x74, 0x72,
+	0x6f, 0x12, 0x3d, 0x0a, 0x06, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12, 0x17, 0x2e, 0x75, 0x73,
+	0x65, 0x72, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x55, 0x73, 0x65, 0x72,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
+	0x12, 0x34, 0x0a, 0x03, 0x47, 0x65, 0x74, 0x12, 0x14, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x55,
+	0x73, 0x65, 0x72, 0x47, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e,
+	0x75, 0x73, 0x65, 0x72, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x47, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x06, 0x5a, 0x04, 0x2e, 0x2f, 0x67, 0x6f, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1819,7 +1871,7 @@ func file_astrocalc_astro_proto_rawDescGZIP() []byte {
 }
 
 var file_astrocalc_astro_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var file_astrocalc_astro_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_astrocalc_astro_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_astrocalc_astro_proto_goTypes = []interface{}{
 	(AstroConstants_Planets)(0),   // 0: user.AstroConstants.Planets
 	(AstroConstants_Sphutas)(0),   // 1: user.AstroConstants.Sphutas
@@ -1840,24 +1892,25 @@ var file_astrocalc_astro_proto_goTypes = []interface{}{
 	(*UserUpdateRequest)(nil),     // 16: user.UserUpdateRequest
 	(*UserUpdateResponse)(nil),    // 17: user.UserUpdateResponse
 	(*UserGetRequest)(nil),        // 18: user.UserGetRequest
-	nil,                           // 19: user.Metadata.LabelsEntry
-	nil,                           // 20: user.Metadata.AnnotationsEntry
-	(*timestamppb.Timestamp)(nil), // 21: google.protobuf.Timestamp
+	(*UserGetResponse)(nil),       // 19: user.UserGetResponse
+	nil,                           // 20: user.Metadata.LabelsEntry
+	nil,                           // 21: user.Metadata.AnnotationsEntry
+	(*timestamppb.Timestamp)(nil), // 22: google.protobuf.Timestamp
 }
 var file_astrocalc_astro_proto_depIdxs = []int32{
-	19, // 0: user.Metadata.labels:type_name -> user.Metadata.LabelsEntry
-	20, // 1: user.Metadata.annotations:type_name -> user.Metadata.AnnotationsEntry
-	21, // 2: user.Metadata.createdAt:type_name -> google.protobuf.Timestamp
-	21, // 3: user.Metadata.updatedAt:type_name -> google.protobuf.Timestamp
+	20, // 0: user.Metadata.labels:type_name -> user.Metadata.LabelsEntry
+	21, // 1: user.Metadata.annotations:type_name -> user.Metadata.AnnotationsEntry
+	22, // 2: user.Metadata.createdAt:type_name -> google.protobuf.Timestamp
+	22, // 3: user.Metadata.updatedAt:type_name -> google.protobuf.Timestamp
 	7,  // 4: user.BirthData.dob:type_name -> user.DateData
 	6,  // 5: user.BirthData.tob:type_name -> user.TimeData
 	8,  // 6: user.BirthData.pob:type_name -> user.PlaceData
-	21, // 7: user.BirthData.dobtime:type_name -> google.protobuf.Timestamp
-	21, // 8: user.PanchangItem.changeTime:type_name -> google.protobuf.Timestamp
-	21, // 9: user.PanchangKalam.startTime:type_name -> google.protobuf.Timestamp
-	21, // 10: user.PanchangKalam.endTime:type_name -> google.protobuf.Timestamp
-	21, // 11: user.Panchang.sunRise:type_name -> google.protobuf.Timestamp
-	21, // 12: user.Panchang.sunSet:type_name -> google.protobuf.Timestamp
+	22, // 7: user.BirthData.dobtime:type_name -> google.protobuf.Timestamp
+	22, // 8: user.PanchangItem.changeTime:type_name -> google.protobuf.Timestamp
+	22, // 9: user.PanchangKalam.startTime:type_name -> google.protobuf.Timestamp
+	22, // 10: user.PanchangKalam.endTime:type_name -> google.protobuf.Timestamp
+	22, // 11: user.Panchang.sunRise:type_name -> google.protobuf.Timestamp
+	22, // 12: user.Panchang.sunSet:type_name -> google.protobuf.Timestamp
 	10, // 13: user.Panchang.tithi:type_name -> user.PanchangItem
 	10, // 14: user.Panchang.star:type_name -> user.PanchangItem
 	10, // 15: user.Panchang.yoga:type_name -> user.PanchangItem
@@ -1877,15 +1930,16 @@ var file_astrocalc_astro_proto_depIdxs = []int32{
 	14, // 29: user.AstroObject.planets:type_name -> user.Planets
 	9,  // 30: user.UserUpdateRequest.birthData:type_name -> user.BirthData
 	15, // 31: user.UserUpdateResponse.astro:type_name -> user.AstroObject
-	16, // 32: user.Astro.Update:input_type -> user.UserUpdateRequest
-	18, // 33: user.Astro.Get:input_type -> user.UserGetRequest
-	15, // 34: user.Astro.Update:output_type -> user.AstroObject
-	15, // 35: user.Astro.Get:output_type -> user.AstroObject
-	34, // [34:36] is the sub-list for method output_type
-	32, // [32:34] is the sub-list for method input_type
-	32, // [32:32] is the sub-list for extension type_name
-	32, // [32:32] is the sub-list for extension extendee
-	0,  // [0:32] is the sub-list for field type_name
+	15, // 32: user.UserGetResponse.astro:type_name -> user.AstroObject
+	16, // 33: user.Astro.Update:input_type -> user.UserUpdateRequest
+	18, // 34: user.Astro.Get:input_type -> user.UserGetRequest
+	17, // 35: user.Astro.Update:output_type -> user.UserUpdateResponse
+	19, // 36: user.Astro.Get:output_type -> user.UserGetResponse
+	35, // [35:37] is the sub-list for method output_type
+	33, // [33:35] is the sub-list for method input_type
+	33, // [33:33] is the sub-list for extension type_name
+	33, // [33:33] is the sub-list for extension extendee
+	0,  // [0:33] is the sub-list for field type_name
 }
 
 func init() { file_astrocalc_astro_proto_init() }
@@ -2074,6 +2128,18 @@ func file_astrocalc_astro_proto_init() {
 				return nil
 			}
 		}
+		file_astrocalc_astro_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserGetResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -2081,7 +2147,7 @@ func file_astrocalc_astro_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_astrocalc_astro_proto_rawDesc,
 			NumEnums:      4,
-			NumMessages:   17,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

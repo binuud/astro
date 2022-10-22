@@ -49,3 +49,5 @@ win: ## Build windows docker image
 # docker system prune -f
 	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(APP_NAME) -f windows.dockerfile .
 	
+run: ## Run astro microservice
+	cd services/astrocalc/cmd && ./runAstro.sh	

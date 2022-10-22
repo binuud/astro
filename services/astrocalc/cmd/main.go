@@ -6,8 +6,8 @@ import (
 	"log"
 	"net"
 
+	"github.com/dronasys-com/astro/pkg/servers/astroServer"
 	"github.com/dronasys-com/trance-microservices/pkg/foundation/bootstrap"
-	"github.com/dronasys-com/trance-microservices/pkg/servers/tenancyServer"
 
 	"github.com/dronasys-com/trance-microservices/services/cluster/db"
 	"github.com/sirupsen/logrus"
@@ -35,7 +35,7 @@ func main() {
 	secureServer := grpc.NewServer(
 		grpc.UnaryInterceptor(astroServer.UnaryInterceptor))
 
-	tenancyServer.NewGrpcCompanyServer(secureServer)
+	astroServer.NewGrpcAstroServer(secureServer)
 
 	logrus.Infof("Astro Calculations Server *) (* listening on (%v)", secureConn.Addr())
 	if err := secureServer.Serve(secureConn); err != nil {

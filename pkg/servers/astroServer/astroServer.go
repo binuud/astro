@@ -2,16 +2,13 @@ package astroServer
 
 import (
 	"context"
-	"time"
 
 	protoV1 "github.com/dronasys-com/astro/proto/v1/astrocalc/go"
 	"github.com/dronasys-com/trance-microservices/pkg/dataLayer/mongo"
 	"github.com/dronasys-com/trance-microservices/pkg/foundation/helpers"
-	"github.com/dronasys-com/trance-microservices/pkg/servers/authServer"
-	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
-	"google.golang.org/protobuf/types/known/timestamppb"
+	"google.golang.org/grpc"
 )
 
 const (
@@ -22,68 +19,24 @@ type grpcAstroServer struct {
 	protoV1.UnimplementedAstroServer
 }
 
-func NewGrpcAstroServer() *grpcAstroServer {
-	return &grpcAstroServer{}
+func NewGrpcAstroServer(srv *grpc.Server) *grpcAstroServer {
+
+	server := &grpcAstroServer{}
+	protoV1.RegisterAstroServer(srv, server)
+	return server
 }
 
-func (s *grpcAstroServer) Update(ctx context.Context, in *protoV1.User) (*protoV1.ClusterCreateResponse, error) {
+func (s *grpcAstroServer) Update(ctx context.Context, in *protoV1.UserUpdateRequest) (*protoV1.UserUpdateResponse, error) {
 
-	var err error
-	in.Cluster.MetaData.Uid = uuid.New().String()
-	in.Cluster.MetaData.Owner, err = authServer.GetUserUuidFromContext(ctx)
-	if err != nil {
-		return nil, err
-	}
+	logrus.Info("Received Update: ", in)
 
-	nowTime := timestamppb.New(time.Now())
-	in.Cluster.MetaData.CreatedAt = nowTime
-	in.Cluster.MetaData.UpdatedAt = nowTime
-
-	logrus.Info("Received Create: ", in)
-
-	newCluster := &protoV1.ClusterSecretObject{
-		MetaData: in.Cluster.MetaData,
-		Info:     in.Cluster.Info,
-		Status: &protoV1.ClusterStatus{
-			Events:    nil,
-			UpdatedAt: timestamppb.New(time.Now()),
-			Status:    protoV1.ClusterStatus_Status(protoV1.AppProvisionStatus_ProvisionRequest),
-		},
-		Secret: &protoV1.ClusterSecret{
-			HandShake:   uuid.New().String() + helpers.GenerateRandomStringURLSafe(32),
-			TokenSecret: helpers.GenerateRandomStringURLSafe(32),
-		},
-	}
-
-	// insert cluster into DB
-	mongo, err := mongo.NewDSMongoSingleton()
-
-	if err != nil {
-		logrus.Error("Cannot connect to DB")
-		return nil, err
-	}
-	err = mongo.InsertOne(CLUSTER_BUCKET_NAME, newCluster)
-	if err != nil {
-		logrus.Error("Cannot Create cluster entry")
-		return nil, err
-	}
-
-	cluster, err := s.GetFromDB(newCluster.MetaData.Uid)
-	if err != nil {
-		logrus.Error("Cannot read new entry entry")
-		return nil, err
-	}
-
-	return &protoV1.ClusterCreateResponse{
-		Cluster:   cluster,
-		HandShake: newCluster.Secret.HandShake,
-	}, nil
+	return &protoV1.UserUpdateResponse{}, nil
 
 }
 
-func (s *grpcAstroServer) Get(ctx context.Context, in *protoV1.ClusterGetRequest) (*protoV1.ClusterGetResponse, error) {
+func (s *grpcAstroServer) Get(ctx context.Context, in *protoV1.UserGetRequest) (*protoV1.UserGetResponse, error) {
 	logrus.Info("Received: Get request ", in)
-	cluster := &protoV1.ClusterObject{}
+	astro := &protoV1.AstroObject{}
 
 	mongo, err := mongo.NewDSMongoSingleton()
 	if err != nil {
@@ -95,36 +48,16 @@ func (s *grpcAstroServer) Get(ctx context.Context, in *protoV1.ClusterGetRequest
 	if err != nil {
 		return nil, err
 	}
-	filter := bson.D{{"metadata.uid", in.ClusterUid}, {"metadata.owner", ownerUid}}
-	err = mongo.FindOne(CLUSTER_BUCKET_NAME, filter, cluster)
+	filter := bson.D{{"metadata.uid", in.Uuid}, {"metadata.owner", ownerUid}}
+	err = mongo.FindOne(CLUSTER_BUCKET_NAME, filter, astro)
 	if err != nil {
 		logrus.Error("Cannot Get Item ", err)
 		return nil, err
 	}
 
-	return &protoV1.ClusterGetResponse{
-		Cluster: cluster,
+	return &protoV1.UserGetResponse{
+		AstroObject: astro,
 	}, nil
-
-}
-
-func (s *grpcAstroServer) GetFromDB(uid string) (*protoV1.ClusterObject, error) {
-
-	mongo, err := mongo.NewDSMongoSingleton()
-	if err != nil {
-		logrus.Error("Cannot connect to DB")
-		return nil, err
-	}
-	cluster := &protoV1.ClusterObject{}
-
-	filter := bson.D{{"metadata.uid", uid}}
-	err = mongo.FindOne(CLUSTER_BUCKET_NAME, filter, cluster)
-	if err != nil {
-		logrus.Error("Cannot Get Item ", err)
-		return nil, err
-	}
-
-	return cluster, nil
 
 }
 

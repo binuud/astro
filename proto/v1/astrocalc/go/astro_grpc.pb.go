@@ -22,8 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AstroClient interface {
-	Update(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*AstroObject, error)
-	Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*AstroObject, error)
+	Update(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserUpdateResponse, error)
+	Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*UserGetResponse, error)
 }
 
 type astroClient struct {
@@ -34,8 +34,8 @@ func NewAstroClient(cc grpc.ClientConnInterface) AstroClient {
 	return &astroClient{cc}
 }
 
-func (c *astroClient) Update(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*AstroObject, error) {
-	out := new(AstroObject)
+func (c *astroClient) Update(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserUpdateResponse, error) {
+	out := new(UserUpdateResponse)
 	err := c.cc.Invoke(ctx, "/user.Astro/Update", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,8 +43,8 @@ func (c *astroClient) Update(ctx context.Context, in *UserUpdateRequest, opts ..
 	return out, nil
 }
 
-func (c *astroClient) Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*AstroObject, error) {
-	out := new(AstroObject)
+func (c *astroClient) Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*UserGetResponse, error) {
+	out := new(UserGetResponse)
 	err := c.cc.Invoke(ctx, "/user.Astro/Get", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -56,8 +56,8 @@ func (c *astroClient) Get(ctx context.Context, in *UserGetRequest, opts ...grpc.
 // All implementations must embed UnimplementedAstroServer
 // for forward compatibility
 type AstroServer interface {
-	Update(context.Context, *UserUpdateRequest) (*AstroObject, error)
-	Get(context.Context, *UserGetRequest) (*AstroObject, error)
+	Update(context.Context, *UserUpdateRequest) (*UserUpdateResponse, error)
+	Get(context.Context, *UserGetRequest) (*UserGetResponse, error)
 	mustEmbedUnimplementedAstroServer()
 }
 
@@ -65,10 +65,10 @@ type AstroServer interface {
 type UnimplementedAstroServer struct {
 }
 
-func (UnimplementedAstroServer) Update(context.Context, *UserUpdateRequest) (*AstroObject, error) {
+func (UnimplementedAstroServer) Update(context.Context, *UserUpdateRequest) (*UserUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedAstroServer) Get(context.Context, *UserGetRequest) (*AstroObject, error) {
+func (UnimplementedAstroServer) Get(context.Context, *UserGetRequest) (*UserGetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 func (UnimplementedAstroServer) mustEmbedUnimplementedAstroServer() {}
