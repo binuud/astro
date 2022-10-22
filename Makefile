@@ -2,7 +2,7 @@
 
 # Optional environmental variables
 REPO ?= dronasys-com
-APP_NAME ?= astrostack
+APP_NAME ?= astro-stack
 AWS_ECR ?= 919350043131.dkr.ecr.ap-southeast-1.amazonaws.com
 
 BUILD_VER ?= a1.0.0
@@ -24,8 +24,21 @@ help: ## This help.
 
 .DEFAULT_GOAL := help
 
+ifndef PROTOC
+PROTOC = protoc
+endif
+
+ifndef PROTOWEB
+PROTOWEB = protoc-gen-grpc-web
+endif
 
 
+protos: ## Build Go and Web Proto
+	# ****** Astro Calculations Related Proto 
+	$(PROTOC) -I=./proto/v1/.  \
+	--go_out=./proto/v1/astrocalc/ \
+    --go-grpc_out=./proto/v1/astrocalc/ \
+	proto/v1/astrocalc/astro.proto 
 
 build: ## Build docker image
 # docker system prune -f

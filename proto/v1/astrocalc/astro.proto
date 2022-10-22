@@ -1,0 +1,236 @@
+/// Please use the following editor setup for this file:
+
+// Tab size=4; Tabs as spaces; Clean up trailing whitepsace
+// 'make proto' will run clang-format to fix formatiing
+// binu@dronasys.com
+syntax = "proto3";
+package user;
+
+import "google/protobuf/timestamp.proto";
+
+
+option go_package = "./go";
+
+message AstroConstants {
+    enum Planets {
+        Lagna = 0;
+        Sun = 1;
+        Moon = 2;
+        Mars = 3;
+        Mercury = 4;
+        Jupiter = 5;
+        Venus = 6;
+        Saturday = 7;
+        Rahu = 8;
+        Ketu = 9;
+        Uranus = 10;
+        Neptune = 11;
+        Pluto = 12;
+        Maandi = 13;
+        Gulika = 14;
+        BhavaLagna = 15;
+        HoraLagna = 16;
+        GhatiLagna = 17;
+        VighatiLagna = 18;
+        VamadaLagna = 19;
+        SreeLagna = 20;
+        PranapadaLagna = 21;
+        InduLagna = 22;
+        BrighuBindu = 23;
+        Dhooma = 24;
+        Vyatipata = 25;
+        Parivesha = 26;
+        IndraChapa = 27;
+        Upaketu = 28;
+        Kaala = 29;
+        Mrityu = 30;
+        ArthaPrahara = 31;
+        YamaGhantaka = 32;
+        
+    }
+
+    enum  Sphutas {
+        IgnoreSphuta = 0;
+        PranaSphuta = 1;
+        DehaSphuta = 2;
+        MrityuSphuta = 3;
+        SookshamaTriSphuta = 4;
+        TithiSphuta = 5;
+        YogaSunMoonSphuta = 6;
+        RahuTithiSphuta = 7;
+        KsethraSphuta = 8;
+        BeejaSphuta = 9;
+        TriSphuta = 10;
+        ChatusSphuta = 11;
+        PanchaSphuta = 12;
+        YogaSphuta = 13;
+        AvayogaSphuta = 14;
+    }
+
+    enum Rasis {
+        IgnoreRasis = 0;
+        Aries = 1;
+        Taurus = 2;
+        Gemini = 3;
+        Cancer = 4;
+        Leo = 5;
+        Virgo = 6;
+        Libra = 7;
+        Scorpio = 8;
+        Saggitarius = 9;
+        Capricon = 10;
+        Aquarius = 11;
+        Pisces = 12;
+    }
+    enum Stars {
+        IgnoreStars = 0;
+        Aswini      = 1;
+        Bharani     = 2;
+        Krittika    = 3;
+        Rohini      = 4;
+        Mrigasira   = 5;
+        Arudra      = 6;
+        Punarvasu   = 7;
+        Pushyami    = 8;
+        Aslesha     = 9;
+        Makha       = 10;
+        Poorvaphalguni  = 11; 
+        Uttaraphalguni  = 12;
+        Hasta       = 13;
+        Chitra      = 14;
+        Swati       = 15;
+        Vishaka     = 16;
+        Anuradha    = 17;
+        Jyeshta     = 18;
+        Moola       = 19;
+        Poorvashada = 20;
+        Uttarashada = 21;
+        Sravana     = 22;
+        Dhanishta   = 23;
+        Satabhisha  = 24;
+        Poorvabhadra    = 25;
+        Uttarabadra     = 26;
+        Revathi     = 27;
+    }
+    
+
+}
+
+message Metadata {
+    
+    string uid = 1;           // UUID for the object
+    string name = 2;         // name of the object
+    string owner = 3;       // owner UUID of the object (user UUID)
+    string tenancy = 4;    // tenant UUID of the object
+    string parentUid = 5; // parent uuid
+
+    bool dataEncryption = 21;
+    map<string, string> labels = 51;
+    map<string, string> annotations = 52;
+    
+    google.protobuf.Timestamp createdAt = 101;
+    google.protobuf.Timestamp updatedAt = 102;
+}
+
+message TimeData {
+    int32 h = 1;
+    int32 m = 2;
+    int32 s = 3;
+    string timeString = 4;
+}
+
+message DateData {
+    int32 d = 1;
+    int32 m = 2;
+    int32 y = 3;
+    string dateString = 4;
+}
+
+message PlaceData {
+    string pob      = 1;        // Place of Birth
+    string lat      = 2;       // Latitude of POB
+    string long     = 3;      // Longitude of POB
+    string planet   = 4;     // planet - earth, tosovo, buvalok, swargalok, patala, atala, vitala
+    string yuga     = 5;    // varsha, yuga, treated as space variable
+}
+
+message BirthData {
+    DateData dob      = 1;          // Date of birth
+    TimeData tob      = 2;         // Time of Birth
+    PlaceData pob     = 3;        // Place of Birth  
+
+    google.protobuf.Timestamp dobtime = 11;
+}
+
+message PanchangItem {
+    int32 num = 1;
+    google.protobuf.Timestamp changeTime   = 2;
+}
+
+message PanchangKalam {
+    google.protobuf.Timestamp startTime   = 1;
+    google.protobuf.Timestamp endTime   = 2;
+}
+
+message Panchang {
+    google.protobuf.Timestamp sunRise   = 1;
+    google.protobuf.Timestamp sunSet    = 2;
+    int32 sunSign = 3;
+    int32 sunStar = 4;
+    int32 weekday = 5;
+    int32 moonSign = 6;
+    int32 moonStar = 7;
+    int32 paksha = 8;
+    
+    repeated PanchangItem tithi = 11;
+    repeated PanchangItem star = 12;
+    repeated PanchangItem yoga = 13; 
+    repeated PanchangItem karana = 14;
+
+    PanchangKalam rahuKalam = 51;
+    PanchangKalam guliKalam = 52;
+    PanchangKalam yamaGandam = 54;
+    
+}
+
+
+
+message PlanetDetails {
+    float longitude = 1;
+    AstroConstants.Stars star = 2;
+    int32 paada = 3;
+    AstroConstants.Rasis rasi = 21;
+    AstroConstants.Rasis bhava = 22;
+    AstroConstants.Rasis navamsa = 23;
+    AstroConstants.Rasis dasamsa = 24;
+}
+
+message Planets {
+    string ephimeris = 1;
+    repeated PlanetDetails planets = 2;
+}
+
+message AstroObject {
+    Metadata metadata = 1;
+    BirthData birthData = 2;
+    Panchang panchang = 3;
+    Planets planets = 4;
+}
+
+service Astro {
+    rpc Update(UserUpdateRequest) returns (AstroObject) {} 
+    rpc Get(UserGetRequest) returns (AstroObject) {} 
+}
+
+message UserUpdateRequest {
+    string uuid = 1;
+    BirthData birthData = 2;
+}
+
+message UserUpdateResponse {
+    AstroObject astro = 1;
+}
+
+message UserGetRequest {
+    string uuid = 1;
+}

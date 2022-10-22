@@ -1,1 +1,1 @@
-swe -b14.12.1989 -ut23:00:00 -geopos80.12,13,0 -n1 -s1 -sid1 -fPl -pd -eswe -house
+./astrobin -b4.2.1978 -ut10:30:00 -geopos80.27,13.08,0 -n1 -s1 -sid1 -fPl -pd -eswe -house
