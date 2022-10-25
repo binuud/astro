@@ -1,9 +1,8 @@
-module dronasys-com/astro
+module github.com/dronasys-com/astro
 
 go 1.18
 
 require (
-	github.com/dronasys-com/astro v0.0.0-20221022104510-a6fbacc66bc6
 	github.com/dronasys-com/trance-microservices v0.0.0-20220629134941-2e12ae521beb
 	github.com/sirupsen/logrus v1.9.0
 	go.mongodb.org/mongo-driver v1.10.3
@@ -15,7 +14,6 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
-	github.com/google/uuid v1.3.0 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
 	github.com/pkg/errors v0.9.1 // indirect

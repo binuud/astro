@@ -1,0 +1,193 @@
+package astro
+
+import (
+	"fmt"
+	"math"
+	"os/exec"
+	"strconv"
+	"strings"
+
+	astroV1 "github.com/dronasys-com/astro/proto/v1/astrocalc/go"
+	"github.com/sirupsen/logrus"
+)
+
+type Chart struct {
+	*astroV1.Planets
+}
+
+func NewAstroChart() (*Chart, error) {
+	ephimeris, err := getAstroEphimeris()
+	if err != nil {
+		return nil, err
+	}
+	chart := &Chart{
+		&astroV1.Planets{
+			Ephimeris: ephimeris,
+		}}
+
+	chart.ParseEphimeris()
+	return chart, nil
+
+}
+
+func getAstroEphimeris() (string, error) {
+
+	out, err := exec.Command("cat", "astroBin/sample.txt").Output()
+	if err != nil {
+		return "", err
+	}
+	return string(out), nil
+}
+
+func (chart *Chart) ParseEphimeris() {
+
+	fmt.Printf("The data is %s\n", chart.Ephimeris)
+	longitudes := strings.Split(chart.Ephimeris, "\n")
+	fmt.Printf("data %v", longitudes)
+
+	var err error
+	var planetMap = make(map[string]*astroV1.PlanetDetails)
+	for _, item := range longitudes {
+
+		fields := strings.Fields(item)
+		longitude := 0.0
+		planetName := ""
+		switch fields[0] {
+		case "Ascendant":
+			longitude, err = strconv.ParseFloat(fields[1], 32)
+			if err != nil {
+				logrus.Error("Cannot parse longitudes err(%v)", err)
+			}
+			planetName = PLANET_ASC
+		case "Sun":
+			longitude, err = strconv.ParseFloat(fields[1], 32)
+			if err != nil {
+				logrus.Error("Cannot parse longitudes err(%v)", err)
+			}
+			planetName = PLANET_SUN
+		case "Mercury":
+			longitude, err = strconv.ParseFloat(fields[1], 32)
+			if err != nil {
+				logrus.Error("Cannot parse longitudes err(%v)", err)
+			}
+			planetName = PLANET_MERCURY
+
+		case "Venus":
+			longitude, err = strconv.ParseFloat(fields[1], 32)
+			if err != nil {
+				logrus.Error("Cannot parse longitudes err(%v)", err)
+			}
+			planetName = PLANET_VENUS
+
+		case "Mars":
+			longitude, err = strconv.ParseFloat(fields[1], 32)
+			if err != nil {
+				logrus.Error("Cannot parse longitudes err(%v)", err)
+			}
+			planetName = PLANET_MARS
+
+		case "Jupiter":
+			longitude, err = strconv.ParseFloat(fields[1], 32)
+			if err != nil {
+				logrus.Error("Cannot parse longitudes err(%v)", err)
+			}
+			planetName = PLANET_JUPITER
+
+		case "Moon":
+			longitude, err = strconv.ParseFloat(fields[1], 32)
+			if err != nil {
+				logrus.Error("Cannot parse longitudes err(%v)", err)
+			}
+			planetName = PLANET_MOON
+
+		case "Saturn":
+			longitude, err = strconv.ParseFloat(fields[1], 32)
+			if err != nil {
+				logrus.Error("Cannot parse longitudes err(%v)", err)
+			}
+			planetName = PLANET_SATURN
+
+		case "Uranus":
+			longitude, err = strconv.ParseFloat(fields[1], 32)
+			if err != nil {
+				logrus.Error("Cannot parse longitudes err(%v)", err)
+			}
+			planetName = PLANET_URANUS
+
+		case "Neptune":
+			longitude, err = strconv.ParseFloat(fields[1], 32)
+			if err != nil {
+				logrus.Error("Cannot parse longitudes err(%v)", err)
+			}
+			planetName = PLANET_NEPTUNE
+
+		case "Pluto":
+			longitude, err = strconv.ParseFloat(fields[1], 32)
+			if err != nil {
+				logrus.Error("Cannot parse longitudes err(%v)", err)
+			}
+			planetName = PLANET_PLUTO
+
+		case "mean":
+			if fields[1] == "Node" {
+				// logrus.Printf("\n\n %%%%%%%% (%v)", fields)
+				longitude, err = strconv.ParseFloat(fields[2], 32)
+				if err != nil {
+					logrus.Error("Cannot parse longitudes err(%v)", err)
+				}
+				planetName = PLANET_RAHU
+			}
+
+		}
+		if planetName != "" {
+			planetMap[planetName] = &astroV1.PlanetDetails{
+				Name:      planetName,
+				Longitude: float32(longitude),
+				Rasi:      CalculateRasi(float32(longitude)),
+			}
+		}
+	}
+	fmt.Printf("Final data %v", planetMap)
+	chart.Planets.PlanetsMap = planetMap
+
+	chart.CalculateAuxillaryPlanets()
+	chart.CalculateBhavaChart()
+}
+
+func (chart *Chart) CalculateAuxillaryPlanets() {
+	ketuLongitude := chart.Planets.PlanetsMap[PLANET_RAHU].Longitude + 180.0
+	if ketuLongitude > 360.0 {
+		ketuLongitude = ketuLongitude - 360.0
+	}
+	chart.Planets.PlanetsMap[PLANET_KETU] = &astroV1.PlanetDetails{
+		Name:      PLANET_KETU,
+		Longitude: float32(ketuLongitude),
+		Rasi:      CalculateRasi(float32(ketuLongitude)),
+	}
+}
+
+func (chart *Chart) CalculateBhavaChart() {
+	ascDegrees := chart.Planets.PlanetsMap[PLANET_ASC].Longitude
+	bhavaCorrection := math.Mod(float64(ascDegrees), RASI_DEGREES) - 15.0
+	for _, planet := range chart.Planets.PlanetsMap {
+		bavaDeg := float64(planet.Longitude) - bhavaCorrection
+		//	print "$bavaDeg <br/>";
+		if bavaDeg > 360.0 {
+			bavaDeg = bavaDeg - 360.0
+		}
+
+		if bavaDeg < 0 {
+			bavaDeg = 360 + bavaDeg
+		}
+
+		planet.Bhava = CalculateRasi(float32(bavaDeg))
+	}
+}
+
+func (chart *Chart) PrintChartTable() {
+	fmt.Printf("\n\n********************************************\n")
+	for _, planet := range chart.Planets.PlanetsMap {
+		fmt.Printf("%10s  %02d  %02d  %03.2f\n", planet.Name, planet.Rasi, planet.Bhava, planet.Longitude)
+	}
+	fmt.Printf("\n\n********************************************\n")
+}

@@ -1,0 +1,1 @@
+./astrobin -b4.2.1978 -ut05:15:00 -geopos80.27,13.08,0 -n1 -s1 -sid1 -fPl -pd -eswe -house

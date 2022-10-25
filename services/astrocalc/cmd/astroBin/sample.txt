@@ -1,0 +1,40 @@
+./astrobin -b4.2.1978 -ut05:15:00 -geopos80.27,13.08,0 -n1 -s1 -sid1 -fPl -pd -eswe -house 
+date (dmy) 4.2.1978 greg.   5:15:00 UT          version 2.10.03
+UT:  2443543.718750000     delta t: 48.634498 sec
+TT:  2443543.719312899   ayanamsa =   23°33' 8.0463 (Lahiri)
+geo. long 80.270000, lat 13.080000, alt 0.000000
+Epsilon (m)       23°26'31.6662
+Houses system P (Placidus) for long=  80°16'12.0000, lat=  13° 4'48.0000
+Sun              291.4815989
+Moon             244.2421813
+Mercury          275.7640391
+Venus            294.5939294
+Mars             93.1277916
+Jupiter          62.9411760
+Saturn           124.5359054
+Uranus           202.7455580
+Neptune          234.2230227
+Pluto            173.0671844
+mean Node        165.1915019
+true Node        163.7619144
+mean Apogee      68.4037133
+house  1          3.9460212
+house  2         34.9306687
+house  3         61.8213671
+house  4         87.7635768
+house  5         115.8796985
+house  6         148.3257753
+house  7         183.9460212
+house  8         214.9306687
+house  9         241.8213671
+house 10         267.7635768
+house 11         295.8796985
+house 12         328.3257753
+Ascendant         3.9460212
+MC               267.7635768
+ARMC             293.0399077
+Vertex           165.1519972
+equat. Asc.       1.3178005
+co-Asc. W.Koch   359.1235880
+co-Asc Munkasey  132.1720926
+Polar Asc.       179.1235880

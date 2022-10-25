@@ -196,18 +196,19 @@ message Panchang {
 
 
 message PlanetDetails {
-    float longitude = 1;
-    AstroConstants.Stars star = 2;
-    int32 paada = 3;
-    AstroConstants.Rasis rasi = 21;
-    AstroConstants.Rasis bhava = 22;
-    AstroConstants.Rasis navamsa = 23;
-    AstroConstants.Rasis dasamsa = 24;
+    string name = 1;
+    float longitude = 2;
+    int32 star = 3;
+    int32 paada = 4;
+    int32 rasi = 21;
+    int32 bhava = 22;
+    int32 navamsa = 23;
+    int32 dasamsa = 24;
 }
 
 message Planets {
     string ephimeris = 1;
-    repeated PlanetDetails planets = 2;
+    map<string, PlanetDetails> planetsMap = 2; 
 }
 
 message AstroObject {

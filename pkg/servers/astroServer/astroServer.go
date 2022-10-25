@@ -3,7 +3,7 @@ package astroServer
 import (
 	"context"
 
-	protoV1 "github.com/dronasys-com/astro/proto/v1/astrocalc/go"
+	astroV1 "github.com/dronasys-com/astro/proto/v1/astrocalc/go"
 	"github.com/dronasys-com/trance-microservices/pkg/dataLayer/mongo"
 	"github.com/dronasys-com/trance-microservices/pkg/foundation/helpers"
 	"github.com/sirupsen/logrus"
@@ -12,31 +12,31 @@ import (
 )
 
 const (
-	CLUSTER_BUCKET_NAME = "astro"
+	ASTRO_BUCKET_NAME = "astro"
 )
 
 type grpcAstroServer struct {
-	protoV1.UnimplementedAstroServer
+	astroV1.UnimplementedAstroServer
 }
 
 func NewGrpcAstroServer(srv *grpc.Server) *grpcAstroServer {
 
 	server := &grpcAstroServer{}
-	protoV1.RegisterAstroServer(srv, server)
+	astroV1.RegisterAstroServer(srv, server)
 	return server
 }
 
-func (s *grpcAstroServer) Update(ctx context.Context, in *protoV1.UserUpdateRequest) (*protoV1.UserUpdateResponse, error) {
+func (s *grpcAstroServer) Update(ctx context.Context, in *astroV1.UserUpdateRequest) (*astroV1.UserUpdateResponse, error) {
 
 	logrus.Info("Received Update: ", in)
 
-	return &protoV1.UserUpdateResponse{}, nil
+	return &astroV1.UserUpdateResponse{}, nil
 
 }
 
-func (s *grpcAstroServer) Get(ctx context.Context, in *protoV1.UserGetRequest) (*protoV1.UserGetResponse, error) {
+func (s *grpcAstroServer) Get(ctx context.Context, in *astroV1.UserGetRequest) (*astroV1.UserGetResponse, error) {
 	logrus.Info("Received: Get request ", in)
-	astro := &protoV1.AstroObject{}
+	astro := &astroV1.AstroObject{}
 
 	mongo, err := mongo.NewDSMongoSingleton()
 	if err != nil {
@@ -49,14 +49,14 @@ func (s *grpcAstroServer) Get(ctx context.Context, in *protoV1.UserGetRequest) (
 		return nil, err
 	}
 	filter := bson.D{{"metadata.uid", in.Uuid}, {"metadata.owner", ownerUid}}
-	err = mongo.FindOne(CLUSTER_BUCKET_NAME, filter, astro)
+	err = mongo.FindOne(ASTRO_BUCKET_NAME, filter, astro)
 	if err != nil {
 		logrus.Error("Cannot Get Item ", err)
 		return nil, err
 	}
 
-	return &protoV1.UserGetResponse{
-		AstroObject: astro,
+	return &astroV1.UserGetResponse{
+		Astro: astro,
 	}, nil
 
 }

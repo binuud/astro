@@ -2,16 +2,9 @@ package main
 
 import (
 	"flag"
-	"fmt"
-	"log"
-	"net"
 
-	"github.com/dronasys-com/astro/pkg/servers/astroServer"
-	"github.com/dronasys-com/trance-microservices/pkg/foundation/bootstrap"
-
-	"github.com/dronasys-com/trance-microservices/services/cluster/db"
+	"github.com/dronasys-com/astro/pkg/astro"
 	"github.com/sirupsen/logrus"
-	"google.golang.org/grpc"
 )
 
 var (
@@ -20,26 +13,32 @@ var (
 
 func main() {
 
-	bootstrap.Init()
-	db.Init()
+	// bootstrap.Init()
+	// db.Init()
 
-	logrus.Info("Astro Calc - Trance !")
-	logrus.Info("--------->>>> Starting Astro Calc Microservice  <<<----------")
+	// logrus.Info("Astro Calc - Trance !")
+	// logrus.Info("--------->>>> Starting Astro Calc Microservice  <<<----------")
 
-	flag.Parse()
-	secureConn, err := net.Listen("tcp", fmt.Sprintf(":%d", *grpcPort))
+	// flag.Parse()
+	// secureConn, err := net.Listen("tcp", fmt.Sprintf(":%d", *grpcPort))
+	// if err != nil {
+	// 	log.Fatalf("failed to listen: %v", err)
+	// }
+
+	// secureServer := grpc.NewServer(
+	// 	grpc.UnaryInterceptor(authServer.UnaryInterceptor))
+
+	// astroServer.NewGrpcAstroServer(secureServer)
+
+	// logrus.Infof("Astro Calculations Server *) (* listening on (%v)", secureConn.Addr())
+	// if err := secureServer.Serve(secureConn); err != nil {
+	// 	logrus.Fatal("failed to serve: ", err)
+	// }
+
+	chart, err := astro.NewAstroChart()
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		logrus.Error("Cannot prepare chart err(%v)", err)
 	}
-
-	secureServer := grpc.NewServer(
-		grpc.UnaryInterceptor(astroServer.UnaryInterceptor))
-
-	astroServer.NewGrpcAstroServer(secureServer)
-
-	logrus.Infof("Astro Calculations Server *) (* listening on (%v)", secureConn.Addr())
-	if err := secureServer.Serve(secureConn); err != nil {
-		logrus.Fatal("failed to serve: ", err)
-	}
+	chart.PrintChartTable()
 
 }
