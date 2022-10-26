@@ -202,8 +202,11 @@ message PlanetDetails {
     int32 paada = 4;
     int32 rasi = 21;
     int32 bhava = 22;
-    int32 navamsa = 23;
-    int32 dasamsa = 24;
+    int32 amsa2 = 1002;
+    int32 amsa9 = 1009;
+    int32 amsa10 = 1010;
+    int32 amsa27 = 1027;
+    int32 amsa60 = 1060;
 }
 
 message Planets {
@@ -219,8 +222,18 @@ message AstroObject {
 }
 
 service Astro {
+    rpc GetPanchang(PanchangGetRequest) returns (PanchangResponse) {}
     rpc Update(UserUpdateRequest) returns (UserUpdateResponse) {} 
     rpc Get(UserGetRequest) returns (UserGetResponse) {} 
+    rpc List(UserListRequest) returns (UserListResponse) {}
+}
+
+message PanchangGetRequest {
+    BirthData birthData = 1;
+}
+
+message PanchangResponse {
+    AstroObject astro = 1;
 }
 
 message UserUpdateRequest {
@@ -236,7 +249,14 @@ message UserGetRequest {
     string uuid = 1;
 }
 
-
 message UserGetResponse {
     AstroObject astro = 1;
+}
+
+message UserListRequest {
+    string uuid = 1;
+}
+
+message UserListResponse {
+    repeated AstroObject astro = 1;
 }

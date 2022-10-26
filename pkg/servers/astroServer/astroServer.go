@@ -26,6 +26,14 @@ func NewGrpcAstroServer(srv *grpc.Server) *grpcAstroServer {
 	return server
 }
 
+func (s *grpcAstroServer) GetPanchang(ctx context.Context, in *astroV1.UserUpdateRequest) (*astroV1.UserUpdateResponse, error) {
+
+	logrus.Info("Received Update: ", in)
+
+	return &astroV1.UserUpdateResponse{}, nil
+
+}
+
 func (s *grpcAstroServer) Update(ctx context.Context, in *astroV1.UserUpdateRequest) (*astroV1.UserUpdateResponse, error) {
 
 	logrus.Info("Received Update: ", in)

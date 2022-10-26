@@ -18,5 +18,17 @@ const (
 	PLANET_MAANDI  = "maandi"
 	PLANET_GULIKA  = "gulkia"
 
-	RASI_DEGREES = 30
+	RASI_DEGREES  = 30
+	STAR_DEGREES  = 13.33
+	PAADA_DEGREES = 3.333
+
+	TOTAL_RASIS  = 12
+	TOTAL_STARS  = 27
+	TOTAL_PAADAS = 108
+
+	HARMONIC_HORA         = 2  // BiCyclical Hora - Pariviti Dwaya
+	HARMONIC_NAVAMSA      = 9  // Navamsa
+	HARMONIC_DASAMSA      = 10 // Dasamsa - coming wrong
+	HARMONIC_NAKSATHRAMSA = 27
+	HARMONIC_SASHTYAMSA   = 60 // Coming wrong
 )

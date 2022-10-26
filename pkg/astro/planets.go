@@ -143,7 +143,6 @@ func (chart *Chart) ParseEphimeris() {
 			planetMap[planetName] = &astroV1.PlanetDetails{
 				Name:      planetName,
 				Longitude: float32(longitude),
-				Rasi:      CalculateRasi(float32(longitude)),
 			}
 		}
 	}
@@ -151,6 +150,7 @@ func (chart *Chart) ParseEphimeris() {
 	chart.Planets.PlanetsMap = planetMap
 
 	chart.CalculateAuxillaryPlanets()
+	chart.CalculateRasiChart()
 	chart.CalculateBhavaChart()
 }
 
@@ -162,7 +162,20 @@ func (chart *Chart) CalculateAuxillaryPlanets() {
 	chart.Planets.PlanetsMap[PLANET_KETU] = &astroV1.PlanetDetails{
 		Name:      PLANET_KETU,
 		Longitude: float32(ketuLongitude),
-		Rasi:      CalculateRasi(float32(ketuLongitude)),
+	}
+}
+
+func (chart *Chart) CalculateRasiChart() {
+	for _, planet := range chart.Planets.PlanetsMap {
+
+		planet.Rasi = CalculateRasi(float32(planet.Longitude))
+		planet.Star = CalculateStar(float32(planet.Longitude))
+		planet.Paada = CalculatePaada(float32(planet.Longitude))
+		planet.Amsa2 = CalculateNthHarmonic(planet.Longitude, HARMONIC_HORA)
+		planet.Amsa9 = CalculateNthHarmonic(planet.Longitude, HARMONIC_NAVAMSA)
+		planet.Amsa10 = CalculateNthHarmonic(planet.Longitude, HARMONIC_DASAMSA)
+		planet.Amsa27 = CalculateNthHarmonic(planet.Longitude, HARMONIC_NAKSATHRAMSA)
+		planet.Amsa60 = CalculateNthHarmonic(planet.Longitude, HARMONIC_SASHTYAMSA)
 	}
 }
 
@@ -186,8 +199,9 @@ func (chart *Chart) CalculateBhavaChart() {
 
 func (chart *Chart) PrintChartTable() {
 	fmt.Printf("\n\n********************************************\n")
+	fmt.Printf("    Planet   R   B  2H  9H 10H 27H 60H   S   P   Longitude\n")
 	for _, planet := range chart.Planets.PlanetsMap {
-		fmt.Printf("%10s  %02d  %02d  %03.2f\n", planet.Name, planet.Rasi, planet.Bhava, planet.Longitude)
+		fmt.Printf("%10s  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d   %03.2f\n", planet.Name, planet.Rasi, planet.Bhava, planet.Amsa2, planet.Amsa9, planet.Amsa10, planet.Amsa27, planet.Amsa60, planet.Star, planet.Paada, planet.Longitude)
 	}
 	fmt.Printf("\n\n********************************************\n")
 }
