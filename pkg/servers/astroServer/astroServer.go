@@ -3,6 +3,7 @@ package astroServer
 import (
 	"context"
 
+	"github.com/dronasys-com/astro/pkg/astro"
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astrocalc/go"
 	"github.com/dronasys-com/trance-microservices/pkg/dataLayer/mongo"
 	"github.com/dronasys-com/trance-microservices/pkg/foundation/helpers"
@@ -26,17 +27,40 @@ func NewGrpcAstroServer(srv *grpc.Server) *grpcAstroServer {
 	return server
 }
 
-func (s *grpcAstroServer) GetPanchang(ctx context.Context, in *astroV1.UserUpdateRequest) (*astroV1.UserUpdateResponse, error) {
+func (s *grpcAstroServer) GetPanchang(ctx context.Context, in *astroV1.PanchangGetRequest) (*astroV1.PanchangResponse, error) {
 
-	logrus.Info("Received Update: ", in)
+	logrus.Info("Received GetPanchang: ", in)
 
-	return &astroV1.UserUpdateResponse{}, nil
+	return &astroV1.PanchangResponse{}, nil
 
 }
 
 func (s *grpcAstroServer) Update(ctx context.Context, in *astroV1.UserUpdateRequest) (*astroV1.UserUpdateResponse, error) {
 
 	logrus.Info("Received Update: ", in)
+
+	chart, err := astro.NewAstroChart(&astroV1.BirthData{
+		Dob: &astroV1.TobData{
+			D:    in.BirthData.Dob.D,
+			M:    in.BirthData.Dob.M,
+			Y:    in.BirthData.Dob.Y,
+			Hour: in.BirthData.Dob.Hour,
+			Min:  in.BirthData.Dob.Min,
+			Sec:  in.BirthData.Dob.Sec,
+			Zone: in.BirthData.Dob.Zone,
+		},
+		Pob: &astroV1.PobData{
+			City:    in.BirthData.Pob.City,
+			State:   in.BirthData.Pob.State,
+			Country: in.BirthData.Pob.Country,
+			Lat:     in.BirthData.Pob.Lat,
+			Long:    in.BirthData.Pob.Long,
+		},
+	})
+	if err != nil {
+		logrus.Error("Cannot prepare chart err(%v)", err)
+	}
+	chart.PrintChartTable()
 
 	return &astroV1.UserUpdateResponse{}, nil
 

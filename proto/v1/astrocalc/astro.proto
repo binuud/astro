@@ -132,34 +132,33 @@ message Metadata {
     google.protobuf.Timestamp updatedAt = 102;
 }
 
-message TimeData {
-    int32 h = 1;
-    int32 m = 2;
-    int32 s = 3;
-    string timeString = 4;
-}
-
-message DateData {
+message TobData {
+    
     int32 d = 1;
     int32 m = 2;
     int32 y = 3;
-    string dateString = 4;
+    
+    int32 hour = 4;
+    int32 min = 5;
+    int32 sec = 6;
+    string zone = 7;
+    string dateString = 11;
+    google.protobuf.Timestamp tobtime = 12;
 }
 
-message PlaceData {
-    string pob      = 1;        // Place of Birth
-    string lat      = 2;       // Latitude of POB
-    string long     = 3;      // Longitude of POB
-    string planet   = 4;     // planet - earth, tosovo, buvalok, swargalok, patala, atala, vitala
-    string yuga     = 5;    // varsha, yuga, treated as space variable
+message PobData {
+    string city     = 1;        // City of Birth
+    string state    = 2;        // State of Birth
+    string country  = 3;        // Country of Birth
+    float lat       = 11;       // Latitude of POB
+    float long      = 12;      // Longitude of POB
+    string planet   = 13;     // planet - earth, tosovo, buvalok, swargalok, patala, atala, vitala
+    string yuga     = 14;    // varsha, yuga, treated as space variable
 }
 
 message BirthData {
-    DateData dob      = 1;          // Date of birth
-    TimeData tob      = 2;         // Time of Birth
-    PlaceData pob     = 3;        // Place of Birth  
-
-    google.protobuf.Timestamp dobtime = 11;
+    TobData dob      = 1;          // Date of birth
+    PobData pob     = 2;        // Place of Birth  
 }
 
 message PanchangItem {
