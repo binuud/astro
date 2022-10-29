@@ -19,7 +19,7 @@ func NewAstroChart(birthData *astroV1.BirthData) (*Chart, error) {
 
 	birthData, err := MakeBirthData(birthData)
 	if err != nil {
-		logrus.Error("Cannot parse time data for astro chart err(%v)", err)
+		logrus.Errorf("Cannot parse time data for astro chart err(%v)", err)
 	}
 
 	ephimeris := NewEphimeris(birthData)
@@ -39,8 +39,8 @@ func NewAstroChart(birthData *astroV1.BirthData) (*Chart, error) {
 			Ephimeris: planetsEphimeris,
 		},
 	}
-	logrus.Info(" Moon (%v)", moonEphimeris)
-	logrus.Info(" Planet (%v)", planetsEphimeris)
+	logrus.Infof(" Moon (%v)", moonEphimeris)
+	logrus.Infof(" Planet (%v)", planetsEphimeris)
 	chart.ParseEphimeris()
 	return chart, nil
 
@@ -65,86 +65,86 @@ func (chart *Chart) ParseEphimeris() {
 			planetName := ""
 			switch fields[0] {
 			case "Ascendant":
-				longitude, err = strconv.ParseFloat(fields[1], 32)
+				longitude, err = strconv.ParseFloat(fields[1], 64)
 				if err != nil {
-					logrus.Error("Cannot parse longitudes err(%v)", err)
+					logrus.Errorf("Cannot parse longitudes err(%v)", err)
 				}
 				planetName = PLANET_ASC
 			case "Sun":
-				longitude, err = strconv.ParseFloat(fields[1], 32)
+				longitude, err = strconv.ParseFloat(fields[1], 64)
 				if err != nil {
-					logrus.Error("Cannot parse longitudes err(%v)", err)
+					logrus.Errorf("Cannot parse longitudes err(%v)", err)
 				}
 				planetName = PLANET_SUN
 			case "Mercury":
-				longitude, err = strconv.ParseFloat(fields[1], 32)
+				longitude, err = strconv.ParseFloat(fields[1], 64)
 				if err != nil {
-					logrus.Error("Cannot parse longitudes err(%v)", err)
+					logrus.Errorf("Cannot parse longitudes err(%v)", err)
 				}
 				planetName = PLANET_MERCURY
 
 			case "Venus":
-				longitude, err = strconv.ParseFloat(fields[1], 32)
+				longitude, err = strconv.ParseFloat(fields[1], 64)
 				if err != nil {
-					logrus.Error("Cannot parse longitudes err(%v)", err)
+					logrus.Errorf("Cannot parse longitudes err(%v)", err)
 				}
 				planetName = PLANET_VENUS
 
 			case "Mars":
 				longitude, err = strconv.ParseFloat(fields[1], 32)
 				if err != nil {
-					logrus.Error("Cannot parse longitudes err(%v)", err)
+					logrus.Errorf("Cannot parse longitudes err(%v)", err)
 				}
 				planetName = PLANET_MARS
 
 			case "Jupiter":
-				longitude, err = strconv.ParseFloat(fields[1], 32)
+				longitude, err = strconv.ParseFloat(fields[1], 64)
 				if err != nil {
-					logrus.Error("Cannot parse longitudes err(%v)", err)
+					logrus.Errorf("Cannot parse longitudes err(%v)", err)
 				}
 				planetName = PLANET_JUPITER
 
 			case "Moon":
-				longitude, err = strconv.ParseFloat(fields[1], 32)
+				longitude, err = strconv.ParseFloat(fields[1], 64)
 				if err != nil {
-					logrus.Error("Cannot parse longitudes err(%v)", err)
+					logrus.Errorf("Cannot parse longitudes err(%v)", err)
 				}
 				planetName = PLANET_MOON
 
 			case "Saturn":
-				longitude, err = strconv.ParseFloat(fields[1], 32)
+				longitude, err = strconv.ParseFloat(fields[1], 64)
 				if err != nil {
-					logrus.Error("Cannot parse longitudes err(%v)", err)
+					logrus.Errorf("Cannot parse longitudes err(%v)", err)
 				}
 				planetName = PLANET_SATURN
 
 			case "Uranus":
-				longitude, err = strconv.ParseFloat(fields[1], 32)
+				longitude, err = strconv.ParseFloat(fields[1], 64)
 				if err != nil {
-					logrus.Error("Cannot parse longitudes err(%v)", err)
+					logrus.Errorf("Cannot parse longitudes err(%v)", err)
 				}
 				planetName = PLANET_URANUS
 
 			case "Neptune":
-				longitude, err = strconv.ParseFloat(fields[1], 32)
+				longitude, err = strconv.ParseFloat(fields[1], 64)
 				if err != nil {
-					logrus.Error("Cannot parse longitudes err(%v)", err)
+					logrus.Errorf("Cannot parse longitudes err(%v)", err)
 				}
 				planetName = PLANET_NEPTUNE
 
 			case "Pluto":
-				longitude, err = strconv.ParseFloat(fields[1], 32)
+				longitude, err = strconv.ParseFloat(fields[1], 64)
 				if err != nil {
-					logrus.Error("Cannot parse longitudes err(%v)", err)
+					logrus.Errorf("Cannot parse longitudes err(%v)", err)
 				}
 				planetName = PLANET_PLUTO
 
 			case "mean":
 				if fields[1] == "Node" {
 					// logrus.Printf("\n\n %%%%%%%% (%v)", fields)
-					longitude, err = strconv.ParseFloat(fields[2], 32)
+					longitude, err = strconv.ParseFloat(fields[2], 64)
 					if err != nil {
-						logrus.Error("Cannot parse longitudes err(%v)", err)
+						logrus.Errorf("Cannot parse longitudes err(%v)", err)
 					}
 					planetName = PLANET_RAHU
 				}
@@ -153,7 +153,7 @@ func (chart *Chart) ParseEphimeris() {
 			if planetName != "" {
 				planetMap[planetName] = &astroV1.PlanetDetails{
 					Name:      planetName,
-					Longitude: float32(longitude),
+					Longitude: longitude,
 				}
 			}
 		}
@@ -174,16 +174,16 @@ func (chart *Chart) CalculateAuxillaryPlanets() {
 	}
 	chart.Planets.PlanetsMap[PLANET_KETU] = &astroV1.PlanetDetails{
 		Name:      PLANET_KETU,
-		Longitude: float32(ketuLongitude),
+		Longitude: float64(ketuLongitude),
 	}
 }
 
 func (chart *Chart) CalculateRasiChart() {
 	for _, planet := range chart.Planets.PlanetsMap {
 
-		planet.Rasi = CalculateRasi(float32(planet.Longitude))
-		planet.Star = CalculateStar(float32(planet.Longitude))
-		planet.Paada = CalculatePaada(float32(planet.Longitude))
+		planet.Rasi = CalculateRasi(float64(planet.Longitude))
+		planet.Star = CalculateStar(float64(planet.Longitude))
+		planet.Paada = CalculatePaada(float64(planet.Longitude))
 		planet.Amsa2 = CalculateNthHarmonic(planet.Longitude, HARMONIC_HORA)
 		planet.Amsa9 = CalculateNthHarmonic(planet.Longitude, HARMONIC_NAVAMSA)
 		planet.Amsa10 = CalculateNthHarmonic(planet.Longitude, HARMONIC_DASAMSA)
@@ -206,7 +206,7 @@ func (chart *Chart) CalculateBhavaChart() {
 			bavaDeg = 360 + bavaDeg
 		}
 
-		planet.Bhava = CalculateRasi(float32(bavaDeg))
+		planet.Bhava = CalculateRasi(float64(bavaDeg))
 	}
 }
 

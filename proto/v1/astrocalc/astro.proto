@@ -134,13 +134,13 @@ message Metadata {
 
 message TobData {
     
-    int32 d = 1;
-    int32 m = 2;
-    int32 y = 3;
+    int64 d = 1;
+    int64 m = 2;
+    int64 y = 3;
     
-    int32 hour = 4;
-    int32 min = 5;
-    int32 sec = 6;
+    int64 hour = 4;
+    int64 min = 5;
+    int64 sec = 6;
     string zone = 7;
     string dateString = 11;
     google.protobuf.Timestamp tobtime = 12;
@@ -157,12 +157,12 @@ message PobData {
 }
 
 message BirthData {
-    TobData dob      = 1;          // Date of birth
+    TobData tob      = 1;          // Date of birth
     PobData pob     = 2;        // Place of Birth  
 }
 
 message PanchangItem {
-    int32 num = 1;
+    int64 num = 1;
     google.protobuf.Timestamp changeTime   = 2;
 }
 
@@ -174,12 +174,12 @@ message PanchangKalam {
 message Panchang {
     google.protobuf.Timestamp sunRise   = 1;
     google.protobuf.Timestamp sunSet    = 2;
-    int32 sunSign = 3;
-    int32 sunStar = 4;
-    int32 weekday = 5;
-    int32 moonSign = 6;
-    int32 moonStar = 7;
-    int32 paksha = 8;
+    int64 sunSign = 3;
+    int64 sunStar = 4;
+    int64 weekday = 5;
+    int64 moonSign = 6;
+    int64 moonStar = 7;
+    int64 paksha = 8;
     
     repeated PanchangItem tithi = 11;
     repeated PanchangItem star = 12;
@@ -196,16 +196,16 @@ message Panchang {
 
 message PlanetDetails {
     string name = 1;
-    float longitude = 2;
-    int32 star = 3;
-    int32 paada = 4;
-    int32 rasi = 21;
-    int32 bhava = 22;
-    int32 amsa2 = 1002;
-    int32 amsa9 = 1009;
-    int32 amsa10 = 1010;
-    int32 amsa27 = 1027;
-    int32 amsa60 = 1060;
+    double longitude = 2;
+    int64 star = 3;
+    int64 paada = 4;
+    int64 rasi = 21;
+    int64 bhava = 22;
+    int64 amsa2 = 1002;
+    int64 amsa9 = 1009;
+    int64 amsa10 = 1010;
+    int64 amsa27 = 1027;
+    int64 amsa60 = 1060;
 }
 
 message Planets {

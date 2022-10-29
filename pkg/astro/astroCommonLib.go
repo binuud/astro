@@ -1,28 +1,28 @@
 package astro
 
-func CalculateRasi(degree float32) int32 {
-	return 1 + (int32)(degree/RASI_DEGREES)
+func CalculateRasi(degree float64) int64 {
+	return 1 + (int64)(degree/RASI_DEGREES)
 }
 
-func CalculateStar(degree float32) int32 {
-	return 1 + (int32)(degree/STAR_DEGREES)
+func CalculateStar(degree float64) int64 {
+	return 1 + (int64)(degree/STAR_DEGREES)
 }
 
-func CalculatePaada(degree float32) int32 {
+func CalculatePaada(degree float64) int64 {
 
 	//starLongitude := math.Mod(float64(degree), STAR_DEGREES)
-	paada := int32(degree / PAADA_DEGREES)
+	paada := int64(degree / PAADA_DEGREES)
 
 	return 1 + paada%4
 
 }
 
-func CalculateNthHarmonic(degree float32, harmonic int32) int32 {
+func CalculateNthHarmonic(degree float64, harmonic int64) int64 {
 
-	upScaledDegree := float32(harmonic) * degree
+	upScaledDegree := float64(harmonic) * degree
 
 	rasi := upScaledDegree / 30
 
-	return 1 + int32(rasi)%TOTAL_RASIS
+	return 1 + int64(rasi)%TOTAL_RASIS
 
 }

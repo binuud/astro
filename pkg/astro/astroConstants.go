@@ -19,7 +19,7 @@ const (
 	PLANET_GULIKA  = "gulkia"
 
 	RASI_DEGREES  = 30
-	STAR_DEGREES  = 13.33
+	STAR_DEGREES  = 13.33333
 	PAADA_DEGREES = 3.333
 
 	TOTAL_RASIS  = 12
@@ -31,4 +31,19 @@ const (
 	HARMONIC_DASAMSA      = 10 // Dasamsa - coming wrong
 	HARMONIC_NAKSATHRAMSA = 27
 	HARMONIC_SASHTYAMSA   = 60 // Coming wrong
+
 )
+
+// # "Purvabhadra", "Uttarabhadra",
+// var STAR_LIST = []string {"Ashvini", "Bharani", "Krttika", "Rohini", "Mrigashirsha", "Ardra", "Punarvasu", "Pushya", "Ashlesha",
+// "Magha", "Uttaraphalguni", "Purvaphalguni", "Hasta", "Citra", "Vishakha", "Anuradha","Jyeshtha",
+// "Mula","Purvashadha","Uttarashadha", "Shravishtha", "Dhanishtha", "Purvabhadra", "Uttarabhadra", "Revati"}
+// public static $STARS = array('Aswini','Barani','Krittika',
+// 'Rohini','Mrigasira','Arudra',
+// 'Punarvasu','Pushyami','Aslesha',
+// 'Makha','Poorvaphalguni','Uttaraphalguni',
+// 'Hasta','Chitra','Swati',
+// 'Vishaka','Anuradha','Jyeshta',
+// 'Moola','Poorvashada','Uttarashada',
+// 'Sravana','Dhanishta','Satabhisha',
+// 'Poorvabhadra','Uttarabadra','Revathi');
