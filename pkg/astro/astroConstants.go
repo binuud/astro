@@ -18,13 +18,24 @@ const (
 	PLANET_MAANDI  = "maandi"
 	PLANET_GULIKA  = "gulkia"
 
-	RASI_DEGREES  = 30
-	STAR_DEGREES  = 13.33333
-	PAADA_DEGREES = 3.333
+	KRISHNA_PAKSHA = 2
+	SHUKRA_PAKSHA  = 1
 
-	TOTAL_RASIS  = 12
-	TOTAL_STARS  = 27
-	TOTAL_PAADAS = 108
+	QUARTER_DAY_MINUTES = 360
+
+	RASI_DEGREES   = 30
+	STAR_DEGREES   = 13.33333
+	PAADA_DEGREES  = 3.333
+	TITHI_DEGREES  = 12
+	YOGA_DEGREES   = 13.33333
+	KARANA_DEGREES = 6
+
+	TOTAL_RASIS   = 12
+	TOTAL_STARS   = 27
+	TOTAL_PAADAS  = 108
+	TOTAL_TITHIS  = 30
+	TOTAL_YOGAS   = 27
+	TOTAL_KARANAS = 60
 
 	HARMONIC_HORA         = 2  // BiCyclical Hora - Pariviti Dwaya
 	HARMONIC_NAVAMSA      = 9  // Navamsa
@@ -34,16 +45,45 @@ const (
 
 )
 
+var KARANA_NAMES = []string{"", "Kintughna",
+	"Bava", "Baalava", "Kaulava", "Taitila", "Gara", "Vanija", "Vishti",
+	"Bava", "Baalava", "Kaulava", "Taitila", "Gara", "Vanija", "Vishti",
+	"Bava", "Baalava", "Kaulava", "Taitila", "Gara", "Vanija", "Vishti",
+	"Bava", "Baalava", "Kaulava", "Taitila", "Gara", "Vanija", "Vishti",
+	"Bava", "Baalava", "Kaulava", "Taitila", "Gara", "Vanija", "Vishti",
+	"Bava", "Baalava", "Kaulava", "Taitila", "Gara", "Vanija", "Vishti",
+	"Bava", "Baalava", "Kaulava", "Taitila", "Gara", "Vanija", "Vishti",
+	"Bava", "Baalava", "Kaulava", "Taitila", "Gara", "Vanija", "Vishti",
+	"Shakuni", "Chatushpada", "Naga"}
+
+var TITHI_NAMES = []string{"", "Prathama", "Dwitiya", "Tritiya", "Chaturthi", "Panchami",
+	"Shasti", "Saptami", "Ashtami", "Navami", "Dashami",
+	"Ekadashi", "Dwadashi", "Thrayodashi", "Chaturdashi", "Purnima",
+	"Prathama", "Dwitiya", "Tritiya", "Chaturthi", "Panchami",
+	"Shasti", "Saptami", "Ashtami", "Navami", "Dashami",
+	"Ekadashi", "Dwadashi", "Thrayodashi", "Chaturdashi", "Amavasya"}
+
+var STAR_NAMES = []string{"", "Aswini", "Barani", "Krittika",
+	"Rohini", "Mrigasira", "Arudra",
+	"Punarvasu", "Pushyami", "Aslesha",
+	"Makha", "Poorvaphalguni", "Uttaraphalguni",
+	"Hasta", "Chitra", "Swati",
+	"Vishaka", "Anuradha", "Jyeshta",
+	"Moola", "Poorvashada", "Uttarashada",
+	"Sravana", "Dhanishta", "Satabhisha",
+	"Poorvabhadra", "Uttarabadra", "Revathi"}
+
+var PAKSHA_NAMES = []string{"", "Shukra Paksha", "Krishna Paksha"}
+
+var YOGA_NAMES = []string{"", "Vishkumbha", "Preeti", "Ayushman", "Saubhagya", "Shobhana",
+	"Atiganda", "Sukarma", "Dhriti", "Shoola", "Ganda",
+	"Vriddhi", "Dhruva", "Vyaghata", "Harshana", "Vajra",
+	"Siddhi", "Vyatipata", "Variyana", "Parigha", "Shiva",
+	"Siddha", "Sadhya", "Shubha", "Shukla", "Brahma",
+	"Indra", "Vaidhriti"}
+
 // # "Purvabhadra", "Uttarabhadra",
 // var STAR_LIST = []string {"Ashvini", "Bharani", "Krttika", "Rohini", "Mrigashirsha", "Ardra", "Punarvasu", "Pushya", "Ashlesha",
 // "Magha", "Uttaraphalguni", "Purvaphalguni", "Hasta", "Citra", "Vishakha", "Anuradha","Jyeshtha",
 // "Mula","Purvashadha","Uttarashadha", "Shravishtha", "Dhanishtha", "Purvabhadra", "Uttarabhadra", "Revati"}
-// public static $STARS = array('Aswini','Barani','Krittika',
-// 'Rohini','Mrigasira','Arudra',
-// 'Punarvasu','Pushyami','Aslesha',
-// 'Makha','Poorvaphalguni','Uttaraphalguni',
-// 'Hasta','Chitra','Swati',
-// 'Vishaka','Anuradha','Jyeshta',
-// 'Moola','Poorvashada','Uttarashada',
-// 'Sravana','Dhanishta','Satabhisha',
-// 'Poorvabhadra','Uttarabadra','Revathi');
+// public static $STARS = array();

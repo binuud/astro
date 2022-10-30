@@ -9,14 +9,15 @@ import (
 )
 
 const (
-	AYANAMSA_LAHIRI = 1
-	EPHIMERIS_SWISS = "eswe"
-	ARG_PLANET_ALL  = "d"
-	ARG_PLANET_MOON = "1"
-	FSEQALL         = "PLBRS"
-	FLONGITUDE      = "Pl"
-	FLONGITUDEONLY  = "l"
-	ASTRO_CMD       = "./astroBin/astrobin"
+	AYANAMSA_LAHIRI     = 1
+	EPHIMERIS_SWISS     = "eswe"
+	ARG_PLANET_ALL      = "d"
+	ARG_PLANET_MOON     = "1"
+	ARG_PLANET_SUN_MOON = "01"
+	FSEQALL             = "PLBRS"
+	FLONGITUDE          = "Pl"
+	FLONGITUDEONLY      = "l"
+	ASTRO_CMD           = "./astroBin/astrobin"
 )
 
 type Ephimeris struct {
@@ -52,11 +53,11 @@ func (e *Ephimeris) GetMoonEphimeris() (string, error) {
 
 }
 
-func (e *Ephimeris) GetMoonEphimerisForYear() (string, error) {
-	// 732
+func (e *Ephimeris) GetSunMoonEphimerisForYear() (string, error) {
+
 	e.NewArgs().SetAyanamsa(AYANAMSA_LAHIRI).
-		SetDTPoB().SetCount(30).SetSteps(0.5).SetPlanets(ARG_PLANET_MOON).
-		SetEphimerisType(EPHIMERIS_SWISS).SetColumns(FLONGITUDEONLY).NoHead()
+		SetDTPoB().SetCount(1472).SetSteps(0.25).SetPlanets(ARG_PLANET_SUN_MOON).
+		SetEphimerisType(EPHIMERIS_SWISS).SetColumns(FLONGITUDEONLY).NoHead().Horizontal()
 	return e.ExecCommand()
 
 }
@@ -153,6 +154,13 @@ func (e *Ephimeris) SetHouse() *Ephimeris {
 func (e *Ephimeris) NoHead() *Ephimeris {
 
 	e.CmdArgs = append(e.CmdArgs, "-head")
+	return e
+
+}
+
+func (e *Ephimeris) Horizontal() *Ephimeris {
+
+	e.CmdArgs = append(e.CmdArgs, "-hor")
 	return e
 
 }

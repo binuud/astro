@@ -6,7 +6,6 @@ import (
 	"time"
 
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astrocalc/go"
-	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -32,6 +31,43 @@ func GetStarNumber(degree float64) int {
 	return int(degree/STAR_DEGREES) + 1
 }
 
+func GetPaksha(tithi int) int {
+	if tithi <= 15 {
+		return SHUKRA_PAKSHA
+	}
+	return KRISHNA_PAKSHA
+}
+
+func GetKaranaNumber(sunDegree float64, moonDegree float64) int {
+	return (int(GetTithiDegree(sunDegree, moonDegree)) / KARANA_DEGREES) + 1
+}
+
+func GetTithiNumber(sunDegree float64, moonDegree float64) int {
+	return (int(GetTithiDegree(sunDegree, moonDegree)) / TITHI_DEGREES) + 1
+}
+
+func GetTithiDegree(sunDegree float64, moonDegree float64) float64 {
+	tithiDegree := moonDegree - sunDegree
+	if tithiDegree < 0 {
+		tithiDegree = 360 + tithiDegree
+	}
+	return tithiDegree
+
+}
+
+func GetYogaNumber(sunDegree float64, moonDegree float64) int {
+	return (int(GetYogaDegree(sunDegree, moonDegree)) * 60 / 800) + 1
+}
+
+func GetYogaDegree(sunDegree float64, moonDegree float64) float64 {
+	yogaDegree := moonDegree + sunDegree
+	if yogaDegree > 360 {
+		yogaDegree = yogaDegree - 360
+	}
+	return yogaDegree
+
+}
+
 // GetTransitTime
 // arguments
 // startDegree - the startDegree of the planet/object
@@ -40,14 +76,6 @@ func GetStarNumber(degree float64) int {
 // transitionDegree - the degree at which transition is expected to happen (eg: this can be boundaries like 30,60,90 for rasis)
 // returns minutes(time) at which the transit happens
 func GetTransitTime(startDegree float64, endDegree float64, duration int64, transitionDegree float64) (int64, error) {
-	// if transitionDegree < startDegree {
-	// 	err := fmt.Errorf("transition degree cannot be less than start degree")
-	// 	return 0, err
-	// }
-	// if transitionDegree > endDegree {
-	// 	err := fmt.Errorf("transition degree cannot be greater than end degree")
-	// 	return 0, err
-	// }
 
 	if endDegree < startDegree {
 		endDegree = 360 + endDegree
@@ -61,16 +89,13 @@ func GetTransitTime(startDegree float64, endDegree float64, duration int64, tran
 		err := fmt.Errorf("no movement of object seen")
 		return 0, err
 	}
-	// if (endDegree - transitionDegree) > 350 {
-	// 	err := fmt.Errorf("preventing rollover error of longitude")
-	// 	return 0, err
-	// }
-	logrus.Infof("(%f)<-(%f)->(%f)", startDegree, transitionDegree, endDegree)
+
+	// logrus.Infof("(%f)<-(%f)->(%f)", startDegree, transitionDegree, endDegree)
 	if startDegree < transitionDegree && endDegree > transitionDegree {
 
 		t := int64(((transitionDegree - startDegree) / totalDegree) * float64(duration))
 		return t, nil
 	}
-	err := fmt.Errorf("transition degree cannot be greater than end degree")
+	err := fmt.Errorf("transition degree has to be in between start and end degree")
 	return 0, err
 }

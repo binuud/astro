@@ -55,8 +55,11 @@ func main() {
 	// 	logrus.Error("Cannot prepare chart err(%v)", err)
 	// }
 	// chart.PrintChartTable()
-	_, err := astro.NewPanchangMoon(2022)
+	p, err := astro.NewPanchangMoon(2022)
 	if err != nil {
 		logrus.Errorf("Cannot prepare chart err(%v)", err)
 	}
+	cal := astro.NewCalendarPrinter(p)
+	cal.PrintCalendar()
+
 }
