@@ -9,15 +9,16 @@ import (
 )
 
 const (
-	AYANAMSA_LAHIRI     = 1
-	EPHIMERIS_SWISS     = "eswe"
-	ARG_PLANET_ALL      = "d"
-	ARG_PLANET_MOON     = "1"
-	ARG_PLANET_SUN_MOON = "01"
-	FSEQALL             = "PLBRS"
-	FLONGITUDE          = "Pl"
-	FLONGITUDEONLY      = "l"
-	ASTRO_CMD           = "./astroBin/astrobin"
+	AYANAMSA_LAHIRI        = 1
+	EPHIMERIS_SWISS        = "eswe"
+	ARG_PLANET_ALL         = "d"
+	ARG_PLANET_MOON        = "1"
+	ARG_PLANET_SUN_MOON    = "01"
+	FSEQALL                = "PLBRS"
+	FLONGITUDE             = "Pl"
+	FLONGITUDEONLY         = "l"
+	PLANET_DEFAULT_COLUMNS = "Plbrds"
+	ASTRO_CMD              = "./astroBin/astrobin"
 )
 
 type Ephimeris struct {
@@ -39,7 +40,7 @@ func (e *Ephimeris) GetPlanetsEphimeris() (string, error) {
 
 	e.NewArgs().SetAyanamsa(AYANAMSA_LAHIRI).
 		SetDTPoB().SetCount(1).SetSteps(1).SetPlanets(ARG_PLANET_ALL).
-		SetEphimerisType(EPHIMERIS_SWISS).SetHouse().SetColumns(FLONGITUDE)
+		SetEphimerisType(EPHIMERIS_SWISS).SetHouse().SetColumns(PLANET_DEFAULT_COLUMNS)
 	return e.ExecCommand()
 
 }

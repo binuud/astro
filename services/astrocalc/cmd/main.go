@@ -4,6 +4,7 @@ import (
 	"flag"
 
 	"github.com/dronasys-com/astro/pkg/astro"
+	astroV1 "github.com/dronasys-com/astro/proto/v1/astrocalc/go"
 	"github.com/sirupsen/logrus"
 )
 
@@ -35,31 +36,38 @@ func main() {
 	// 	logrus.Fatal("failed to serve: ", err)
 	// }
 
-	// chart, err := astro.NewAstroChart(&astroV1.BirthData{
-	// 	Dob: &astroV1.TobData{
-	// 		D:    04,
-	// 		M:    02,
-	// 		Y:    1978,
-	// 		Hour: 10,
-	// 		Min:  44,
-	// 		Sec:  0,
-	// 		Zone: "Asia/Kolkata",
-	// 	},
-	// 	Pob: &astroV1.PobData{
-	// 		City: "Chennai",
-	// 		Lat:  13.08,
-	// 		Long: 80.7,
-	// 	},
-	// })
-	// if err != nil {
-	// 	logrus.Error("Cannot prepare chart err(%v)", err)
-	// }
-	// chart.PrintChartTable()
+	test_chart()
+	// test_calendar()
+}
+
+func test_calendar() {
 	p, err := astro.NewPanchangMoon(2022)
 	if err != nil {
 		logrus.Errorf("Cannot prepare chart err(%v)", err)
 	}
 	cal := astro.NewCalendarPrinter(p)
 	cal.PrintCalendar()
+}
 
+func test_chart() {
+	chart, err := astro.NewAstroChart(&astroV1.BirthData{
+		Tob: &astroV1.TobData{
+			D:    04,
+			M:    02,
+			Y:    1978,
+			Hour: 10,
+			Min:  44,
+			Sec:  0,
+			Zone: "Asia/Kolkata",
+		},
+		Pob: &astroV1.PobData{
+			City: "Chennai",
+			Lat:  13.08,
+			Long: 80.7,
+		},
+	})
+	if err != nil {
+		logrus.Error("Cannot prepare chart err(%v)", err)
+	}
+	chart.PrintChartTable()
 }

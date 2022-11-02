@@ -196,11 +196,19 @@ message Panchang {
 
 message PlanetDetails {
     string name = 1;
+    
     double longitude = 2;
-    int64 star = 3;
-    int64 paada = 4;
-    int64 rasi = 21;
-    int64 bhava = 22;
+    double latitude = 3;
+    double declination = 4;
+    double speed = 5;
+    double distance = 6;
+
+    
+    int64 star = 21;
+    int64 paada = 22;
+    int64 rasi = 23;
+    int64 bhava = 24;
+
     int64 amsa2 = 1002;
     int64 amsa9 = 1009;
     int64 amsa10 = 1010;
