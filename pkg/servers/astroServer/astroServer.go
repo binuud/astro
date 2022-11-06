@@ -4,11 +4,8 @@ import (
 	"context"
 
 	"github.com/dronasys-com/astro/pkg/astro"
-	astroV1 "github.com/dronasys-com/astro/proto/v1/astrocalc/go"
-	"github.com/dronasys-com/trance-microservices/pkg/dataLayer/mongo"
-	"github.com/dronasys-com/trance-microservices/pkg/foundation/helpers"
+	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
-	"go.mongodb.org/mongo-driver/bson"
 	"google.golang.org/grpc"
 )
 
@@ -30,8 +27,18 @@ func NewGrpcAstroServer(srv *grpc.Server) *grpcAstroServer {
 func (s *grpcAstroServer) GetPanchang(ctx context.Context, in *astroV1.PanchangGetRequest) (*astroV1.PanchangResponse, error) {
 
 	logrus.Info("Received GetPanchang: ", in)
-
-	return &astroV1.PanchangResponse{}, nil
+	p, err := astro.NewPanchangMoon(in.BirthData.Tob.Y, in.BirthData.Tob.M)
+	if err != nil {
+		logrus.Errorf("Cannot prepare chart err(%v)", err)
+	}
+	p.CalculatePanchang()
+	// cal := astro.NewCalendarPrinter(p)
+	p.Panchang.Ephimeris = nil
+	return &astroV1.PanchangResponse{
+		Astro: &astroV1.AstroObject{
+			Panchang: p.Panchang,
+		},
+	}, nil
 
 }
 
@@ -40,14 +47,14 @@ func (s *grpcAstroServer) Update(ctx context.Context, in *astroV1.UserUpdateRequ
 	logrus.Info("Received Update: ", in)
 
 	chart, err := astro.NewAstroChart(&astroV1.BirthData{
-		Dob: &astroV1.TobData{
-			D:    in.BirthData.Dob.D,
-			M:    in.BirthData.Dob.M,
-			Y:    in.BirthData.Dob.Y,
-			Hour: in.BirthData.Dob.Hour,
-			Min:  in.BirthData.Dob.Min,
-			Sec:  in.BirthData.Dob.Sec,
-			Zone: in.BirthData.Dob.Zone,
+		Tob: &astroV1.TobData{
+			D:    in.BirthData.Tob.D,
+			M:    in.BirthData.Tob.M,
+			Y:    in.BirthData.Tob.Y,
+			Hour: in.BirthData.Tob.Hour,
+			Min:  in.BirthData.Tob.Min,
+			Sec:  in.BirthData.Tob.Sec,
+			Zone: in.BirthData.Tob.Zone,
 		},
 		Pob: &astroV1.PobData{
 			City:    in.BirthData.Pob.City,
@@ -62,33 +69,65 @@ func (s *grpcAstroServer) Update(ctx context.Context, in *astroV1.UserUpdateRequ
 	}
 	chart.PrintChartTable()
 
-	return &astroV1.UserUpdateResponse{}, nil
+	return &astroV1.UserUpdateResponse{
+		Astro: &astroV1.AstroObject{
+			BirthData: chart.BirthData,
+			Planets: &astroV1.Planets{
+				PlanetsMap: chart.Planets.PlanetsMap,
+			},
+		},
+	}, nil
 
 }
 
 func (s *grpcAstroServer) Get(ctx context.Context, in *astroV1.UserGetRequest) (*astroV1.UserGetResponse, error) {
 	logrus.Info("Received: Get request ", in)
-	astro := &astroV1.AstroObject{}
 
-	mongo, err := mongo.NewDSMongoSingleton()
-	if err != nil {
-		logrus.Error("Cannot connect to DB")
-		return nil, err
-	}
+	// mongo, err := mongo.NewDSMongoSingleton()
+	// if err != nil {
+	// 	logrus.Error("Cannot connect to DB")
+	// 	return nil, err
+	// }
 
-	ownerUid, err := helpers.GetUserUuidFromContext(ctx)
+	// ownerUid, err := helpers.GetUserUuidFromContext(ctx)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// filter := bson.D{{"metadata.uid", in.Uuid}, {"metadata.owner", ownerUid}}
+	// err = mongo.FindOne(ASTRO_BUCKET_NAME, filter, astro)
+	// if err != nil {
+	// 	logrus.Error("Cannot Get Item ", err)
+	// 	return nil, err
+	// }
+
+	chart, err := astro.NewAstroChart(&astroV1.BirthData{
+		Tob: &astroV1.TobData{
+			D:    04,
+			M:    02,
+			Y:    1978,
+			Hour: 10,
+			Min:  44,
+			Sec:  0,
+			Zone: "Asia/Kolkata",
+		},
+		Pob: &astroV1.PobData{
+			City: "Chennai",
+			Lat:  13.08,
+			Long: 80.7,
+		},
+	})
 	if err != nil {
-		return nil, err
+		logrus.Error("Cannot prepare chart err(%v)", err)
 	}
-	filter := bson.D{{"metadata.uid", in.Uuid}, {"metadata.owner", ownerUid}}
-	err = mongo.FindOne(ASTRO_BUCKET_NAME, filter, astro)
-	if err != nil {
-		logrus.Error("Cannot Get Item ", err)
-		return nil, err
-	}
+	chart.PrintChartTable()
 
 	return &astroV1.UserGetResponse{
-		Astro: astro,
+		Astro: &astroV1.AstroObject{
+			BirthData: chart.BirthData,
+			Planets: &astroV1.Planets{
+				PlanetsMap: chart.Planets.PlanetsMap,
+			},
+		},
 	}, nil
 
 }

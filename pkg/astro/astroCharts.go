@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	astroV1 "github.com/dronasys-com/astro/proto/v1/astrocalc/go"
+	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
 )
 
@@ -150,8 +150,9 @@ func (chart *Chart) ParseEphimeris() {
 	chart.Planets.PlanetsMap = planetMap
 
 	chart.CalculateAuxillaryPlanets()
-	chart.CalculateRasiChart()
+	chart.CalculateCharts()
 	chart.CalculateBhavaChart()
+	chart.CalculateMeta()
 }
 
 func (chart *Chart) CalculateAuxillaryPlanets() {
@@ -165,7 +166,7 @@ func (chart *Chart) CalculateAuxillaryPlanets() {
 	}
 }
 
-func (chart *Chart) CalculateRasiChart() {
+func (chart *Chart) CalculateCharts() {
 	for _, planet := range chart.Planets.PlanetsMap {
 
 		planet.Rasi = CalculateRasi(float64(planet.Longitude))
@@ -176,6 +177,12 @@ func (chart *Chart) CalculateRasiChart() {
 		planet.Amsa10 = CalculateNthHarmonic(planet.Longitude, HARMONIC_DASAMSA)
 		planet.Amsa27 = CalculateNthHarmonic(planet.Longitude, HARMONIC_NAKSATHRAMSA)
 		planet.Amsa60 = CalculateNthHarmonic(planet.Longitude, HARMONIC_SASHTYAMSA)
+	}
+}
+
+func (chart *Chart) CalculateMeta() {
+	for _, planet := range chart.Planets.PlanetsMap {
+		CalculatePlanetMeta(planet)
 	}
 }
 
@@ -195,13 +202,22 @@ func (chart *Chart) CalculateBhavaChart() {
 
 		planet.Bhava = CalculateRasi(float64(bavaDeg))
 	}
+	asc := chart.Planets.PlanetsMap[PLANET_ASC].Bhava
+	for _, planet := range chart.Planets.PlanetsMap {
+		bhava := planet.Bhava - asc + 1
+		if bhava < 1 {
+			bhava = TOTAL_RASIS + bhava
+		}
+		planet.BhavaH = bhava
+
+	}
 }
 
 func (chart *Chart) PrintChartTable() {
 	fmt.Printf("\n\n********************************************\n")
-	fmt.Printf("    Planet   R   B  2H  9H 10H 27H 60H   S   P   Long  Dec Sp\n")
+	fmt.Printf("    Planet   R   B  BH 2H  9H 10H 27H 60H   S   P   Long  Dec Sp\n")
 	for _, planet := range chart.Planets.PlanetsMap {
-		fmt.Printf("%10s  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d   %09.2f %09.2f %09.2f\n", planet.Name, planet.Rasi, planet.Bhava, planet.Amsa2, planet.Amsa9, planet.Amsa10, planet.Amsa27, planet.Amsa60, planet.Star, planet.Paada, planet.Longitude, planet.Declination, planet.Speed)
+		fmt.Printf("%10s  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d   %09.2f %09.2f %09.2f\n", planet.Name, planet.Rasi, planet.Bhava, planet.BhavaH, planet.Amsa2, planet.Amsa9, planet.Amsa10, planet.Amsa27, planet.Amsa60, planet.Star, planet.Paada, planet.Longitude, planet.Declination, planet.Speed)
 	}
 	fmt.Printf("\n\n********************************************\n")
 }

@@ -4,7 +4,7 @@
 // 'make proto' will run clang-format to fix formatiing
 // binu@dronasys.com
 syntax = "proto3";
-package user;
+package astro;
 
 import "google/protobuf/timestamp.proto";
 
@@ -134,13 +134,13 @@ message Metadata {
 
 message TobData {
     
-    int64 d = 1;
-    int64 m = 2;
-    int64 y = 3;
+    int32 d = 1;
+    int32 m = 2;
+    int32 y = 3;
     
-    int64 hour = 4;
-    int64 min = 5;
-    int64 sec = 6;
+    int32 hour = 4;
+    int32 min = 5;
+    int32 sec = 6;
     string zone = 7;
     string dateString = 11;
     google.protobuf.Timestamp tobtime = 12;
@@ -161,9 +161,9 @@ message BirthData {
     PobData pob     = 2;        // Place of Birth  
 }
 
-message PanchangItem {
-    int64 num = 1;
-    google.protobuf.Timestamp changeTime   = 2;
+message PanchangTransits {
+    int32 name = 1;
+    google.protobuf.Timestamp transit   = 2;
 }
 
 message PanchangKalam {
@@ -171,20 +171,23 @@ message PanchangKalam {
     google.protobuf.Timestamp endTime   = 2;
 }
 
+message SunMoonEphimeris  {
+    double moon = 1;
+    double sun = 2;
+}
+
 message Panchang {
-    google.protobuf.Timestamp sunRise   = 1;
-    google.protobuf.Timestamp sunSet    = 2;
-    int64 sunSign = 3;
-    int64 sunStar = 4;
-    int64 weekday = 5;
-    int64 moonSign = 6;
-    int64 moonStar = 7;
-    int64 paksha = 8;
+
+    int32 year = 1;
+    int32 month = 2;
+    google.protobuf.Timestamp startTime   = 3;
+
+    repeated SunMoonEphimeris ephimeris = 11;
     
-    repeated PanchangItem tithi = 11;
-    repeated PanchangItem star = 12;
-    repeated PanchangItem yoga = 13; 
-    repeated PanchangItem karana = 14;
+    repeated PanchangTransits stars = 21;
+    repeated PanchangTransits yogas = 22; 
+    repeated PanchangTransits karanas = 23;
+    repeated PanchangTransits tithis = 24;
 
     PanchangKalam rahuKalam = 51;
     PanchangKalam guliKalam = 52;
@@ -208,6 +211,14 @@ message PlanetDetails {
     int64 paada = 22;
     int64 rasi = 23;
     int64 bhava = 24;
+    int64 bhava_h = 25;
+
+    bool exalted = 51;
+    bool deblited = 52;
+    bool ownHouse = 53;
+    bool friendHouse = 54;
+    bool enemyHouse = 55;
+    bool moolTrikona = 56;
 
     int64 amsa2 = 1002;
     int64 amsa9 = 1009;

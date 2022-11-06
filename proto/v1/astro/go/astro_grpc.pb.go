@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.20.1
-// source: astrocalc/astro.proto
+// source: astro/astro.proto
 
 package _go
 
@@ -38,7 +38,7 @@ func NewAstroClient(cc grpc.ClientConnInterface) AstroClient {
 
 func (c *astroClient) GetPanchang(ctx context.Context, in *PanchangGetRequest, opts ...grpc.CallOption) (*PanchangResponse, error) {
 	out := new(PanchangResponse)
-	err := c.cc.Invoke(ctx, "/user.Astro/GetPanchang", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/astro.Astro/GetPanchang", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (c *astroClient) GetPanchang(ctx context.Context, in *PanchangGetRequest, o
 
 func (c *astroClient) Update(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserUpdateResponse, error) {
 	out := new(UserUpdateResponse)
-	err := c.cc.Invoke(ctx, "/user.Astro/Update", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/astro.Astro/Update", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +56,7 @@ func (c *astroClient) Update(ctx context.Context, in *UserUpdateRequest, opts ..
 
 func (c *astroClient) Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*UserGetResponse, error) {
 	out := new(UserGetResponse)
-	err := c.cc.Invoke(ctx, "/user.Astro/Get", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/astro.Astro/Get", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (c *astroClient) Get(ctx context.Context, in *UserGetRequest, opts ...grpc.
 
 func (c *astroClient) List(ctx context.Context, in *UserListRequest, opts ...grpc.CallOption) (*UserListResponse, error) {
 	out := new(UserListResponse)
-	err := c.cc.Invoke(ctx, "/user.Astro/List", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/astro.Astro/List", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ func _Astro_GetPanchang_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user.Astro/GetPanchang",
+		FullMethod: "/astro.Astro/GetPanchang",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AstroServer).GetPanchang(ctx, req.(*PanchangGetRequest))
@@ -140,7 +140,7 @@ func _Astro_Update_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user.Astro/Update",
+		FullMethod: "/astro.Astro/Update",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AstroServer).Update(ctx, req.(*UserUpdateRequest))
@@ -158,7 +158,7 @@ func _Astro_Get_Handler(srv interface{}, ctx context.Context, dec func(interface
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user.Astro/Get",
+		FullMethod: "/astro.Astro/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AstroServer).Get(ctx, req.(*UserGetRequest))
@@ -176,7 +176,7 @@ func _Astro_List_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user.Astro/List",
+		FullMethod: "/astro.Astro/List",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AstroServer).List(ctx, req.(*UserListRequest))
@@ -188,7 +188,7 @@ func _Astro_List_Handler(srv interface{}, ctx context.Context, dec func(interfac
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Astro_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "user.Astro",
+	ServiceName: "astro.Astro",
 	HandlerType: (*AstroServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -209,5 +209,5 @@ var Astro_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "astrocalc/astro.proto",
+	Metadata: "astro/astro.proto",
 }

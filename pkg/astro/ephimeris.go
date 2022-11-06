@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os/exec"
 
-	astroV1 "github.com/dronasys-com/astro/proto/v1/astrocalc/go"
+	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
 )
 
@@ -58,6 +58,15 @@ func (e *Ephimeris) GetSunMoonEphimerisForYear() (string, error) {
 
 	e.NewArgs().SetAyanamsa(AYANAMSA_LAHIRI).
 		SetDTPoB().SetCount(1472).SetSteps(0.25).SetPlanets(ARG_PLANET_SUN_MOON).
+		SetEphimerisType(EPHIMERIS_SWISS).SetColumns(FLONGITUDEONLY).NoHead().Horizontal()
+	return e.ExecCommand()
+
+}
+
+func (e *Ephimeris) GetSunMoonEphimerisForMonth() (string, error) {
+
+	e.NewArgs().SetAyanamsa(AYANAMSA_LAHIRI).
+		SetDTPoB().SetCount(132).SetSteps(0.25).SetPlanets(ARG_PLANET_SUN_MOON).
 		SetEphimerisType(EPHIMERIS_SWISS).SetColumns(FLONGITUDEONLY).NoHead().Horizontal()
 	return e.ExecCommand()
 
