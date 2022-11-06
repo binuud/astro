@@ -5,7 +5,7 @@ import (
 	"math"
 	"time"
 
-	astroV1 "github.com/dronasys-com/astro/proto/v1/astrocalc/go"
+	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 

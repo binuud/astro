@@ -3,10 +3,13 @@ package astro
 import (
 	"fmt"
 	"time"
+
+	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
+	"github.com/sirupsen/logrus"
 )
 
 type CalendarPrinter struct {
-	Panchang      *Panchang
+	Panchang      *astroV1.Panchang
 	StarCounter   int
 	TithiCounter  int
 	YogaCounter   int
@@ -14,7 +17,7 @@ type CalendarPrinter struct {
 	Zone          *time.Location
 }
 
-func NewCalendarPrinter(panchang *Panchang) *CalendarPrinter {
+func NewCalendarPrinter(panchang *astroV1.Panchang) *CalendarPrinter {
 	cal := &CalendarPrinter{
 		Panchang:      panchang,
 		StarCounter:   0,
@@ -28,10 +31,11 @@ func NewCalendarPrinter(panchang *Panchang) *CalendarPrinter {
 
 func (cal *CalendarPrinter) PrintCalendar() {
 
-	numDays := 366
+	numDays := 31
 	dayCounter := 1
+	logrus.Infof("Calendar for %d/%d/%d", time.Month(1), time.Month(cal.Panchang.Month), int(cal.Panchang.Year))
 
-	t := time.Date(int(cal.Panchang.Year), time.Month(1), int(1), int(0), int(0), int(0), 0, cal.Zone)
+	t := time.Date(int(cal.Panchang.Year), time.Month(cal.Panchang.Month), int(1), int(0), int(0), int(0), 0, cal.Zone)
 
 	for dayCounter <= numDays {
 
@@ -65,11 +69,11 @@ func (cal *CalendarPrinter) printStars(dayStart time.Time, dayEnd time.Time) {
 	}
 
 	for {
-		if cal.Panchang.Stars[cal.StarCounter].Transit.Before(dayStart) {
+		if cal.Panchang.Stars[cal.StarCounter].Transit.AsTime().Before(dayStart) {
 			cal.StarCounter++
 		} else {
-			if cal.Panchang.Stars[cal.StarCounter].Transit.Before(dayEnd) {
-				fmt.Printf(" Star %s @ %v \n", STAR_NAMES[cal.Panchang.Stars[cal.StarCounter].Name], cal.Panchang.Stars[cal.StarCounter].Transit.In(cal.Zone))
+			if cal.Panchang.Stars[cal.StarCounter].Transit.AsTime().Before(dayEnd) {
+				fmt.Printf(" Star %s @ %v \n", STAR_NAMES[cal.Panchang.Stars[cal.StarCounter].Name], cal.Panchang.Stars[cal.StarCounter].Transit.AsTime().In(cal.Zone))
 				cal.StarCounter++
 			}
 		}
@@ -91,11 +95,11 @@ func (cal *CalendarPrinter) printTithis(dayStart time.Time, dayEnd time.Time) {
 	}
 
 	for {
-		if cal.Panchang.Tithis[cal.TithiCounter].Transit.Before(dayStart) {
+		if cal.Panchang.Tithis[cal.TithiCounter].Transit.AsTime().Before(dayStart) {
 			cal.TithiCounter++
 		} else {
-			if cal.Panchang.Tithis[cal.TithiCounter].Transit.Before(dayEnd) {
-				fmt.Printf(" Tithi %s @ %v \n", TITHI_NAMES[cal.Panchang.Tithis[cal.TithiCounter].Name], cal.Panchang.Tithis[cal.TithiCounter].Transit.In(cal.Zone))
+			if cal.Panchang.Tithis[cal.TithiCounter].Transit.AsTime().Before(dayEnd) {
+				fmt.Printf(" Tithi %s @ %v \n", TITHI_NAMES[cal.Panchang.Tithis[cal.TithiCounter].Name], cal.Panchang.Tithis[cal.TithiCounter].Transit.AsTime().In(cal.Zone))
 				cal.TithiCounter++
 			}
 		}
@@ -117,11 +121,11 @@ func (cal *CalendarPrinter) printYogas(dayStart time.Time, dayEnd time.Time) {
 	}
 
 	for {
-		if cal.Panchang.Yogas[cal.YogaCounter].Transit.Before(dayStart) {
+		if cal.Panchang.Yogas[cal.YogaCounter].Transit.AsTime().Before(dayStart) {
 			cal.YogaCounter++
 		} else {
-			if cal.Panchang.Yogas[cal.YogaCounter].Transit.Before(dayEnd) {
-				fmt.Printf(" Yoga %s @ %v \n", YOGA_NAMES[cal.Panchang.Yogas[cal.YogaCounter].Name], cal.Panchang.Yogas[cal.YogaCounter].Transit.In(cal.Zone))
+			if cal.Panchang.Yogas[cal.YogaCounter].Transit.AsTime().Before(dayEnd) {
+				fmt.Printf(" Yoga %s @ %v \n", YOGA_NAMES[cal.Panchang.Yogas[cal.YogaCounter].Name], cal.Panchang.Yogas[cal.YogaCounter].Transit.AsTime().In(cal.Zone))
 				cal.YogaCounter++
 			}
 		}
@@ -143,11 +147,11 @@ func (cal *CalendarPrinter) printKaranas(dayStart time.Time, dayEnd time.Time) {
 	}
 
 	for {
-		if cal.Panchang.Karanas[cal.KaranaCounter].Transit.Before(dayStart) {
+		if cal.Panchang.Karanas[cal.KaranaCounter].Transit.AsTime().Before(dayStart) {
 			cal.KaranaCounter++
 		} else {
-			if cal.Panchang.Karanas[cal.KaranaCounter].Transit.Before(dayEnd) {
-				fmt.Printf(" Karana %s @ %v \n", KARANA_NAMES[cal.Panchang.Karanas[cal.KaranaCounter].Name], cal.Panchang.Karanas[cal.KaranaCounter].Transit.In(cal.Zone))
+			if cal.Panchang.Karanas[cal.KaranaCounter].Transit.AsTime().Before(dayEnd) {
+				fmt.Printf(" Karana %s @ %v \n", KARANA_NAMES[cal.Panchang.Karanas[cal.KaranaCounter].Name], cal.Panchang.Karanas[cal.KaranaCounter].Transit.AsTime().In(cal.Zone))
 				cal.KaranaCounter++
 			}
 		}
