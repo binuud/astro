@@ -43,7 +43,8 @@ protos: ## Build Go and Web Proto
 	$(PROTOC) -I=./proto/v1/.  \
 	--go_out=./proto/v1/astro/ \
     --go-grpc_out=./proto/v1/astro/ \
-	proto/v1/astro/astro.proto 
+	proto/v1/astro/astro.proto \
+	proto/v1/astro/dasha.proto 
 	make protos-web-js
 
 build: ## Build docker image
