@@ -28,7 +28,7 @@ func NewPanchangMoon(year int32, month int32) (*Panchang, error) {
 	}
 
 	startTime := time.Date(int(year), time.Month(month), int(1), int(0), int(0), int(0), 0, time.UTC)
-	startTime.AddDate(0, 0, -1) // reducing 1 day to get the overlapping star
+	startTime.AddDate(0, 0, -2) // reducing 1 day to get the overlapping star
 
 	myPanchang := &astroV1.Panchang{
 		Year:      year,
