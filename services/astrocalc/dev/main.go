@@ -57,7 +57,7 @@ func test_dasa() {
 			M:    02,
 			Y:    1978,
 			Hour: 10,
-			Min:  44,
+			Min:  45,
 			Sec:  0,
 			Zone: "Asia/Kolkata",
 		},
@@ -71,7 +71,7 @@ func test_dasa() {
 		logrus.Error("Cannot prepare chart err(%v)", err)
 	}
 
-	dasa := astro.NewVimshattotriDasha(chart.BirthData.Tob.Tobtime.AsTime())
+	dasa := astro.NewVimshottariDasha(chart.BirthData.Tob.Tobtime.AsTime())
 	curStar := chart.Planets.PlanetsMap[astro.PLANET_MOON].Star - 1
 	dasa.AdjustStartTime(chart.Planets.PlanetsMap[astro.PLANET_MOON].Longitude - float64(curStar)*float64(astro.STAR_DEGREES))
 	dasa.Calculate()

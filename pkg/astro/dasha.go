@@ -22,17 +22,20 @@ func NewDasha(meta *astroV1.DashaMeta) *AstroDasha {
 	}
 }
 
+// Calculate
+// Calculates the dasha persiods for 3 nested recursions
+// maha, antar, pratyantar
 func (d *AstroDasha) Calculate() {
 
 	startTime := d.Meta.StartTime.AsTime()
 	currentDasha := d.Meta.StartDasa
-	endTime := startTime.Add(time.Second * time.Duration(DASHA_VIMSHATTOTRI_SECONDS))
+	endTime := startTime.Add(time.Second * time.Duration(d.Meta.YearInSeconds*d.Meta.DurationYears))
 	d.CalculateLevel(1, 3, startTime, endTime, int(currentDasha))
 }
 
 func (d *AstroDasha) AdjustStartTime(degreesMoved float64) {
 	currentDasha := d.Meta.StartDasa
-	adjustTime := SECONDS_IN_YEAR * float64(d.Meta.SubDashaMetas[currentDasha].Duration) * degreesMoved / d.Meta.DasaDegrees
+	adjustTime := float64(d.Meta.YearInSeconds) * float64(d.Meta.SubDashaMetas[currentDasha].Duration) * degreesMoved / d.Meta.DasaDegrees
 
 	startTime := d.Meta.StartTime.AsTime().Add(-(time.Second * time.Duration(adjustTime)))
 	logrus.Infof("Correction time %v %v", startTime, d.Meta.StartTime.AsTime())
@@ -48,7 +51,7 @@ func (d *AstroDasha) CalculateLevel(level int, totalLevels int, startTime time.T
 	numDashas := len(d.Meta.SubDashaMetas)
 
 	timeDiff := endTime.Sub(startTime).Seconds()
-	logrus.Infof("Time difference %v", int(timeDiff))
+	// logrus.Infof("Time difference %v", int(timeDiff))
 
 	for dashaCounter < numDashas {
 		if currentDasha >= numDashas {
@@ -82,7 +85,7 @@ func (d *AstroDasha) CalculateLevel(level int, totalLevels int, startTime time.T
 }
 
 func (d *AstroDasha) getDurationRatioInSeconds(totalSeconds int, ratio int) int64 {
-	return int64(float64(totalSeconds) * float64(ratio) / float64(d.Meta.Duration))
+	return int64(float64(totalSeconds) * float64(ratio) / float64(d.Meta.DurationYears))
 }
 
 func (d *AstroDasha) Print() {

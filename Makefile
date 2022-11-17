@@ -58,3 +58,6 @@ win: ## Build windows docker image
 	
 run: ## Run astro microservice
 	cd services/astrocalc/cmd && ./runAstro.sh	
+
+runContainer: ## Start container
+	./startAstroContainer.sh	

@@ -8,8 +8,10 @@ import (
 )
 
 const (
-	DASHA_ASHTATTOTRI_SECONDS = 3408150816 // 365.2425 * 108 * numseconds in a day
-	DASHA_ASHTATTOTRI         = "ASHTATTOTRI"
+	DASHA_ASHTOTTARI_YEARS        = 108
+	DASHA_ASHTOTTARI_YEAR_SECONDS = 3408150816
+	// 365.2425 * 108 * numseconds in a day
+	DASHA_ASHTOTTARI = "ASHTOTTARI"
 )
 
 func NewAsthathotriDasha(startTime time.Time) *AstroDasha {
@@ -19,49 +21,47 @@ func NewAsthathotriDasha(startTime time.Time) *AstroDasha {
 
 	subDashaMeta := []*astroV1.SubDashaMeta{
 		&astroV1.SubDashaMeta{
-			Name:     "KETU",
-			Duration: 7,
-		},
-		&astroV1.SubDashaMeta{
-			Name:     "VENUS",
-			Duration: 20,
-		},
-		&astroV1.SubDashaMeta{
-			Name:     "SUN",
+			Name:     PLANET_SUN,
 			Duration: 6,
 		},
 		&astroV1.SubDashaMeta{
-			Name:     "MOON",
+			Name:     PLANET_MOON,
+			Duration: 15,
+		},
+		&astroV1.SubDashaMeta{
+			Name:     PLANET_MARS,
+			Duration: 8,
+		},
+		&astroV1.SubDashaMeta{
+			Name:     PLANET_RAHU,
+			Duration: 17,
+		},
+		&astroV1.SubDashaMeta{
+			Name:     PLANET_JUPITER,
 			Duration: 10,
 		},
 		&astroV1.SubDashaMeta{
-			Name:     "MARS",
-			Duration: 7,
-		},
-		&astroV1.SubDashaMeta{
-			Name:     "RAHU",
-			Duration: 18,
-		},
-		&astroV1.SubDashaMeta{
-			Name:     "JUPITER",
-			Duration: 16,
-		},
-		&astroV1.SubDashaMeta{
-			Name:     "SATURN",
+			Name:     PLANET_SATURN,
 			Duration: 19,
 		},
 		&astroV1.SubDashaMeta{
-			Name:     "MERCURY",
-			Duration: 17,
+			Name:     PLANET_MERCURY,
+			Duration: 12,
+		},
+		&astroV1.SubDashaMeta{
+			Name:     PLANET_VENUS,
+			Duration: 21,
 		},
 	}
 
 	meta := &astroV1.DashaMeta{
-		Name:          DASHA_ASHTATTOTRI,
+		Name:          DASHA_ASHTOTTARI,
 		StartTime:     timestamppb.New(startTime),
-		Duration:      DASHA_ASHTATTOTRI_SECONDS,
+		DurationYears: DASHA_ASHTOTTARI_YEARS,
+		YearInSeconds: DASHA_ASHTOTTARI_YEAR_SECONDS,
+		DasaDegrees:   STAR_DEGREES,
 		SubDashaMetas: subDashaMeta,
-		Type:          astroV1.DashaMeta_Ashtottatri,
+		Type:          astroV1.DashaMeta_Ashtottari,
 	}
 
 	dasha := NewDasha(meta)

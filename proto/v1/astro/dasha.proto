@@ -19,16 +19,16 @@ message SubDashaMeta {
 
 message DashaMeta {
 	string name = 1;
-	int64 durationSeconds = 2;// in seconds
-    int64 duration = 3; // in the same units as the sub dasha duration ratios
+	int64 yearInSeconds = 2;// in seconds
+    int64 durationYears = 3; // in the same units as the sub dasha duration ratios
     int32 startDasa = 4;
     double dasaDegrees = 5;
 	google.protobuf.Timestamp startTime = 11;
     repeated SubDashaMeta SubDashaMetas = 12;
     enum Types {
         Ignore = 0;
-        Vimshottatri = 1;
-        Ashtottatri = 2;
+        Vimshottari = 1;
+        Ashtottari = 2;
     }
     Types type = 21;
 }

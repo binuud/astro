@@ -8,12 +8,15 @@ import (
 )
 
 const (
-	DASHA_VIMSHATTOTRI_YEARS   = 120
-	DASHA_VIMSHATTOTRI_SECONDS = 3786834240 // 365.2425 * 120 * numseconds in a day
-	DASHA_VIMSHATTOTRI         = "VIMSHATTOTRI"
+	DASHA_VIMSHOTTARI_YEARS        = 120
+	DASHA_VIMSHOTTARI_YEAR_SECONDS = 31558149 // Number of seconds in a year of 365.256363 sidereal days
+	DASHA_VIMSHOTTARI              = "VIMSHOTTARI"
 )
 
-func NewVimshattotriDasha(startTime time.Time) *AstroDasha {
+// Notes
+// 3786834240 // 365.2425 * 120 * numseconds in a day // 365.256363
+
+func NewVimshottariDasha(startTime time.Time) *AstroDasha {
 
 	// TODO validate basic names and duration
 	// subDashaMeta := make([]*astroV1.SubDashaMeta, 0)
@@ -58,13 +61,13 @@ func NewVimshattotriDasha(startTime time.Time) *AstroDasha {
 	}
 
 	meta := &astroV1.DashaMeta{
-		Name:            DASHA_VIMSHATTOTRI,
-		StartTime:       timestamppb.New(startTime),
-		Duration:        DASHA_VIMSHATTOTRI_YEARS,
-		DurationSeconds: DASHA_VIMSHATTOTRI_SECONDS,
-		DasaDegrees:     STAR_DEGREES,
-		SubDashaMetas:   subDashaMeta,
-		Type:            astroV1.DashaMeta_Vimshottatri,
+		Name:          DASHA_VIMSHOTTARI,
+		StartTime:     timestamppb.New(startTime),
+		DurationYears: DASHA_VIMSHOTTARI_YEARS,
+		YearInSeconds: DASHA_VIMSHOTTARI_YEAR_SECONDS,
+		DasaDegrees:   STAR_DEGREES,
+		SubDashaMetas: subDashaMeta,
+		Type:          astroV1.DashaMeta_Vimshottari,
 	}
 
 	meta.StartDasa = 0
