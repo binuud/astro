@@ -2575,7 +2575,7 @@ proto.astro.SunMoonEphimeris.prototype.setSun = function(value) {
  * @private {!Array<number>}
  * @const
  */
-proto.astro.Panchang.repeatedFields_ = [11,21,22,23,24];
+proto.astro.Panchang.repeatedFields_ = [11,21,22,23,24,25];
 
 
 
@@ -2620,6 +2620,8 @@ proto.astro.Panchang.toObject = function(includeInstance, msg) {
     karanasList: jspb.Message.toObjectList(msg.getKaranasList(),
     proto.astro.PanchangTransits.toObject, includeInstance),
     tithisList: jspb.Message.toObjectList(msg.getTithisList(),
+    proto.astro.PanchangTransits.toObject, includeInstance),
+    paadasList: jspb.Message.toObjectList(msg.getPaadasList(),
     proto.astro.PanchangTransits.toObject, includeInstance),
     rahukalam: (f = msg.getRahukalam()) && proto.astro.PanchangKalam.toObject(includeInstance, f),
     gulikalam: (f = msg.getGulikalam()) && proto.astro.PanchangKalam.toObject(includeInstance, f),
@@ -2697,6 +2699,11 @@ proto.astro.Panchang.deserializeBinaryFromReader = function(msg, reader) {
       var value = new proto.astro.PanchangTransits;
       reader.readMessage(value,proto.astro.PanchangTransits.deserializeBinaryFromReader);
       msg.addTithis(value);
+      break;
+    case 25:
+      var value = new proto.astro.PanchangTransits;
+      reader.readMessage(value,proto.astro.PanchangTransits.deserializeBinaryFromReader);
+      msg.addPaadas(value);
       break;
     case 51:
       var value = new proto.astro.PanchangKalam;
@@ -2800,6 +2807,14 @@ proto.astro.Panchang.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeRepeatedMessage(
       24,
+      f,
+      proto.astro.PanchangTransits.serializeBinaryToWriter
+    );
+  }
+  f = message.getPaadasList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      25,
       f,
       proto.astro.PanchangTransits.serializeBinaryToWriter
     );
@@ -3091,6 +3106,44 @@ proto.astro.Panchang.prototype.addTithis = function(opt_value, opt_index) {
  */
 proto.astro.Panchang.prototype.clearTithisList = function() {
   return this.setTithisList([]);
+};
+
+
+/**
+ * repeated PanchangTransits paadas = 25;
+ * @return {!Array<!proto.astro.PanchangTransits>}
+ */
+proto.astro.Panchang.prototype.getPaadasList = function() {
+  return /** @type{!Array<!proto.astro.PanchangTransits>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.astro.PanchangTransits, 25));
+};
+
+
+/**
+ * @param {!Array<!proto.astro.PanchangTransits>} value
+ * @return {!proto.astro.Panchang} returns this
+*/
+proto.astro.Panchang.prototype.setPaadasList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 25, value);
+};
+
+
+/**
+ * @param {!proto.astro.PanchangTransits=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.astro.PanchangTransits}
+ */
+proto.astro.Panchang.prototype.addPaadas = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 25, opt_value, proto.astro.PanchangTransits, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.astro.Panchang} returns this
+ */
+proto.astro.Panchang.prototype.clearPaadasList = function() {
+  return this.setPaadasList([]);
 };
 
 

@@ -21,6 +21,7 @@ const (
 	KRISHNA_PAKSHA = 2
 	SHUKRA_PAKSHA  = 1
 
+	HOUR_MINUTES        = 60
 	QUARTER_DAY_MINUTES = 360
 
 	SECONDS_IN_YEAR = 31556952
@@ -82,6 +83,8 @@ var STAR_NAMES = []string{"", "Aswini", "Barani", "Krittika",
 	"Moola", "Poorvashada", "Uttarashada",
 	"Sravana", "Dhanishta", "Satabhisha",
 	"Poorvabhadra", "Uttarabadra", "Revathi"}
+
+var RASI_NAMES = []string{"", "Mesham", "Rishabam", "Mithunam", "Karkataka", "Simha", "Kanya", "Thula", "Vrishika", "Dhanus", "Makara", "Kumbha", "Meena"}
 
 var PAKSHA_NAMES = []string{"", "Shukra Paksha", "Krishna Paksha"}
 

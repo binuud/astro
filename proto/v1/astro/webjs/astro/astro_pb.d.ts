@@ -405,6 +405,11 @@ export class Panchang extends jspb.Message {
   clearTithisList(): Panchang;
   addTithis(value?: PanchangTransits, index?: number): PanchangTransits;
 
+  getPaadasList(): Array<PanchangTransits>;
+  setPaadasList(value: Array<PanchangTransits>): Panchang;
+  clearPaadasList(): Panchang;
+  addPaadas(value?: PanchangTransits, index?: number): PanchangTransits;
+
   getRahukalam(): PanchangKalam | undefined;
   setRahukalam(value?: PanchangKalam): Panchang;
   hasRahukalam(): boolean;
@@ -438,6 +443,7 @@ export namespace Panchang {
     yogasList: Array<PanchangTransits.AsObject>,
     karanasList: Array<PanchangTransits.AsObject>,
     tithisList: Array<PanchangTransits.AsObject>,
+    paadasList: Array<PanchangTransits.AsObject>,
     rahukalam?: PanchangKalam.AsObject,
     gulikalam?: PanchangKalam.AsObject,
     yamagandam?: PanchangKalam.AsObject,

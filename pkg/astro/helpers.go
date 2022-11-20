@@ -31,6 +31,28 @@ func GetStarNumber(degree float64) int {
 	return int(degree/STAR_DEGREES) + 1
 }
 
+// GetRasiNumber
+// arguments - degree (float) the longitude of the astronomical object
+// returns the star number (int)
+// eg: if degree is 31, the rasi number would be 2 -> Tauras
+// eg: if degree is 10.2, the rasi number would be 1 -> Aries
+func GetRasiNumber(degree float64) int {
+	if degree > 360.0 {
+		degree = math.Mod(degree, 360)
+	}
+	return int(degree/RASI_DEGREES) + 1
+}
+
+// GetPaadaNumber
+// arguments - degree (float) the longitude of the astronomical object
+// returns the star number (int)
+func GetPaadaNumber(degree float64) int {
+	if degree > 360.0 {
+		degree = math.Mod(degree, 360)
+	}
+	return int(degree/PAADA_DEGREES) + 1
+}
+
 func GetPaksha(tithi int) int {
 	if tithi <= 15 {
 		return SHUKRA_PAKSHA
