@@ -8,6 +8,17 @@ import (
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 )
 
+const (
+	GENDER_MALE    = "GENDER_MALE"
+	GENDER_FEMALE  = "GENDER_FEMALE"
+	GENDER_NEUTRAL = "GENDER_NEUTRAL"
+
+	STATE_AIR   = "STATE_AIR"
+	STATE_EARTH = "STATE_EARTH"
+	STATE_FIRE  = "STATE_FIRE"
+	STATE_WATER = "STATE_WATER"
+)
+
 type Planet_Meta struct {
 	Name           string
 	Number         int
@@ -15,9 +26,11 @@ type Planet_Meta struct {
 	Deblited       int
 	OwnHouse       []int
 	MoolTrikona    int
+	Aspects        []int
 	FriendPlanets  []string
 	EnemyPlanets   []string
 	NeutralPlanets []string
+	Tags           []string
 }
 
 // var PLANET_METAS = make(map[string]*Planet_Meta)
@@ -61,6 +74,7 @@ var PLANET_METAS = map[string]*Planet_Meta{
 		Exalted:     10,
 		Deblited:    4,
 		OwnHouse:    []int{1, 8},
+		Aspects:     []int{4, 8},
 		MoolTrikona: 1,
 	},
 	PLANET_JUPITER: &Planet_Meta{
@@ -69,6 +83,7 @@ var PLANET_METAS = map[string]*Planet_Meta{
 		Exalted:     4,
 		Deblited:    10,
 		OwnHouse:    []int{9, 12},
+		Aspects:     []int{5, 9},
 		MoolTrikona: 9,
 	},
 	PLANET_SATURN: &Planet_Meta{
@@ -77,6 +92,7 @@ var PLANET_METAS = map[string]*Planet_Meta{
 		Exalted:     7,
 		Deblited:    1,
 		OwnHouse:    []int{10, 11},
+		Aspects:     []int{3, 10},
 		MoolTrikona: 11,
 	},
 }

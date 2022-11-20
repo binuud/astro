@@ -1,0 +1,72 @@
+
+/// Please use the following editor setup for this file:
+
+// Tab size=4; Tabs as spaces; Clean up trailing whitepsace
+// 'make proto' will run clang-format to fix formatiing
+// binu@dronasys.com
+syntax = "proto3";
+package astro;
+
+import "google/protobuf/timestamp.proto";
+
+
+option go_package = "./go";
+
+message AstroMetas {
+    enum MetaTags {
+        Ignore = 0;
+        Gender_male = 1;
+        Gender_female = 2;
+        Gender_neutral = 3;
+        Padding_4 = 4;
+        Padding_5 = 5;
+        Padding_6 = 6;
+        Padding_7 = 7;
+        Padding_8 = 8;
+        Padding_9 = 9;
+        Element_air = 10;
+        Element_fire = 11;
+        Element_water = 12;
+        Element_earth = 13;
+        Quality_fixed = 14;
+        Quality_moveable = 15;
+        Quality_mutable = 16;
+        Quality_cardinal = 17;
+        Padding_18 = 18;
+        Padding_19 = 19;
+        State_common = 20;
+        State_lame = 21;
+        Blind_day = 22;
+        Blind_night = 23;
+        Deaf_morning = 24;
+        Deaf_midday = 25;
+        Deaf_night = 26;
+        Padding_27 = 27;
+        Padding_28 = 28;
+        Padding_29 = 29;
+        Tithi_nanda = 30;
+        Tithi_bhadra = 31;
+        Tithi_jaya = 32;
+        Tithi_riktha = 33;
+        Tithi_poorna = 34;
+        Tridosha_vaatha = 35;
+        Tridosha_pitha = 36;
+        Tridosha_kapha = 37;
+        Padding_38 = 38;
+        Padding_39 = 39;
+        Bhava_trikona = 40;
+        Bhava_kendra = 41;
+        Bhava_upachaya = 42;
+        Bhava_dusthana = 43;
+        Bhava_trishadayas = 44;
+        Bhava_marakasthana = 45;
+        Padding_46 = 46;
+        Padding_47 = 47;
+        Padding_48 = 48;
+        Padding_49 = 49;
+        Rasi_exalted = 50;
+        Rasi_moolatrikona = 51;
+        Rasi_deblited = 52;
+        
+    }
+}

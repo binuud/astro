@@ -45,6 +45,14 @@ const (
 	HARMONIC_NAKSATHRAMSA = 27
 	HARMONIC_SASHTYAMSA   = 60 // Coming wrong
 
+	STAR_VAINASIKA = 22
+
+	COMBUSTION_MOON    = 12
+	COMBUSTION_MARS    = 17
+	COMBUSTION_MERCURY = 14
+	COMBUSTION_JUPITER = 11
+	COMBUSTION_VENUS   = 10
+	COMBUSTION_SATURN  = 15
 )
 
 var KARANA_NAMES = []string{"", "Kintughna",
@@ -83,6 +91,8 @@ var YOGA_NAMES = []string{"", "Vishkumbha", "Preeti", "Ayushman", "Saubhagya", "
 	"Siddhi", "Vyatipata", "Variyana", "Parigha", "Shiva",
 	"Siddha", "Sadhya", "Shubha", "Shukla", "Brahma",
 	"Indra", "Vaidhriti"}
+
+var YOGA_BAD = []string{"", "Vyaghata", "Vajra", "Parigha", "Vyatipata", "Vaidhriti", "Ganda", "Atiganda", "Shoola", "Vishkumbha"}
 
 // # "Purvabhadra", "Uttarabhadra",
 // var STAR_LIST = []string {"Ashvini", "Bharani", "Krttika", "Rohini", "Mrigashirsha", "Ardra", "Punarvasu", "Pushya", "Ashlesha",

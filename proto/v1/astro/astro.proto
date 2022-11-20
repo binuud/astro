@@ -189,6 +189,8 @@ message Panchang {
     repeated PanchangTransits karanas = 23;
     repeated PanchangTransits tithis = 24;
 
+    repeated PanchangTransits chandrastamam = 31;
+
     PanchangKalam rahuKalam = 51;
     PanchangKalam guliKalam = 52;
     PanchangKalam yamaGandam = 54;
