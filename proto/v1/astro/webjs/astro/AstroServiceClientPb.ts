@@ -35,49 +35,6 @@ export class AstroClient {
     this.options_ = options;
   }
 
-  methodDescriptorGetPanchang = new grpcWeb.MethodDescriptor(
-    '/astro.Astro/GetPanchang',
-    grpcWeb.MethodType.UNARY,
-    astro_astro_pb.PanchangGetRequest,
-    astro_astro_pb.PanchangResponse,
-    (request: astro_astro_pb.PanchangGetRequest) => {
-      return request.serializeBinary();
-    },
-    astro_astro_pb.PanchangResponse.deserializeBinary
-  );
-
-  getPanchang(
-    request: astro_astro_pb.PanchangGetRequest,
-    metadata: grpcWeb.Metadata | null): Promise<astro_astro_pb.PanchangResponse>;
-
-  getPanchang(
-    request: astro_astro_pb.PanchangGetRequest,
-    metadata: grpcWeb.Metadata | null,
-    callback: (err: grpcWeb.RpcError,
-               response: astro_astro_pb.PanchangResponse) => void): grpcWeb.ClientReadableStream<astro_astro_pb.PanchangResponse>;
-
-  getPanchang(
-    request: astro_astro_pb.PanchangGetRequest,
-    metadata: grpcWeb.Metadata | null,
-    callback?: (err: grpcWeb.RpcError,
-               response: astro_astro_pb.PanchangResponse) => void) {
-    if (callback !== undefined) {
-      return this.client_.rpcCall(
-        this.hostname_ +
-          '/astro.Astro/GetPanchang',
-        request,
-        metadata || {},
-        this.methodDescriptorGetPanchang,
-        callback);
-    }
-    return this.client_.unaryCall(
-    this.hostname_ +
-      '/astro.Astro/GetPanchang',
-    request,
-    metadata || {},
-    this.methodDescriptorGetPanchang);
-  }
-
   methodDescriptorUpdate = new grpcWeb.MethodDescriptor(
     '/astro.Astro/Update',
     grpcWeb.MethodType.UNARY,

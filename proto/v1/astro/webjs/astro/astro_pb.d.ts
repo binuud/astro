@@ -1,122 +1,8 @@
 import * as jspb from 'google-protobuf'
 
 import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb';
+import * as astro_metas_pb from '../astro/metas_pb';
 
-
-export class AstroConstants extends jspb.Message {
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): AstroConstants.AsObject;
-  static toObject(includeInstance: boolean, msg: AstroConstants): AstroConstants.AsObject;
-  static serializeBinaryToWriter(message: AstroConstants, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): AstroConstants;
-  static deserializeBinaryFromReader(message: AstroConstants, reader: jspb.BinaryReader): AstroConstants;
-}
-
-export namespace AstroConstants {
-  export type AsObject = {
-  }
-
-  export enum Planets { 
-    LAGNA = 0,
-    SUN = 1,
-    MOON = 2,
-    MARS = 3,
-    MERCURY = 4,
-    JUPITER = 5,
-    VENUS = 6,
-    SATURDAY = 7,
-    RAHU = 8,
-    KETU = 9,
-    URANUS = 10,
-    NEPTUNE = 11,
-    PLUTO = 12,
-    MAANDI = 13,
-    GULIKA = 14,
-    BHAVALAGNA = 15,
-    HORALAGNA = 16,
-    GHATILAGNA = 17,
-    VIGHATILAGNA = 18,
-    VAMADALAGNA = 19,
-    SREELAGNA = 20,
-    PRANAPADALAGNA = 21,
-    INDULAGNA = 22,
-    BRIGHUBINDU = 23,
-    DHOOMA = 24,
-    VYATIPATA = 25,
-    PARIVESHA = 26,
-    INDRACHAPA = 27,
-    UPAKETU = 28,
-    KAALA = 29,
-    MRITYU = 30,
-    ARTHAPRAHARA = 31,
-    YAMAGHANTAKA = 32,
-  }
-
-  export enum Sphutas { 
-    IGNORESPHUTA = 0,
-    PRANASPHUTA = 1,
-    DEHASPHUTA = 2,
-    MRITYUSPHUTA = 3,
-    SOOKSHAMATRISPHUTA = 4,
-    TITHISPHUTA = 5,
-    YOGASUNMOONSPHUTA = 6,
-    RAHUTITHISPHUTA = 7,
-    KSETHRASPHUTA = 8,
-    BEEJASPHUTA = 9,
-    TRISPHUTA = 10,
-    CHATUSSPHUTA = 11,
-    PANCHASPHUTA = 12,
-    YOGASPHUTA = 13,
-    AVAYOGASPHUTA = 14,
-  }
-
-  export enum Rasis { 
-    IGNORERASIS = 0,
-    ARIES = 1,
-    TAURUS = 2,
-    GEMINI = 3,
-    CANCER = 4,
-    LEO = 5,
-    VIRGO = 6,
-    LIBRA = 7,
-    SCORPIO = 8,
-    SAGGITARIUS = 9,
-    CAPRICON = 10,
-    AQUARIUS = 11,
-    PISCES = 12,
-  }
-
-  export enum Stars { 
-    IGNORESTARS = 0,
-    ASWINI = 1,
-    BHARANI = 2,
-    KRITTIKA = 3,
-    ROHINI = 4,
-    MRIGASIRA = 5,
-    ARUDRA = 6,
-    PUNARVASU = 7,
-    PUSHYAMI = 8,
-    ASLESHA = 9,
-    MAKHA = 10,
-    POORVAPHALGUNI = 11,
-    UTTARAPHALGUNI = 12,
-    HASTA = 13,
-    CHITRA = 14,
-    SWATI = 15,
-    VISHAKA = 16,
-    ANURADHA = 17,
-    JYESHTA = 18,
-    MOOLA = 19,
-    POORVASHADA = 20,
-    UTTARASHADA = 21,
-    SRAVANA = 22,
-    DHANISHTA = 23,
-    SATABHISHA = 24,
-    POORVABHADRA = 25,
-    UTTARABADRA = 26,
-    REVATHI = 27,
-  }
-}
 
 export class Metadata extends jspb.Message {
   getUid(): string;
@@ -173,280 +59,6 @@ export namespace Metadata {
     annotationsMap: Array<[string, string]>,
     createdat?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     updatedat?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-  }
-}
-
-export class TobData extends jspb.Message {
-  getD(): number;
-  setD(value: number): TobData;
-
-  getM(): number;
-  setM(value: number): TobData;
-
-  getY(): number;
-  setY(value: number): TobData;
-
-  getHour(): number;
-  setHour(value: number): TobData;
-
-  getMin(): number;
-  setMin(value: number): TobData;
-
-  getSec(): number;
-  setSec(value: number): TobData;
-
-  getZone(): string;
-  setZone(value: string): TobData;
-
-  getDatestring(): string;
-  setDatestring(value: string): TobData;
-
-  getTobtime(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setTobtime(value?: google_protobuf_timestamp_pb.Timestamp): TobData;
-  hasTobtime(): boolean;
-  clearTobtime(): TobData;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): TobData.AsObject;
-  static toObject(includeInstance: boolean, msg: TobData): TobData.AsObject;
-  static serializeBinaryToWriter(message: TobData, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): TobData;
-  static deserializeBinaryFromReader(message: TobData, reader: jspb.BinaryReader): TobData;
-}
-
-export namespace TobData {
-  export type AsObject = {
-    d: number,
-    m: number,
-    y: number,
-    hour: number,
-    min: number,
-    sec: number,
-    zone: string,
-    datestring: string,
-    tobtime?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-  }
-}
-
-export class PobData extends jspb.Message {
-  getCity(): string;
-  setCity(value: string): PobData;
-
-  getState(): string;
-  setState(value: string): PobData;
-
-  getCountry(): string;
-  setCountry(value: string): PobData;
-
-  getLat(): number;
-  setLat(value: number): PobData;
-
-  getLong(): number;
-  setLong(value: number): PobData;
-
-  getPlanet(): string;
-  setPlanet(value: string): PobData;
-
-  getYuga(): string;
-  setYuga(value: string): PobData;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): PobData.AsObject;
-  static toObject(includeInstance: boolean, msg: PobData): PobData.AsObject;
-  static serializeBinaryToWriter(message: PobData, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): PobData;
-  static deserializeBinaryFromReader(message: PobData, reader: jspb.BinaryReader): PobData;
-}
-
-export namespace PobData {
-  export type AsObject = {
-    city: string,
-    state: string,
-    country: string,
-    lat: number,
-    pb_long: number,
-    planet: string,
-    yuga: string,
-  }
-}
-
-export class BirthData extends jspb.Message {
-  getTob(): TobData | undefined;
-  setTob(value?: TobData): BirthData;
-  hasTob(): boolean;
-  clearTob(): BirthData;
-
-  getPob(): PobData | undefined;
-  setPob(value?: PobData): BirthData;
-  hasPob(): boolean;
-  clearPob(): BirthData;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): BirthData.AsObject;
-  static toObject(includeInstance: boolean, msg: BirthData): BirthData.AsObject;
-  static serializeBinaryToWriter(message: BirthData, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): BirthData;
-  static deserializeBinaryFromReader(message: BirthData, reader: jspb.BinaryReader): BirthData;
-}
-
-export namespace BirthData {
-  export type AsObject = {
-    tob?: TobData.AsObject,
-    pob?: PobData.AsObject,
-  }
-}
-
-export class PanchangTransits extends jspb.Message {
-  getName(): number;
-  setName(value: number): PanchangTransits;
-
-  getTransit(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setTransit(value?: google_protobuf_timestamp_pb.Timestamp): PanchangTransits;
-  hasTransit(): boolean;
-  clearTransit(): PanchangTransits;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): PanchangTransits.AsObject;
-  static toObject(includeInstance: boolean, msg: PanchangTransits): PanchangTransits.AsObject;
-  static serializeBinaryToWriter(message: PanchangTransits, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): PanchangTransits;
-  static deserializeBinaryFromReader(message: PanchangTransits, reader: jspb.BinaryReader): PanchangTransits;
-}
-
-export namespace PanchangTransits {
-  export type AsObject = {
-    name: number,
-    transit?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-  }
-}
-
-export class PanchangKalam extends jspb.Message {
-  getStarttime(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setStarttime(value?: google_protobuf_timestamp_pb.Timestamp): PanchangKalam;
-  hasStarttime(): boolean;
-  clearStarttime(): PanchangKalam;
-
-  getEndtime(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setEndtime(value?: google_protobuf_timestamp_pb.Timestamp): PanchangKalam;
-  hasEndtime(): boolean;
-  clearEndtime(): PanchangKalam;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): PanchangKalam.AsObject;
-  static toObject(includeInstance: boolean, msg: PanchangKalam): PanchangKalam.AsObject;
-  static serializeBinaryToWriter(message: PanchangKalam, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): PanchangKalam;
-  static deserializeBinaryFromReader(message: PanchangKalam, reader: jspb.BinaryReader): PanchangKalam;
-}
-
-export namespace PanchangKalam {
-  export type AsObject = {
-    starttime?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    endtime?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-  }
-}
-
-export class SunMoonEphimeris extends jspb.Message {
-  getMoon(): number;
-  setMoon(value: number): SunMoonEphimeris;
-
-  getSun(): number;
-  setSun(value: number): SunMoonEphimeris;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): SunMoonEphimeris.AsObject;
-  static toObject(includeInstance: boolean, msg: SunMoonEphimeris): SunMoonEphimeris.AsObject;
-  static serializeBinaryToWriter(message: SunMoonEphimeris, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): SunMoonEphimeris;
-  static deserializeBinaryFromReader(message: SunMoonEphimeris, reader: jspb.BinaryReader): SunMoonEphimeris;
-}
-
-export namespace SunMoonEphimeris {
-  export type AsObject = {
-    moon: number,
-    sun: number,
-  }
-}
-
-export class Panchang extends jspb.Message {
-  getYear(): number;
-  setYear(value: number): Panchang;
-
-  getMonth(): number;
-  setMonth(value: number): Panchang;
-
-  getStarttime(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setStarttime(value?: google_protobuf_timestamp_pb.Timestamp): Panchang;
-  hasStarttime(): boolean;
-  clearStarttime(): Panchang;
-
-  getEphimerisList(): Array<SunMoonEphimeris>;
-  setEphimerisList(value: Array<SunMoonEphimeris>): Panchang;
-  clearEphimerisList(): Panchang;
-  addEphimeris(value?: SunMoonEphimeris, index?: number): SunMoonEphimeris;
-
-  getStarsList(): Array<PanchangTransits>;
-  setStarsList(value: Array<PanchangTransits>): Panchang;
-  clearStarsList(): Panchang;
-  addStars(value?: PanchangTransits, index?: number): PanchangTransits;
-
-  getYogasList(): Array<PanchangTransits>;
-  setYogasList(value: Array<PanchangTransits>): Panchang;
-  clearYogasList(): Panchang;
-  addYogas(value?: PanchangTransits, index?: number): PanchangTransits;
-
-  getKaranasList(): Array<PanchangTransits>;
-  setKaranasList(value: Array<PanchangTransits>): Panchang;
-  clearKaranasList(): Panchang;
-  addKaranas(value?: PanchangTransits, index?: number): PanchangTransits;
-
-  getTithisList(): Array<PanchangTransits>;
-  setTithisList(value: Array<PanchangTransits>): Panchang;
-  clearTithisList(): Panchang;
-  addTithis(value?: PanchangTransits, index?: number): PanchangTransits;
-
-  getPaadasList(): Array<PanchangTransits>;
-  setPaadasList(value: Array<PanchangTransits>): Panchang;
-  clearPaadasList(): Panchang;
-  addPaadas(value?: PanchangTransits, index?: number): PanchangTransits;
-
-  getRahukalam(): PanchangKalam | undefined;
-  setRahukalam(value?: PanchangKalam): Panchang;
-  hasRahukalam(): boolean;
-  clearRahukalam(): Panchang;
-
-  getGulikalam(): PanchangKalam | undefined;
-  setGulikalam(value?: PanchangKalam): Panchang;
-  hasGulikalam(): boolean;
-  clearGulikalam(): Panchang;
-
-  getYamagandam(): PanchangKalam | undefined;
-  setYamagandam(value?: PanchangKalam): Panchang;
-  hasYamagandam(): boolean;
-  clearYamagandam(): Panchang;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Panchang.AsObject;
-  static toObject(includeInstance: boolean, msg: Panchang): Panchang.AsObject;
-  static serializeBinaryToWriter(message: Panchang, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Panchang;
-  static deserializeBinaryFromReader(message: Panchang, reader: jspb.BinaryReader): Panchang;
-}
-
-export namespace Panchang {
-  export type AsObject = {
-    year: number,
-    month: number,
-    starttime?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    ephimerisList: Array<SunMoonEphimeris.AsObject>,
-    starsList: Array<PanchangTransits.AsObject>,
-    yogasList: Array<PanchangTransits.AsObject>,
-    karanasList: Array<PanchangTransits.AsObject>,
-    tithisList: Array<PanchangTransits.AsObject>,
-    paadasList: Array<PanchangTransits.AsObject>,
-    rahukalam?: PanchangKalam.AsObject,
-    gulikalam?: PanchangKalam.AsObject,
-    yamagandam?: PanchangKalam.AsObject,
   }
 }
 
@@ -580,15 +192,10 @@ export class AstroObject extends jspb.Message {
   hasMetadata(): boolean;
   clearMetadata(): AstroObject;
 
-  getBirthdata(): BirthData | undefined;
-  setBirthdata(value?: BirthData): AstroObject;
+  getBirthdata(): astro_metas_pb.BirthData | undefined;
+  setBirthdata(value?: astro_metas_pb.BirthData): AstroObject;
   hasBirthdata(): boolean;
   clearBirthdata(): AstroObject;
-
-  getPanchang(): Panchang | undefined;
-  setPanchang(value?: Panchang): AstroObject;
-  hasPanchang(): boolean;
-  clearPanchang(): AstroObject;
 
   getPlanets(): Planets | undefined;
   setPlanets(value?: Planets): AstroObject;
@@ -606,49 +213,8 @@ export class AstroObject extends jspb.Message {
 export namespace AstroObject {
   export type AsObject = {
     metadata?: Metadata.AsObject,
-    birthdata?: BirthData.AsObject,
-    panchang?: Panchang.AsObject,
+    birthdata?: astro_metas_pb.BirthData.AsObject,
     planets?: Planets.AsObject,
-  }
-}
-
-export class PanchangGetRequest extends jspb.Message {
-  getBirthdata(): BirthData | undefined;
-  setBirthdata(value?: BirthData): PanchangGetRequest;
-  hasBirthdata(): boolean;
-  clearBirthdata(): PanchangGetRequest;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): PanchangGetRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: PanchangGetRequest): PanchangGetRequest.AsObject;
-  static serializeBinaryToWriter(message: PanchangGetRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): PanchangGetRequest;
-  static deserializeBinaryFromReader(message: PanchangGetRequest, reader: jspb.BinaryReader): PanchangGetRequest;
-}
-
-export namespace PanchangGetRequest {
-  export type AsObject = {
-    birthdata?: BirthData.AsObject,
-  }
-}
-
-export class PanchangResponse extends jspb.Message {
-  getAstro(): AstroObject | undefined;
-  setAstro(value?: AstroObject): PanchangResponse;
-  hasAstro(): boolean;
-  clearAstro(): PanchangResponse;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): PanchangResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: PanchangResponse): PanchangResponse.AsObject;
-  static serializeBinaryToWriter(message: PanchangResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): PanchangResponse;
-  static deserializeBinaryFromReader(message: PanchangResponse, reader: jspb.BinaryReader): PanchangResponse;
-}
-
-export namespace PanchangResponse {
-  export type AsObject = {
-    astro?: AstroObject.AsObject,
   }
 }
 
@@ -656,8 +222,8 @@ export class UserUpdateRequest extends jspb.Message {
   getUuid(): string;
   setUuid(value: string): UserUpdateRequest;
 
-  getBirthdata(): BirthData | undefined;
-  setBirthdata(value?: BirthData): UserUpdateRequest;
+  getBirthdata(): astro_metas_pb.BirthData | undefined;
+  setBirthdata(value?: astro_metas_pb.BirthData): UserUpdateRequest;
   hasBirthdata(): boolean;
   clearBirthdata(): UserUpdateRequest;
 
@@ -672,7 +238,7 @@ export class UserUpdateRequest extends jspb.Message {
 export namespace UserUpdateRequest {
   export type AsObject = {
     uuid: string,
-    birthdata?: BirthData.AsObject,
+    birthdata?: astro_metas_pb.BirthData.AsObject,
   }
 }
 

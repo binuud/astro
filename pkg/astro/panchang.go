@@ -12,7 +12,7 @@ import (
 )
 
 type Panchang struct {
-	*astroV1.Panchang
+	*astroV1.Transits
 }
 
 func NewPanchangMoon(year int32, month int32) (*Panchang, error) {
@@ -30,7 +30,7 @@ func NewPanchangMoon(year int32, month int32) (*Panchang, error) {
 	startTime := time.Date(int(year), time.Month(month), int(1), int(0), int(0), int(0), 0, time.UTC)
 	startTime.AddDate(0, 0, -1) // reducing 1 day to get the overlapping star
 
-	myPanchang := &astroV1.Panchang{
+	myPanchang := &astroV1.Transits{
 		Year:      year,
 		Month:     month,
 		StartTime: timestamppb.New(startTime),
@@ -119,7 +119,7 @@ func (panchang *Panchang) getMoonPanchang() {
 
 	// zone, _ := time.LoadLocation("Asia/Kolkata")
 
-	stars := make([]*astroV1.PanchangTransits, 0)
+	stars := make([]*astroV1.Transit, 0)
 	counter := 0
 	t := panchang.StartTime.AsTime()
 	numItems := len(panchang.Ephimeris) - 1
@@ -144,7 +144,7 @@ func (panchang *Panchang) getMoonPanchang() {
 
 			t1 := t.Add(time.Minute*time.Duration(transitMinutes) + time.Minute*time.Duration(counter*HOUR_MINUTES))
 
-			starTransit := &astroV1.PanchangTransits{
+			starTransit := &astroV1.Transit{
 				Name:    int32(currentStar),
 				Transit: timestamppb.New(t1),
 			}
@@ -166,7 +166,7 @@ func (panchang *Panchang) getPaadaPanchang() {
 
 	zone, _ := time.LoadLocation("Asia/Kolkata")
 
-	paadas := make([]*astroV1.PanchangTransits, 0)
+	paadas := make([]*astroV1.Transit, 0)
 	counter := 0
 	t := panchang.StartTime.AsTime()
 	numItems := len(panchang.Ephimeris) - 1
@@ -192,7 +192,7 @@ func (panchang *Panchang) getPaadaPanchang() {
 
 			t1 := t.Add(time.Minute*time.Duration(transitMinutes) + time.Minute*time.Duration(counter*HOUR_MINUTES))
 
-			currentTransit := &astroV1.PanchangTransits{
+			currentTransit := &astroV1.Transit{
 				Name:    int32(currentItem),
 				Transit: timestamppb.New(t1),
 			}
@@ -213,7 +213,7 @@ func (panchang *Panchang) getPaadaPanchang() {
 func (panchang *Panchang) getTithiPanchang() {
 	// zone, _ := time.LoadLocation("Asia/Kolkata")
 
-	tithis := make([]*astroV1.PanchangTransits, 0)
+	tithis := make([]*astroV1.Transit, 0)
 
 	counter := 0
 	numItems := len(panchang.Ephimeris) - 1
@@ -243,7 +243,7 @@ func (panchang *Panchang) getTithiPanchang() {
 			// paksha := GetPaksha(currentTithi)
 			t := t.Add(time.Minute*time.Duration(transitMinutes) + time.Minute*time.Duration(counter*HOUR_MINUTES))
 
-			tithiTransit := &astroV1.PanchangTransits{
+			tithiTransit := &astroV1.Transit{
 				Name:    int32(currentTithi),
 				Transit: timestamppb.New(t),
 			}
@@ -264,7 +264,7 @@ func (panchang *Panchang) getTithiPanchang() {
 func (panchang *Panchang) getKaranaPanchang() {
 	// zone, _ := time.LoadLocation("Asia/Kolkata")
 
-	karanas := make([]*astroV1.PanchangTransits, 0)
+	karanas := make([]*astroV1.Transit, 0)
 
 	counter := 0
 	numItems := len(panchang.Ephimeris) - 1
@@ -291,7 +291,7 @@ func (panchang *Panchang) getKaranaPanchang() {
 			}
 			t := t.Add(time.Minute*time.Duration(transitMinutes) + time.Minute*time.Duration(counter*HOUR_MINUTES))
 
-			karanas = append(karanas, &astroV1.PanchangTransits{
+			karanas = append(karanas, &astroV1.Transit{
 				Name:    int32(currentKarana),
 				Transit: timestamppb.New(t),
 			})
@@ -311,7 +311,7 @@ func (panchang *Panchang) getYogaPanchang() {
 
 	// zone, _ := time.LoadLocation("Asia/Kolkata")
 
-	yogas := make([]*astroV1.PanchangTransits, 0)
+	yogas := make([]*astroV1.Transit, 0)
 
 	counter := 0
 	numItems := len(panchang.Ephimeris) - 1
@@ -338,7 +338,7 @@ func (panchang *Panchang) getYogaPanchang() {
 
 			t := t.Add(time.Minute*time.Duration(transitMinutes) + time.Minute*time.Duration(counter*HOUR_MINUTES))
 
-			yogas = append(yogas, &astroV1.PanchangTransits{
+			yogas = append(yogas, &astroV1.Transit{
 				Name:    int32(currentYoga),
 				Transit: timestamppb.New(t),
 			})

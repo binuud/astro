@@ -24,24 +24,6 @@ func NewGrpcAstroServer(srv *grpc.Server) *grpcAstroServer {
 	return server
 }
 
-func (s *grpcAstroServer) GetPanchang(ctx context.Context, in *astroV1.PanchangGetRequest) (*astroV1.PanchangResponse, error) {
-
-	logrus.Info("Received GetPanchang: ", in)
-	p, err := astro.NewPanchangMoon(in.BirthData.Tob.Y, in.BirthData.Tob.M)
-	if err != nil {
-		logrus.Errorf("Cannot prepare chart err(%v)", err)
-	}
-	p.CalculatePanchang()
-	// cal := astro.NewCalendarPrinter(p)
-	p.Panchang.Ephimeris = nil
-	return &astroV1.PanchangResponse{
-		Astro: &astroV1.AstroObject{
-			Panchang: p.Panchang,
-		},
-	}, nil
-
-}
-
 func (s *grpcAstroServer) Update(ctx context.Context, in *astroV1.UserUpdateRequest) (*astroV1.UserUpdateResponse, error) {
 
 	logrus.Info("Received Update: ", in)
