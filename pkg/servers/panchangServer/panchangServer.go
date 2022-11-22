@@ -17,7 +17,7 @@ type grpcAstroServer struct {
 	astroV1.UnimplementedPanchangServer
 }
 
-func NewGrpcAstroServer(srv *grpc.Server) *grpcAstroServer {
+func NewGrpcPanchangerver(srv *grpc.Server) *grpcAstroServer {
 
 	server := &grpcAstroServer{}
 	astroV1.RegisterPanchangServer(srv, server)
@@ -26,14 +26,16 @@ func NewGrpcAstroServer(srv *grpc.Server) *grpcAstroServer {
 
 func (s *grpcAstroServer) GetMonth(ctx context.Context, in *astroV1.PanchangMonthGetRequest) (*astroV1.PanchangMonthGetResponse, error) {
 
-	logrus.Info("Received GetMonth: ", in)
-	p, err := astro.NewPanchangMoon(in.BirthData.Tob.Y, in.BirthData.Tob.M)
+	logrus.Infof("Received GetMonth: (%v)", in)
+
+	p, err := astro.NewPanchang(in.BirthData.Tob.Y, in.BirthData.Tob.M, in.BirthData.Tob.D)
 	if err != nil {
 		logrus.Errorf("Cannot prepare chart err(%v)", err)
 	}
-	p.CalculatePanchang()
-	// cal := astro.NewCalendarPrinter(p)
-	p.Transits.Ephimeris = nil
-	return &astroV1.PanchangMonthGetResponse{}, nil
+	p.PrintMonth()
+
+	return &astroV1.PanchangMonthGetResponse{
+		Month: p.PanchangMonth,
+	}, nil
 
 }

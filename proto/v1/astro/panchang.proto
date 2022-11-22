@@ -74,6 +74,8 @@ message PanchangDay {
     repeated Transit good = 102; // general favourable timing
     repeated Transit bad = 103; // general unauspicious timing
 
+    repeated AstroMetas.PanchangTags tags = 201;
+
 }
 
 message PanchangMonth {

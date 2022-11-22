@@ -154,6 +154,39 @@ message AstroConstants {
         Revathi     = 27;
     }
     
+    enum Tithis {
+        Ignore_tithi = 0;
+        S_Prathima = 1;
+        S_Dwitiya = 2;
+        S_Tritiya = 3;
+        S_Chaturthi = 4;
+        S_Panchami = 5;
+	    S_Shasti = 6;
+        S_Saptami = 7;
+        S_Ashtami = 8;
+        S_Navami = 9;
+        S_Dashami = 10;
+	    S_Ekadashi = 11;
+        S_Dwadashi = 12;
+        S_Thrayodashi = 13;
+        S_Chaturdashi = 14;
+        Purnima = 15;
+	    K_Prathama = 16;
+        K_Dwitiya = 17;
+        K_Tritiya = 18;
+        K_Chaturthi = 19;
+        K_Panchami = 20;
+	    K_Shasti = 21;
+        K_Saptami = 22;
+        K_Ashtami = 23;
+        K_Navami = 24;
+        K_Dashami = 25;
+	    K_Ekadashi = 26;
+        K_Dwadashi = 27;
+        K_Thrayodashi = 28;
+        K_Chaturdashi = 29;
+        Amavasya = 30;
+    }
 
 }
 
@@ -213,6 +246,27 @@ message AstroMetas {
         Rasi_moolatrikona = 51;
         Rasi_deblited = 52;
     }
+    
+    enum PanchangTags {
+        Ignore_panchangTag = 0;
+        KrishnaPaksha = 1;
+        ShuklaPaksha = 2;
+        Amavasya = 3;
+        Poornima= 4;
+        SankataharaChaturti = 5;
+        Shasti = 6;
+        Ekadasi = 7;
+        AkshayaTritiya = 8;
+        
+        Krithika = 9;
+        Pradosham = 10;
+        Sivaratri = 11;
+        Mahasivaratri = 12;
+
+        MarriageMuhurta = 13;
+        
+    }
+
     enum AstroTypes {
         Ignore_astro_type = 0;
         Planet = 1;

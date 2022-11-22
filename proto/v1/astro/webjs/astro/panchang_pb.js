@@ -1477,7 +1477,7 @@ proto.astro.Transits.prototype.hasYamagandam = function() {
  * @private {!Array<number>}
  * @const
  */
-proto.astro.PanchangDay.repeatedFields_ = [21,22,23,24,25,26,101,102,103];
+proto.astro.PanchangDay.repeatedFields_ = [21,22,23,24,25,26,101,102,103,201];
 
 
 
@@ -1537,7 +1537,8 @@ proto.astro.PanchangDay.toObject = function(includeInstance, msg) {
     goodList: jspb.Message.toObjectList(msg.getGoodList(),
     proto.astro.Transit.toObject, includeInstance),
     badList: jspb.Message.toObjectList(msg.getBadList(),
-    proto.astro.Transit.toObject, includeInstance)
+    proto.astro.Transit.toObject, includeInstance),
+    tagsList: (f = jspb.Message.getRepeatedField(msg, 201)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -1664,6 +1665,12 @@ proto.astro.PanchangDay.deserializeBinaryFromReader = function(msg, reader) {
       var value = new proto.astro.Transit;
       reader.readMessage(value,proto.astro.Transit.deserializeBinaryFromReader);
       msg.addBad(value);
+      break;
+    case 201:
+      var values = /** @type {!Array<!proto.astro.AstroMetas.PanchangTags>} */ (reader.isDelimited() ? reader.readPackedEnum() : [reader.readEnum()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addTags(values[i]);
+      }
       break;
     default:
       reader.skipField();
@@ -1840,6 +1847,13 @@ proto.astro.PanchangDay.serializeBinaryToWriter = function(message, writer) {
       103,
       f,
       proto.astro.Transit.serializeBinaryToWriter
+    );
+  }
+  f = message.getTagsList();
+  if (f.length > 0) {
+    writer.writePackedEnum(
+      201,
+      f
     );
   }
 };
@@ -2478,6 +2492,43 @@ proto.astro.PanchangDay.prototype.addBad = function(opt_value, opt_index) {
  */
 proto.astro.PanchangDay.prototype.clearBadList = function() {
   return this.setBadList([]);
+};
+
+
+/**
+ * repeated AstroMetas.PanchangTags tags = 201;
+ * @return {!Array<!proto.astro.AstroMetas.PanchangTags>}
+ */
+proto.astro.PanchangDay.prototype.getTagsList = function() {
+  return /** @type {!Array<!proto.astro.AstroMetas.PanchangTags>} */ (jspb.Message.getRepeatedField(this, 201));
+};
+
+
+/**
+ * @param {!Array<!proto.astro.AstroMetas.PanchangTags>} value
+ * @return {!proto.astro.PanchangDay} returns this
+ */
+proto.astro.PanchangDay.prototype.setTagsList = function(value) {
+  return jspb.Message.setField(this, 201, value || []);
+};
+
+
+/**
+ * @param {!proto.astro.AstroMetas.PanchangTags} value
+ * @param {number=} opt_index
+ * @return {!proto.astro.PanchangDay} returns this
+ */
+proto.astro.PanchangDay.prototype.addTags = function(value, opt_index) {
+  return jspb.Message.addToRepeatedField(this, 201, value, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.astro.PanchangDay} returns this
+ */
+proto.astro.PanchangDay.prototype.clearTagsList = function() {
+  return this.setTagsList([]);
 };
 
 

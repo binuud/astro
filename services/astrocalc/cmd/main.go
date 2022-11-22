@@ -7,6 +7,7 @@ import (
 	"net"
 
 	"github.com/dronasys-com/astro/pkg/servers/astroServer"
+	"github.com/dronasys-com/astro/pkg/servers/panchangServer"
 	"github.com/dronasys-com/trance-microservices/pkg/foundation/bootstrap"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -35,6 +36,7 @@ func main() {
 	secureServer := grpc.NewServer()
 
 	astroServer.NewGrpcAstroServer(secureServer)
+	panchangServer.NewGrpcPanchangerver(secureServer)
 
 	logrus.Infof("Astro Calculations Server *) (* listening on (%v)", secureConn.Addr())
 	if err := secureServer.Serve(secureConn); err != nil {

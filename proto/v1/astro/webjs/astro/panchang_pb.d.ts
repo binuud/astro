@@ -246,6 +246,11 @@ export class PanchangDay extends jspb.Message {
   clearBadList(): PanchangDay;
   addBad(value?: Transit, index?: number): Transit;
 
+  getTagsList(): Array<astro_metas_pb.AstroMetas.PanchangTags>;
+  setTagsList(value: Array<astro_metas_pb.AstroMetas.PanchangTags>): PanchangDay;
+  clearTagsList(): PanchangDay;
+  addTags(value: astro_metas_pb.AstroMetas.PanchangTags, index?: number): PanchangDay;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): PanchangDay.AsObject;
   static toObject(includeInstance: boolean, msg: PanchangDay): PanchangDay.AsObject;
@@ -275,6 +280,7 @@ export namespace PanchangDay {
     marriageList: Array<Transit.AsObject>,
     goodList: Array<Transit.AsObject>,
     badList: Array<Transit.AsObject>,
+    tagsList: Array<astro_metas_pb.AstroMetas.PanchangTags>,
   }
 }
 

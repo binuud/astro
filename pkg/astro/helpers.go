@@ -10,12 +10,19 @@ import (
 )
 
 func MakeBirthData(in *astroV1.BirthData) (*astroV1.BirthData, error) {
-	tz, err := time.LoadLocation(in.Tob.Zone)
+
+	var err error
+	in.Tob, err = MakeBirthTob(in.Tob)
+	return in, err
+}
+
+func MakeBirthTob(in *astroV1.TobData) (*astroV1.TobData, error) {
+	tz, err := time.LoadLocation(in.Zone)
 	if err != nil {
 		return nil, err
 	}
-	t := time.Date(int(in.Tob.Y), time.Month(in.Tob.M), int(in.Tob.D), int(in.Tob.Hour), int(in.Tob.Min), int(in.Tob.Sec), 0, tz)
-	in.Tob.Tobtime = timestamppb.New(t)
+	t := time.Date(int(in.Y), time.Month(in.M), int(in.D), int(in.Hour), int(in.Min), int(in.Sec), 0, tz)
+	in.Tobtime = timestamppb.New(t)
 	return in, nil
 }
 

@@ -258,6 +258,40 @@ export namespace AstroConstants {
     UTTARABADRA = 26,
     REVATHI = 27,
   }
+
+  export enum Tithis { 
+    IGNORE_TITHI = 0,
+    S_PRATHIMA = 1,
+    S_DWITIYA = 2,
+    S_TRITIYA = 3,
+    S_CHATURTHI = 4,
+    S_PANCHAMI = 5,
+    S_SHASTI = 6,
+    S_SAPTAMI = 7,
+    S_ASHTAMI = 8,
+    S_NAVAMI = 9,
+    S_DASHAMI = 10,
+    S_EKADASHI = 11,
+    S_DWADASHI = 12,
+    S_THRAYODASHI = 13,
+    S_CHATURDASHI = 14,
+    PURNIMA = 15,
+    K_PRATHAMA = 16,
+    K_DWITIYA = 17,
+    K_TRITIYA = 18,
+    K_CHATURTHI = 19,
+    K_PANCHAMI = 20,
+    K_SHASTI = 21,
+    K_SAPTAMI = 22,
+    K_ASHTAMI = 23,
+    K_NAVAMI = 24,
+    K_DASHAMI = 25,
+    K_EKADASHI = 26,
+    K_DWADASHI = 27,
+    K_THRAYODASHI = 28,
+    K_CHATURDASHI = 29,
+    AMAVASYA = 30,
+  }
 }
 
 export class AstroMetas extends jspb.Message {
@@ -327,6 +361,23 @@ export namespace AstroMetas {
     RASI_EXALTED = 50,
     RASI_MOOLATRIKONA = 51,
     RASI_DEBLITED = 52,
+  }
+
+  export enum PanchangTags { 
+    IGNORE_PANCHANGTAG = 0,
+    KRISHNAPAKSHA = 1,
+    SHUKLAPAKSHA = 2,
+    AMAVASYA = 3,
+    POORNIMA = 4,
+    SANKATAHARACHATURTI = 5,
+    SHASTI = 6,
+    EKADASI = 7,
+    AKSHAYATRITIYA = 8,
+    KRITHIKA = 9,
+    PRADOSHAM = 10,
+    SIVARATRI = 11,
+    MAHASIVARATRI = 12,
+    MARRIAGEMUHURTA = 13,
   }
 
   export enum AstroTypes { 

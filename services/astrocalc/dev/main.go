@@ -11,20 +11,21 @@ func main() {
 
 	bootstrap.Init()
 
-	test_dasa()
+	// test_dasa()
 	// test_calendar()
 	// test_chart()
-	// test_calendar()
+	test_calendar()
 }
 
 func test_calendar() {
-	p, err := astro.NewPanchangMoon(2022, 2)
+	p, err := astro.NewPanchang(2022, 2, 1)
 	if err != nil {
 		logrus.Errorf("Cannot prepare chart err(%v)", err)
 	}
-	p.CalculatePanchang()
-	cal := astro.NewCalendarPrinter(p.Panchang)
-	cal.PrintCalendar()
+	p.PrintMonth()
+	// p.CalculatePanchang()
+	// cal := astro.NewCalendarPrinter(p.Panchang)
+	// cal.PrintCalendar()
 }
 
 func test_chart() {
