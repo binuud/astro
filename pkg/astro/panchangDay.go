@@ -51,7 +51,7 @@ func (p *PanchangDay) TagPanchangDay() {
 		}
 
 		if tithi.Name == int32(astroV1.AstroConstants_Amavasya) &&
-			tithi.Transit.AsTime().Before(sunRiseTime) {
+			tithi.Transit.AsTime().Before(sunSetTime) {
 			p.AddTag(astroV1.AstroMetas_Amavasya)
 		} else if tithi.Name == int32(astroV1.AstroConstants_S_Prathima) &&
 			tithi.Transit.AsTime().After(sunRiseTime) {
