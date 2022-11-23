@@ -118,3 +118,5 @@ var STAR_YOGA = []string{"", "Ananda", "Kaaldanda", " Dhumra", "Dhata", "Saumya"
 	"Srivatsa", "Vajra", "Mudgara", "Chhatra", "Mitra", "Manas", "Padma",
 	"Lumba", "Utpaata", "Mrityu", "Kaana", "Siddhi", "Subha", "Amrita",
 	"Mushala", "Gada", "Matanga", "Raksha", "Chara", "Susthira", "Pravardhamama"}
+
+var WEEKDAYS = []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}

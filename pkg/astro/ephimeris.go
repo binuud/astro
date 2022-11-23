@@ -65,7 +65,7 @@ func (e *Ephimeris) GetSunMoonEphimerisForYear() (string, error) {
 
 func (e *Ephimeris) GetSunMoonEphimerisForMonth() (string, error) {
 
-	numDays := 31
+	numDays := 34
 	count := numDays * 24
 	e.NewArgs().SetAyanamsa(AYANAMSA_LAHIRI).
 		SetDTPoB().SetCount(count).SetSteps("60m").SetPlanets(ARG_PLANET_SUN_MOON).

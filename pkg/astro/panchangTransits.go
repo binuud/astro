@@ -28,7 +28,7 @@ func NewTransitsMoon(year int32, month int32) (*Transits, error) {
 	}
 
 	startTime := time.Date(int(year), time.Month(month), int(1), int(0), int(0), int(0), 0, time.UTC)
-	startTime.AddDate(0, 0, -1) // reducing 1 day to get the overlapping star
+	startTime = startTime.AddDate(0, 0, -2) // reducing 2 day to get the overlapping star
 
 	myTransits := &astroV1.Transits{
 		Year:      year,

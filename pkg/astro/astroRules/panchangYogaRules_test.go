@@ -34,6 +34,16 @@ func TestGetVaarStarYogaNum(t *testing.T) {
 	}
 
 	// valid test cases
+	got, err = GetVaarStarYogaNum(1, 1)
+	if err != nil {
+		t.Errorf("Expected no error, but got '%v'", err)
+	}
+	if got == 25 {
+		t.Logf("Got Expected result (Monday/Aswini) 25 (%v)", got)
+	} else {
+		t.Errorf("Expected  (Monday/Aswini) 25, but got '%v'", got)
+	}
+
 	got, err = GetVaarStarYogaNum(2, 28)
 	if err != nil {
 		t.Errorf("Expected no error, but got '%v'", err)
@@ -64,52 +74,62 @@ func TestGetVaarStarYogaNum(t *testing.T) {
 		t.Errorf("Expected (Saturday/Dhanista) 28, but got '%v'", got)
 	}
 
+	got, err = GetVaarStarYogaNum(4, 1)
+	if err != nil {
+		t.Errorf("Expected no error, but got '%v'", err)
+	}
+	if got == 13 {
+		t.Logf("Got Expected result (Thursday/Aswhwini) 13 (%v)", got)
+	} else {
+		t.Errorf("Expected (Thursday/Aswhwini) 13, but got '%v'", got)
+	}
+
 }
 
-func TestGetVaarStarYogaNature(t *testing.T) {
+func TestGetVaarStarYoga(t *testing.T) {
 
 	// invalid test cases
-	got, err := GetVaarStarYogaNature(0)
+	got, err := GetVaarStarYoga(-1, 24)
 	t.Logf("Got result %v", got)
 	if err == nil {
 		t.Errorf("Expected error, but got no error")
 	}
 
-	got, err = GetVaarStarYogaNature(29)
+	got, err = GetVaarStarYoga(1, 29)
 	t.Logf("Got result %v", got)
 	if err == nil {
 		t.Errorf("Expected error, but got no error")
 	}
 
 	// valid test cases
-	got, err = GetVaarStarYogaNature(10) // Mudgara
+	got, err = GetVaarStarYoga(0, 10) // Mudgara
 	if err != nil {
 		t.Errorf("Expected no error, but got '%v'", err)
 	}
-	if got == int32(aV1.AstroMetas_Malefic) {
-		t.Logf("Got Expected result (Mudgara) %d (%v)", int32(aV1.AstroMetas_Malefic), got)
+	if int32(got.Nature) == int32(aV1.AstroMetas_Malefic) && got.Yoga == aV1.StarWeekdayYoga_Mudgara {
+		t.Logf("Got Expected result (Mudgara) (%v)", got)
 	} else {
-		t.Errorf("Expected (Mudgara) %d, but got '%v'", int32(aV1.AstroMetas_Malefic), got)
+		t.Errorf("Expected (Mudgara) but got '%v'", got)
 	}
 
-	got, err = GetVaarStarYogaNature(28) // Pravardhamama
+	got, err = GetVaarStarYoga(6, 24) // Mudgara
 	if err != nil {
 		t.Errorf("Expected no error, but got '%v'", err)
 	}
-	if got == int32(aV1.AstroMetas_Benefic) {
-		t.Logf("Got Expected result (Pravardhamama) %d (%v)", int32(aV1.AstroMetas_Benefic), got)
+	if int32(got.Nature) == int32(aV1.AstroMetas_Benefic) && got.Yoga == aV1.StarWeekdayYoga_Pravardhamama {
+		t.Logf("Got Expected result (Pravardhamama) (%v)", got)
 	} else {
-		t.Errorf("Expected (Pravardhamama) %d, but got '%v'", int32(aV1.AstroMetas_Benefic), got)
+		t.Errorf("Expected (Pravardhamama) but got '%v'", got)
 	}
 
-	got, err = GetVaarStarYogaNature(22) // Mushala
+	got, err = GetVaarStarYoga(4, 1) // Manas
 	if err != nil {
 		t.Errorf("Expected no error, but got '%v'", err)
 	}
-	if got == int32(aV1.AstroMetas_Malefic) {
-		t.Logf("Got Expected result (Mushala) %d (%v)", int32(aV1.AstroMetas_Malefic), got)
+	if int32(got.Nature) == int32(aV1.AstroMetas_Benefic) && got.Yoga == aV1.StarWeekdayYoga_Manas {
+		t.Logf("Got Expected result (Manas) (%v)", got)
 	} else {
-		t.Errorf("Expected (Mushala) %d, but got '%v'", int32(aV1.AstroMetas_Malefic), got)
+		t.Errorf("Expected (Manas) but got '%v'", got)
 	}
 
 }
