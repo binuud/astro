@@ -46,10 +46,10 @@ protos: ## Build Go and Web Proto
 	$(PROTOC) -I=./proto/v1/.  \
 	--go_out=./proto/v1/astro/ \
     --go-grpc_out=./proto/v1/astro/ \
+	proto/v1/astro/metas.proto \
 	proto/v1/astro/astro.proto \
 	proto/v1/astro/dasha.proto \
-	proto/v1/astro/panchang.proto \
-	proto/v1/astro/metas.proto 
+	proto/v1/astro/panchang.proto 
 	make protos-web-js
 
 build: ## Build docker image
@@ -66,3 +66,9 @@ run: ## Run astro microservice
 
 runContainer: ## Start container
 	./startAstroContainer.sh	
+
+test: ## Run tests
+	go test ./pkg/...
+
+testCoverage: ## Run test coverage
+	go test ./pkg/... -coverprofile=coverage.out

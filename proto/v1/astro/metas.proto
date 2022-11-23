@@ -53,6 +53,17 @@ message GeoLocation {
 
 
 message AstroConstants {
+
+    enum Weekdays {
+        Sunday = 0;
+        Monday = 1;
+        Tuesday = 2;
+        Wednesday = 3;
+        Thursday = 4;
+        Friday = 5;
+        Saturday = 6;
+    }
+
     enum Planets {
         Lagna = 0;
         Sun = 1;
@@ -61,7 +72,7 @@ message AstroConstants {
         Mercury = 4;
         Jupiter = 5;
         Venus = 6;
-        Saturday = 7;
+        Saturn = 7;
         Rahu = 8;
         Ketu = 9;
         Uranus = 10;
@@ -191,6 +202,14 @@ message AstroConstants {
 }
 
 message AstroMetas {
+    enum Nature {
+        IgnoreNature = 0;
+        Benefic = 1;
+        Malefic = 2;
+        Choosy = 3;
+        Both = 4;
+        Avoid = 5;
+    }
     enum MetaTags {
         Ignore = 0;
         Gender_male = 1;
@@ -294,4 +313,70 @@ message AstroMetadata {
     
     google.protobuf.Timestamp createdAt = 101;
     google.protobuf.Timestamp updatedAt = 102;
+}
+
+message StarWeekdayYoga {
+    enum StarWeekdayYogaTypes {
+        IgnoreStarYoga = 0;
+        Ananda = 1;
+        Kaaldanda = 2;
+        Dhumra = 3;
+        Dhata = 4;
+        Saumya = 5;
+        Dhwansha = 6;
+        Ketu = 7;
+	    Srivatsa = 8;
+        Vajra = 9;
+        Mudgara = 10;
+        Chhatra = 11;
+        Mitra = 12;
+        Manas = 13;
+        Padma = 14;
+	    Lumba = 15;
+        Utpaata = 16;
+        Mrityu = 17;
+        Kaana = 18;
+        Siddhi = 19;
+        Subha = 20;
+        Amrita = 21;
+	    Mushala = 22;
+        Gada = 23;
+        Matanga = 24;
+        Raksha = 25;
+        Chara = 26;
+        Susthira = 27;
+        Pravardhamama = 28;
+    }
+    
+    string Name = 1;
+    StarWeekdayYogaTypes Yoga = 2;
+    AstroMetas.Nature Nature = 3;
+    string desc = 4;
+}
+
+message StarThithiWeekdayYoga {
+    enum StarThithiWeekdayYogaTypes {
+        IgnoreStarThithiWeekdayYoga = 0;
+        TriPushkaraYoga = 1;
+        DwipushkaraYoga = 2;
+    }
+    StarThithiWeekdayYogaTypes Yoga = 1;
+    AstroMetas.Nature nature = 2;
+    string desc = 3;
+}
+
+// Generic Yoga
+// Yogas can be tied to transit events
+// Yogas can be of different types like star vaar yoga, star tithi vaar yoga etc
+message YogaIdentifier {
+    enum YogaTypes {
+        IgnoreYogaTypes = 0;
+        StarWeekdayYoga = 1;        
+        StarThithiWeekdayYoga = 2;
+    }
+    YogaTypes Type = 1; // to overload the Yoga identifier, this can be used for different yogas
+    oneof Yoga {
+        StarWeekdayYoga YogaStarWeekday= 2;
+        StarThithiWeekdayYoga YogaStarThithiWeekday = 3;
+    }
 }

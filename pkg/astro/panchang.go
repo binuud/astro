@@ -89,6 +89,7 @@ func (p *Panchang) BuildPanchang() error {
 			Year:    int32(startTime.In(zone).Year()),
 			Month:   int32(startTime.In(zone).Month()),
 			Day:     int32(startTime.In(zone).Day()),
+			Weekday: int32(startTime.In(zone).Weekday()),
 			Zone:    p.InDate.Zone,
 			Stars:   stars,
 			Tithis:  tithis,
@@ -103,7 +104,7 @@ func (p *Panchang) BuildPanchang() error {
 		dayCount++
 		startTime = startTime.Add(time.Hour * 24)
 
-		if dayCount > 30 {
+		if int32(startTime.In(zone).Month()) != p.InDate.M {
 			break
 		}
 	}

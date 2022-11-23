@@ -432,7 +432,8 @@ proto.astro.Transit.prototype.toObject = function(opt_includeInstance) {
 proto.astro.Transit.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    transit: (f = msg.getTransit()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
+    transit: (f = msg.getTransit()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    yoga: (f = msg.getYoga()) && astro_metas_pb.YogaIdentifier.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -478,6 +479,11 @@ proto.astro.Transit.deserializeBinaryFromReader = function(msg, reader) {
       reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setTransit(value);
       break;
+    case 3:
+      var value = new astro_metas_pb.YogaIdentifier;
+      reader.readMessage(value,astro_metas_pb.YogaIdentifier.deserializeBinaryFromReader);
+      msg.setYoga(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -520,6 +526,14 @@ proto.astro.Transit.serializeBinaryToWriter = function(message, writer) {
       2,
       f,
       google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+    );
+  }
+  f = message.getYoga();
+  if (f != null) {
+    writer.writeMessage(
+      3,
+      f,
+      astro_metas_pb.YogaIdentifier.serializeBinaryToWriter
     );
   }
 };
@@ -577,6 +591,43 @@ proto.astro.Transit.prototype.clearTransit = function() {
  */
 proto.astro.Transit.prototype.hasTransit = function() {
   return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional YogaIdentifier Yoga = 3;
+ * @return {?proto.astro.YogaIdentifier}
+ */
+proto.astro.Transit.prototype.getYoga = function() {
+  return /** @type{?proto.astro.YogaIdentifier} */ (
+    jspb.Message.getWrapperField(this, astro_metas_pb.YogaIdentifier, 3));
+};
+
+
+/**
+ * @param {?proto.astro.YogaIdentifier|undefined} value
+ * @return {!proto.astro.Transit} returns this
+*/
+proto.astro.Transit.prototype.setYoga = function(value) {
+  return jspb.Message.setWrapperField(this, 3, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.astro.Transit} returns this
+ */
+proto.astro.Transit.prototype.clearYoga = function() {
+  return this.setYoga(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.astro.Transit.prototype.hasYoga = function() {
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
@@ -1515,6 +1566,7 @@ proto.astro.PanchangDay.toObject = function(includeInstance, msg) {
     day: jspb.Message.getFieldWithDefault(msg, 3, 0),
     zone: jspb.Message.getFieldWithDefault(msg, 4, ""),
     geo: (f = msg.getGeo()) && astro_metas_pb.GeoLocation.toObject(includeInstance, f),
+    weekday: jspb.Message.getFieldWithDefault(msg, 6, 0),
     sunriseset: (f = msg.getSunriseset()) && proto.astro.Kaalam.toObject(includeInstance, f),
     moonriseset: (f = msg.getMoonriseset()) && proto.astro.Kaalam.toObject(includeInstance, f),
     starsList: jspb.Message.toObjectList(msg.getStarsList(),
@@ -1595,6 +1647,10 @@ proto.astro.PanchangDay.deserializeBinaryFromReader = function(msg, reader) {
       var value = new astro_metas_pb.GeoLocation;
       reader.readMessage(value,astro_metas_pb.GeoLocation.deserializeBinaryFromReader);
       msg.setGeo(value);
+      break;
+    case 6:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setWeekday(value);
       break;
     case 11:
       var value = new proto.astro.Kaalam;
@@ -1735,6 +1791,13 @@ proto.astro.PanchangDay.serializeBinaryToWriter = function(message, writer) {
       5,
       f,
       astro_metas_pb.GeoLocation.serializeBinaryToWriter
+    );
+  }
+  f = message.getWeekday();
+  if (f !== 0) {
+    writer.writeInt32(
+      6,
+      f
     );
   }
   f = message.getSunriseset();
@@ -1965,6 +2028,24 @@ proto.astro.PanchangDay.prototype.clearGeo = function() {
  */
 proto.astro.PanchangDay.prototype.hasGeo = function() {
   return jspb.Message.getField(this, 5) != null;
+};
+
+
+/**
+ * optional int32 weekday = 6;
+ * @return {number}
+ */
+proto.astro.PanchangDay.prototype.getWeekday = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.astro.PanchangDay} returns this
+ */
+proto.astro.PanchangDay.prototype.setWeekday = function(value) {
+  return jspb.Message.setProto3IntField(this, 6, value);
 };
 
 

@@ -35,6 +35,11 @@ export class Transit extends jspb.Message {
   hasTransit(): boolean;
   clearTransit(): Transit;
 
+  getYoga(): astro_metas_pb.YogaIdentifier | undefined;
+  setYoga(value?: astro_metas_pb.YogaIdentifier): Transit;
+  hasYoga(): boolean;
+  clearYoga(): Transit;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Transit.AsObject;
   static toObject(includeInstance: boolean, msg: Transit): Transit.AsObject;
@@ -47,6 +52,7 @@ export namespace Transit {
   export type AsObject = {
     name: number,
     transit?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    yoga?: astro_metas_pb.YogaIdentifier.AsObject,
   }
 }
 
@@ -176,6 +182,9 @@ export class PanchangDay extends jspb.Message {
   hasGeo(): boolean;
   clearGeo(): PanchangDay;
 
+  getWeekday(): number;
+  setWeekday(value: number): PanchangDay;
+
   getSunriseset(): Kaalam | undefined;
   setSunriseset(value?: Kaalam): PanchangDay;
   hasSunriseset(): boolean;
@@ -266,6 +275,7 @@ export namespace PanchangDay {
     day: number,
     zone: string,
     geo?: astro_metas_pb.GeoLocation.AsObject,
+    weekday: number,
     sunriseset?: Kaalam.AsObject,
     moonriseset?: Kaalam.AsObject,
     starsList: Array<Transit.AsObject>,
