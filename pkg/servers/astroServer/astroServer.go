@@ -24,24 +24,6 @@ func NewGrpcAstroServer(srv *grpc.Server) *grpcAstroServer {
 	return server
 }
 
-func (s *grpcAstroServer) GetPanchang(ctx context.Context, in *astroV1.PanchangGetRequest) (*astroV1.PanchangResponse, error) {
-
-	logrus.Info("Received GetPanchang: ", in)
-	p, err := astro.NewPanchangMoon(in.BirthData.Tob.Y, in.BirthData.Tob.M)
-	if err != nil {
-		logrus.Errorf("Cannot prepare chart err(%v)", err)
-	}
-	p.CalculatePanchang()
-	// cal := astro.NewCalendarPrinter(p)
-	p.Panchang.Ephimeris = nil
-	return &astroV1.PanchangResponse{
-		Astro: &astroV1.AstroObject{
-			Panchang: p.Panchang,
-		},
-	}, nil
-
-}
-
 func (s *grpcAstroServer) Update(ctx context.Context, in *astroV1.UserUpdateRequest) (*astroV1.UserUpdateResponse, error) {
 
 	logrus.Info("Received Update: ", in)
@@ -131,41 +113,3 @@ func (s *grpcAstroServer) Get(ctx context.Context, in *astroV1.UserGetRequest) (
 	}, nil
 
 }
-
-// func (s *grpcAstroServer) Update(ctx context.Context, in *protoV1.ClusterUpdateRequest) (*protoV1.ClusterUpdateResponse, error) {
-
-// 	logrus.Info("Received Update: ", in)
-// 	// insert cluster into DB
-// 	mongo, err := mongo.NewDSMongoSingleton()
-// 	if err != nil {
-// 		logrus.Error("Cannot connect to DB")
-// 		return nil, err
-// 	}
-
-// 	filter := bson.D{{"metadata.uid", in.Cluster.MetaData.Uid}}
-// 	update := bson.D{{"$set", bson.D{
-// 		{"info.region", in.Cluster.Info.Region},
-// 		{"status.status", in.Cluster.Status.Status},
-// 		{"status.statusdescription", in.Cluster.Status.StatusDescription},
-// 		{"status.kubever", in.Cluster.Status.KubeVer},
-// 		{"status.nodesup", in.Cluster.Status.NodesUp},
-// 		{"status.nodesdown", in.Cluster.Status.NodesDown},
-// 		{"status.podsup", in.Cluster.Status.PodsUp},
-// 		{"status.podsdown", in.Cluster.Status.PodsDown},
-// 		{"status.volumesup", in.Cluster.Status.VolumesUp},
-// 		{"status.volumesdown", in.Cluster.Status.VolumesDown},
-// 		{"status.eventsnormal", in.Cluster.Status.EventsNormal},
-// 		{"status.eventswarning", in.Cluster.Status.EventsWarning},
-// 		{"status.events", in.Cluster.Status.Events},
-// 		{"status.updatedat", timestamppb.New(time.Now())},
-// 	}}}
-
-// 	err = mongo.UpdateOne(CLUSTER_BUCKET_NAME, filter, update, true)
-// 	if err != nil {
-// 		logrus.Error("Cannot Update collection entry")
-// 		return nil, err
-// 	}
-
-// 	return &protoV1.ClusterUpdateResponse{}, nil
-
-// }

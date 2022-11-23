@@ -36,7 +36,10 @@ protos-web-js: ## WebJs Proto - working for streams too
 	$(PROTOC) -I=./proto/v1/. \
 	--js_out=import_style=commonjs:./proto/v1/astro/webjs/ \
 	--grpc-web_out=import_style=typescript,mode=grpcwebtext:./proto/v1/astro/webjs/ \
-	proto/v1/astro/astro.proto 
+	proto/v1/astro/astro.proto \
+	proto/v1/astro/dasha.proto \
+	proto/v1/astro/panchang.proto \
+	proto/v1/astro/metas.proto 
 
 protos: ## Build Go and Web Proto
 	# ****** Astro Calculations Related Proto 
@@ -44,7 +47,9 @@ protos: ## Build Go and Web Proto
 	--go_out=./proto/v1/astro/ \
     --go-grpc_out=./proto/v1/astro/ \
 	proto/v1/astro/astro.proto \
-	proto/v1/astro/dasha.proto 
+	proto/v1/astro/dasha.proto \
+	proto/v1/astro/panchang.proto \
+	proto/v1/astro/metas.proto 
 	make protos-web-js
 
 build: ## Build docker image

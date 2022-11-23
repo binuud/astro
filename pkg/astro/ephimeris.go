@@ -39,7 +39,7 @@ func NewEphimeris(birthData *astroV1.BirthData) *Ephimeris {
 func (e *Ephimeris) GetPlanetsEphimeris() (string, error) {
 
 	e.NewArgs().SetAyanamsa(AYANAMSA_LAHIRI).
-		SetDTPoB().SetCount(1).SetSteps(1).SetPlanets(ARG_PLANET_ALL).
+		SetDTPoB().SetCount(1).SetSteps("1").SetPlanets(ARG_PLANET_ALL).
 		SetEphimerisType(EPHIMERIS_SWISS).SetHouse().SetColumns(PLANET_DEFAULT_COLUMNS)
 	return e.ExecCommand()
 
@@ -48,7 +48,7 @@ func (e *Ephimeris) GetPlanetsEphimeris() (string, error) {
 func (e *Ephimeris) GetMoonEphimeris() (string, error) {
 
 	e.NewArgs().SetAyanamsa(AYANAMSA_LAHIRI).
-		SetDTPoB().SetCount(3).SetSteps(0.5).SetPlanets(ARG_PLANET_MOON).
+		SetDTPoB().SetCount(3).SetSteps("0.5").SetPlanets(ARG_PLANET_MOON).
 		SetEphimerisType(EPHIMERIS_SWISS).SetColumns(FLONGITUDEONLY).NoHead()
 	return e.ExecCommand()
 
@@ -57,7 +57,7 @@ func (e *Ephimeris) GetMoonEphimeris() (string, error) {
 func (e *Ephimeris) GetSunMoonEphimerisForYear() (string, error) {
 
 	e.NewArgs().SetAyanamsa(AYANAMSA_LAHIRI).
-		SetDTPoB().SetCount(1472).SetSteps(0.25).SetPlanets(ARG_PLANET_SUN_MOON).
+		SetDTPoB().SetCount(1472).SetSteps("0.25").SetPlanets(ARG_PLANET_SUN_MOON).
 		SetEphimerisType(EPHIMERIS_SWISS).SetColumns(FLONGITUDEONLY).NoHead().Horizontal()
 	return e.ExecCommand()
 
@@ -65,8 +65,10 @@ func (e *Ephimeris) GetSunMoonEphimerisForYear() (string, error) {
 
 func (e *Ephimeris) GetSunMoonEphimerisForMonth() (string, error) {
 
+	numDays := 31
+	count := numDays * 24
 	e.NewArgs().SetAyanamsa(AYANAMSA_LAHIRI).
-		SetDTPoB().SetCount(132).SetSteps(0.25).SetPlanets(ARG_PLANET_SUN_MOON).
+		SetDTPoB().SetCount(count).SetSteps("60m").SetPlanets(ARG_PLANET_SUN_MOON).
 		SetEphimerisType(EPHIMERIS_SWISS).SetColumns(FLONGITUDEONLY).NoHead().Horizontal()
 	return e.ExecCommand()
 
@@ -119,9 +121,9 @@ func (e *Ephimeris) SetCount(count int) *Ephimeris {
 
 }
 
-func (e *Ephimeris) SetSteps(steps float32) *Ephimeris {
+func (e *Ephimeris) SetSteps(steps string) *Ephimeris {
 
-	e.CmdArgs = append(e.CmdArgs, fmt.Sprintf("-s%f", steps))
+	e.CmdArgs = append(e.CmdArgs, fmt.Sprintf("-s%s", steps))
 	return e
 
 }

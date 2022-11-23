@@ -21,6 +21,7 @@ const (
 	KRISHNA_PAKSHA = 2
 	SHUKRA_PAKSHA  = 1
 
+	HOUR_MINUTES        = 60
 	QUARTER_DAY_MINUTES = 360
 
 	SECONDS_IN_YEAR = 31556952
@@ -45,6 +46,14 @@ const (
 	HARMONIC_NAKSATHRAMSA = 27
 	HARMONIC_SASHTYAMSA   = 60 // Coming wrong
 
+	STAR_VAINASIKA = 22
+
+	COMBUSTION_MOON    = 12
+	COMBUSTION_MARS    = 17
+	COMBUSTION_MERCURY = 14
+	COMBUSTION_JUPITER = 11
+	COMBUSTION_VENUS   = 10
+	COMBUSTION_SATURN  = 15
 )
 
 var KARANA_NAMES = []string{"", "Kintughna",
@@ -75,6 +84,8 @@ var STAR_NAMES = []string{"", "Aswini", "Barani", "Krittika",
 	"Sravana", "Dhanishta", "Satabhisha",
 	"Poorvabhadra", "Uttarabadra", "Revathi"}
 
+var RASI_NAMES = []string{"", "Mesham", "Rishabam", "Mithunam", "Karkataka", "Simha", "Kanya", "Thula", "Vrishika", "Dhanus", "Makara", "Kumbha", "Meena"}
+
 var PAKSHA_NAMES = []string{"", "Shukra Paksha", "Krishna Paksha"}
 
 var YOGA_NAMES = []string{"", "Vishkumbha", "Preeti", "Ayushman", "Saubhagya", "Shobhana",
@@ -83,6 +94,8 @@ var YOGA_NAMES = []string{"", "Vishkumbha", "Preeti", "Ayushman", "Saubhagya", "
 	"Siddhi", "Vyatipata", "Variyana", "Parigha", "Shiva",
 	"Siddha", "Sadhya", "Shubha", "Shukla", "Brahma",
 	"Indra", "Vaidhriti"}
+
+var YOGA_BAD = []string{"", "Vyaghata", "Vajra", "Parigha", "Vyatipata", "Vaidhriti", "Ganda", "Atiganda", "Shoola", "Vishkumbha"}
 
 // # "Purvabhadra", "Uttarabhadra",
 // var STAR_LIST = []string {"Ashvini", "Bharani", "Krttika", "Rohini", "Mrigashirsha", "Ardra", "Punarvasu", "Pushya", "Ashlesha",

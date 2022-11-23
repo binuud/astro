@@ -22,7 +22,6 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AstroClient interface {
-	GetPanchang(ctx context.Context, in *PanchangGetRequest, opts ...grpc.CallOption) (*PanchangResponse, error)
 	Update(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserUpdateResponse, error)
 	Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*UserGetResponse, error)
 	List(ctx context.Context, in *UserListRequest, opts ...grpc.CallOption) (*UserListResponse, error)
@@ -34,15 +33,6 @@ type astroClient struct {
 
 func NewAstroClient(cc grpc.ClientConnInterface) AstroClient {
 	return &astroClient{cc}
-}
-
-func (c *astroClient) GetPanchang(ctx context.Context, in *PanchangGetRequest, opts ...grpc.CallOption) (*PanchangResponse, error) {
-	out := new(PanchangResponse)
-	err := c.cc.Invoke(ctx, "/astro.Astro/GetPanchang", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *astroClient) Update(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserUpdateResponse, error) {
@@ -76,7 +66,6 @@ func (c *astroClient) List(ctx context.Context, in *UserListRequest, opts ...grp
 // All implementations must embed UnimplementedAstroServer
 // for forward compatibility
 type AstroServer interface {
-	GetPanchang(context.Context, *PanchangGetRequest) (*PanchangResponse, error)
 	Update(context.Context, *UserUpdateRequest) (*UserUpdateResponse, error)
 	Get(context.Context, *UserGetRequest) (*UserGetResponse, error)
 	List(context.Context, *UserListRequest) (*UserListResponse, error)
@@ -87,9 +76,6 @@ type AstroServer interface {
 type UnimplementedAstroServer struct {
 }
 
-func (UnimplementedAstroServer) GetPanchang(context.Context, *PanchangGetRequest) (*PanchangResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPanchang not implemented")
-}
 func (UnimplementedAstroServer) Update(context.Context, *UserUpdateRequest) (*UserUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
@@ -110,24 +96,6 @@ type UnsafeAstroServer interface {
 
 func RegisterAstroServer(s grpc.ServiceRegistrar, srv AstroServer) {
 	s.RegisterService(&Astro_ServiceDesc, srv)
-}
-
-func _Astro_GetPanchang_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PanchangGetRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AstroServer).GetPanchang(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/astro.Astro/GetPanchang",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AstroServer).GetPanchang(ctx, req.(*PanchangGetRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Astro_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -191,10 +159,6 @@ var Astro_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "astro.Astro",
 	HandlerType: (*AstroServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GetPanchang",
-			Handler:    _Astro_GetPanchang_Handler,
-		},
 		{
 			MethodName: "Update",
 			Handler:    _Astro_Update_Handler,

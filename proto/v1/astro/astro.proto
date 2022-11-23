@@ -7,114 +7,10 @@ syntax = "proto3";
 package astro;
 
 import "google/protobuf/timestamp.proto";
-
+import "astro/metas.proto";
 
 option go_package = "./go";
 
-message AstroConstants {
-    enum Planets {
-        Lagna = 0;
-        Sun = 1;
-        Moon = 2;
-        Mars = 3;
-        Mercury = 4;
-        Jupiter = 5;
-        Venus = 6;
-        Saturday = 7;
-        Rahu = 8;
-        Ketu = 9;
-        Uranus = 10;
-        Neptune = 11;
-        Pluto = 12;
-        Maandi = 13;
-        Gulika = 14;
-        BhavaLagna = 15;
-        HoraLagna = 16;
-        GhatiLagna = 17;
-        VighatiLagna = 18;
-        VamadaLagna = 19;
-        SreeLagna = 20;
-        PranapadaLagna = 21;
-        InduLagna = 22;
-        BrighuBindu = 23;
-        Dhooma = 24;
-        Vyatipata = 25;
-        Parivesha = 26;
-        IndraChapa = 27;
-        Upaketu = 28;
-        Kaala = 29;
-        Mrityu = 30;
-        ArthaPrahara = 31;
-        YamaGhantaka = 32;
-        
-    }
-
-    enum  Sphutas {
-        IgnoreSphuta = 0;
-        PranaSphuta = 1;
-        DehaSphuta = 2;
-        MrityuSphuta = 3;
-        SookshamaTriSphuta = 4;
-        TithiSphuta = 5;
-        YogaSunMoonSphuta = 6;
-        RahuTithiSphuta = 7;
-        KsethraSphuta = 8;
-        BeejaSphuta = 9;
-        TriSphuta = 10;
-        ChatusSphuta = 11;
-        PanchaSphuta = 12;
-        YogaSphuta = 13;
-        AvayogaSphuta = 14;
-    }
-
-    enum Rasis {
-        IgnoreRasis = 0;
-        Aries = 1;
-        Taurus = 2;
-        Gemini = 3;
-        Cancer = 4;
-        Leo = 5;
-        Virgo = 6;
-        Libra = 7;
-        Scorpio = 8;
-        Saggitarius = 9;
-        Capricon = 10;
-        Aquarius = 11;
-        Pisces = 12;
-    }
-    enum Stars {
-        IgnoreStars = 0;
-        Aswini      = 1;
-        Bharani     = 2;
-        Krittika    = 3;
-        Rohini      = 4;
-        Mrigasira   = 5;
-        Arudra      = 6;
-        Punarvasu   = 7;
-        Pushyami    = 8;
-        Aslesha     = 9;
-        Makha       = 10;
-        Poorvaphalguni  = 11; 
-        Uttaraphalguni  = 12;
-        Hasta       = 13;
-        Chitra      = 14;
-        Swati       = 15;
-        Vishaka     = 16;
-        Anuradha    = 17;
-        Jyeshta     = 18;
-        Moola       = 19;
-        Poorvashada = 20;
-        Uttarashada = 21;
-        Sravana     = 22;
-        Dhanishta   = 23;
-        Satabhisha  = 24;
-        Poorvabhadra    = 25;
-        Uttarabadra     = 26;
-        Revathi     = 27;
-    }
-    
-
-}
 
 message Metadata {
     
@@ -131,71 +27,6 @@ message Metadata {
     google.protobuf.Timestamp createdAt = 101;
     google.protobuf.Timestamp updatedAt = 102;
 }
-
-message TobData {
-    
-    int32 d = 1;
-    int32 m = 2;
-    int32 y = 3;
-    
-    int32 hour = 4;
-    int32 min = 5;
-    int32 sec = 6;
-    string zone = 7;
-    string dateString = 11;
-    google.protobuf.Timestamp tobtime = 12;
-}
-
-message PobData {
-    string city     = 1;        // City of Birth
-    string state    = 2;        // State of Birth
-    string country  = 3;        // Country of Birth
-    float lat       = 11;       // Latitude of POB
-    float long      = 12;      // Longitude of POB
-    string planet   = 13;     // planet - earth, tosovo, buvalok, swargalok, patala, atala, vitala
-    string yuga     = 14;    // varsha, yuga, treated as space variable
-}
-
-message BirthData {
-    TobData tob      = 1;          // Date of birth
-    PobData pob     = 2;        // Place of Birth  
-}
-
-message PanchangTransits {
-    int32 name = 1;
-    google.protobuf.Timestamp transit   = 2;
-}
-
-message PanchangKalam {
-    google.protobuf.Timestamp startTime   = 1;
-    google.protobuf.Timestamp endTime   = 2;
-}
-
-message SunMoonEphimeris  {
-    double moon = 1;
-    double sun = 2;
-}
-
-message Panchang {
-
-    int32 year = 1;
-    int32 month = 2;
-    google.protobuf.Timestamp startTime   = 3;
-
-    repeated SunMoonEphimeris ephimeris = 11;
-    
-    repeated PanchangTransits stars = 21;
-    repeated PanchangTransits yogas = 22; 
-    repeated PanchangTransits karanas = 23;
-    repeated PanchangTransits tithis = 24;
-
-    PanchangKalam rahuKalam = 51;
-    PanchangKalam guliKalam = 52;
-    PanchangKalam yamaGandam = 54;
-    
-}
-
-
 
 message PlanetDetails {
     string name = 1;
@@ -235,24 +66,15 @@ message Planets {
 message AstroObject {
     Metadata metadata = 1;
     BirthData birthData = 2;
-    Panchang panchang = 3;
     Planets planets = 4;
 }
 
 service Astro {
-    rpc GetPanchang(PanchangGetRequest) returns (PanchangResponse) {}
     rpc Update(UserUpdateRequest) returns (UserUpdateResponse) {} 
     rpc Get(UserGetRequest) returns (UserGetResponse) {} 
     rpc List(UserListRequest) returns (UserListResponse) {}
 }
 
-message PanchangGetRequest {
-    BirthData birthData = 1;
-}
-
-message PanchangResponse {
-    AstroObject astro = 1;
-}
 
 message UserUpdateRequest {
     string uuid = 1;

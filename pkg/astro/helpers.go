@@ -10,12 +10,19 @@ import (
 )
 
 func MakeBirthData(in *astroV1.BirthData) (*astroV1.BirthData, error) {
-	tz, err := time.LoadLocation(in.Tob.Zone)
+
+	var err error
+	in.Tob, err = MakeBirthTob(in.Tob)
+	return in, err
+}
+
+func MakeBirthTob(in *astroV1.TobData) (*astroV1.TobData, error) {
+	tz, err := time.LoadLocation(in.Zone)
 	if err != nil {
 		return nil, err
 	}
-	t := time.Date(int(in.Tob.Y), time.Month(in.Tob.M), int(in.Tob.D), int(in.Tob.Hour), int(in.Tob.Min), int(in.Tob.Sec), 0, tz)
-	in.Tob.Tobtime = timestamppb.New(t)
+	t := time.Date(int(in.Y), time.Month(in.M), int(in.D), int(in.Hour), int(in.Min), int(in.Sec), 0, tz)
+	in.Tobtime = timestamppb.New(t)
 	return in, nil
 }
 
@@ -29,6 +36,28 @@ func GetStarNumber(degree float64) int {
 		degree = math.Mod(degree, 360)
 	}
 	return int(degree/STAR_DEGREES) + 1
+}
+
+// GetRasiNumber
+// arguments - degree (float) the longitude of the astronomical object
+// returns the star number (int)
+// eg: if degree is 31, the rasi number would be 2 -> Tauras
+// eg: if degree is 10.2, the rasi number would be 1 -> Aries
+func GetRasiNumber(degree float64) int {
+	if degree > 360.0 {
+		degree = math.Mod(degree, 360)
+	}
+	return int(degree/RASI_DEGREES) + 1
+}
+
+// GetPaadaNumber
+// arguments - degree (float) the longitude of the astronomical object
+// returns the star number (int)
+func GetPaadaNumber(degree float64) int {
+	if degree > 360.0 {
+		degree = math.Mod(degree, 360)
+	}
+	return int(degree/PAADA_DEGREES) + 1
 }
 
 func GetPaksha(tithi int) int {

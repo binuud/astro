@@ -2,305 +2,173 @@ package astro
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 	"time"
 
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Panchang struct {
-	*astroV1.Panchang
+	Transits      *astroV1.Transits
+	PanchangMonth *astroV1.PanchangMonth
+	InDate        *astroV1.TobData
 }
 
-func NewPanchangMoon(year int32, month int32) (*Panchang, error) {
+func NewPanchang(year int32, month int32, day int32) (*Panchang, error) {
 
-	if year < 0 || year > 2050 {
-		err := fmt.Errorf("year has to be in the range of 0 to 2050")
-		return nil, err
+	transits, err := NewTransitsMoon(year, month)
+	if err != nil {
+		logrus.Errorf("Cannot prepare chart err(%v)", err)
 	}
 
-	if month < 1 || month > 12 {
-		err := fmt.Errorf("month has to be in the range of 1 to 12")
-		return nil, err
-	}
+	transits.CalculateTransits()
+	transits.Transits.Ephimeris = nil
 
-	startTime := time.Date(int(year), time.Month(month), int(1), int(0), int(0), int(0), 0, time.UTC)
-	startTime.AddDate(0, 0, -1) // reducing 1 day to get the overlapping star
-
-	myPanchang := &astroV1.Panchang{
-		Year:      year,
-		Month:     month,
-		StartTime: timestamppb.New(startTime),
-	}
-
-	// logrus.Infof("Moon degrees %v", myPanchang.Ephimeris)
-
-	return &Panchang{myPanchang}, nil
-}
-
-// getMoonEphimeris
-// arguments: year - the year for which panchang is calculated
-// returns a list of longitudes for moon for every 12hrs
-// from 1st of the year to the last date of the given year
-func (panchang *Panchang) getSunMoonEphimeris(year int32, month int32) ([]*astroV1.SunMoonEphimeris, error) {
-	birthData := &astroV1.BirthData{
-		Tob: &astroV1.TobData{
-			Y:    year,
-			D:    1,
+	myPanchang := &Panchang{
+		Transits: transits.Transits,
+		InDate: &astroV1.TobData{
+			D:    day,
 			M:    month,
+			Y:    year,
 			Hour: 0,
 			Min:  0,
 			Sec:  0,
+			Zone: "Asia/Kolkata",
 		},
 	}
-	birthData.Tob.Tobtime = timestamppb.New(panchang.StartTime.AsTime())
-	// birthData, err := MakeBirthData(birthData)
-	// if err != nil {
-	// 	logrus.Errorf("Cannot parse time data for astro chart err(%v)", err)
-	// }
 
-	ephimeris := NewEphimeris((birthData))
-	moonEphimeris, err := ephimeris.GetSunMoonEphimerisForMonth()
-	if err != nil {
-		return nil, err
-	}
-	// logrus.Infof("Moon data %v", moonEphimeris)
-	moonDegreesString := strings.Split(moonEphimeris, "\n")
-	sunMoonEphimeris := make([]*astroV1.SunMoonEphimeris, 0)
-	for _, item := range moonDegreesString {
-		// logrus.Infof("Parsing %s", item)
-		fields := strings.Fields(item)
-		if len(fields) != 2 {
-			// logrus.Errorf("Cannot parse longitudes item ::%s:: err(%v)", item, fields)
-			continue
-		}
+	myPanchang.BuildPanchang()
 
-		sunLongitude, err := strconv.ParseFloat(fields[0], 64)
-		if err != nil {
-			logrus.Errorf("Cannot parse longitudes err(%v)", err)
-			return nil, err
-		}
-
-		moonLongitude, err := strconv.ParseFloat(fields[1], 64)
-		if err != nil {
-			logrus.Errorf("Cannot parse longitudes err(%v)", err)
-			return nil, err
-		}
-
-		sunMoonLongitudes := &astroV1.SunMoonEphimeris{
-			Moon: moonLongitude,
-			Sun:  sunLongitude,
-		}
-
-		sunMoonEphimeris = append(sunMoonEphimeris, sunMoonLongitudes)
-	}
-	return sunMoonEphimeris, nil
+	return myPanchang, nil
 }
 
-func (panchang *Panchang) CalculatePanchang() error {
+func (p *Panchang) BuildPanchang() error {
 
 	var err error
-	panchang.Ephimeris, err = panchang.getSunMoonEphimeris(panchang.Year, panchang.Month)
+	zone, _ := time.LoadLocation(p.InDate.Zone)
+
+	panchangMonth := &astroV1.PanchangMonth{
+		Year:  p.InDate.Y,
+		Month: p.InDate.M,
+		Zone:  p.InDate.Zone,
+		Days:  make([]*astroV1.PanchangDay, 0),
+	}
+
+	// create the array for required dates
+	p.InDate, err = MakeBirthTob(p.InDate)
 	if err != nil {
 		return err
 	}
-	panchang.getMoonPanchang()
-	panchang.getTithiPanchang()
-	panchang.getKaranaPanchang()
-	panchang.getYogaPanchang()
+
+	startTime := p.InDate.Tobtime.AsTime()
+	dayCount := 1
+
+	curStarIndex := 0
+	curTithiIndex := 0
+	curYogaIndex := 0
+	curKaranasIndex := 0
+	curPaadaIndex := 0
+
+	for {
+
+		var stars []*astroV1.Transit
+		var tithis []*astroV1.Transit
+		var yogas []*astroV1.Transit
+		var karanas []*astroV1.Transit
+		var paadas []*astroV1.Transit
+
+		endTime := startTime.Add(time.Hour * 24)
+
+		curStarIndex, stars = p.GetTransitingObjects(curStarIndex, startTime, endTime, p.Transits.Stars)
+		curTithiIndex, tithis = p.GetTransitingObjects(curTithiIndex, startTime, endTime, p.Transits.Tithis)
+		curYogaIndex, yogas = p.GetTransitingObjects(curYogaIndex, startTime, endTime, p.Transits.Yogas)
+		curKaranasIndex, karanas = p.GetTransitingObjects(curKaranasIndex, startTime, endTime, p.Transits.Karanas)
+		curPaadaIndex, paadas = p.GetTransitingObjects(curPaadaIndex, startTime, endTime, p.Transits.Paadas)
+
+		panchangDay := &astroV1.PanchangDay{
+			Year:    int32(startTime.In(zone).Year()),
+			Month:   int32(startTime.In(zone).Month()),
+			Day:     int32(startTime.In(zone).Day()),
+			Zone:    p.InDate.Zone,
+			Stars:   stars,
+			Tithis:  tithis,
+			Yogas:   yogas,
+			Karanas: karanas,
+			Paadas:  paadas,
+		}
+
+		ProcessPanchangDay(panchangDay)
+		panchangMonth.Days = append(panchangMonth.Days, panchangDay)
+
+		dayCount++
+		startTime = startTime.Add(time.Hour * 24)
+
+		if dayCount > 30 {
+			break
+		}
+	}
+
+	p.PanchangMonth = panchangMonth
+
 	return nil
-}
-
-func (panchang *Panchang) getMoonPanchang() {
-
-	// zone, _ := time.LoadLocation("Asia/Kolkata")
-
-	stars := make([]*astroV1.PanchangTransits, 0)
-	counter := 0
-	t := panchang.StartTime.AsTime()
-	numItems := len(panchang.Ephimeris) - 1
-	currentStar := GetStarNumber(panchang.Ephimeris[0].Moon)
-
-	for counter < numItems {
-
-		nextStar := currentStar + 1
-		if nextStar > TOTAL_STARS {
-			nextStar = 1
-		}
-
-		nextStarDegrees := STAR_DEGREES * float64(nextStar-1)
-		//logrus.Infof("Checking star current (%d), next (%d), transit degrees (%f)", currentStar, nextStar, nextStarDegrees)
-
-		transitMinutes, err := GetTransitTime(panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, QUARTER_DAY_MINUTES, nextStarDegrees)
-		if err == nil {
-			currentStar++
-			if currentStar > TOTAL_STARS {
-				currentStar = 1
-			}
-
-			t1 := t.Add(time.Minute*time.Duration(transitMinutes) + time.Minute*time.Duration(counter*QUARTER_DAY_MINUTES))
-
-			starTransit := &astroV1.PanchangTransits{
-				Name:    int32(currentStar),
-				Transit: timestamppb.New(t1),
-			}
-
-			stars = append(stars, starTransit)
-
-			// logrus.Infof("Star %s, %f<->%f,  %v", STAR_NAMES[currentStar], panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, t.In(zone))
-		}
-
-		counter++
-
-	}
-
-	panchang.Stars = stars
 
 }
 
-func (panchang *Panchang) getTithiPanchang() {
-	// zone, _ := time.LoadLocation("Asia/Kolkata")
-
-	tithis := make([]*astroV1.PanchangTransits, 0)
-
-	counter := 0
-	numItems := len(panchang.Ephimeris) - 1
-	currentTithi := GetTithiNumber(panchang.Ephimeris[0].Sun, panchang.Ephimeris[0].Moon)
-
-	for counter < numItems {
-
-		t := panchang.StartTime.AsTime()
-
-		nextTithi := currentTithi + 1
-		if nextTithi > TOTAL_TITHIS {
-			nextTithi = 1
+func (p *Panchang) PrintMonth() {
+	zone, _ := time.LoadLocation(p.InDate.Zone)
+	for _, day := range p.PanchangMonth.Days {
+		if p.InDate.M != day.Month {
+			break
 		}
-
-		nextTithiDegrees := TITHI_DEGREES * float64(nextTithi-1)
-		//logrus.Infof("Checking star current (%d), next (%d), transit degrees (%f)", currentStar, nextStar, nextStarDegrees)
-
-		startTithiDegree := GetTithiDegree(panchang.Ephimeris[counter].Sun, panchang.Ephimeris[counter].Moon)
-		endTithiDegree := GetTithiDegree(panchang.Ephimeris[counter+1].Sun, panchang.Ephimeris[counter+1].Moon)
-
-		transitMinutes, err := GetTransitTime(startTithiDegree, endTithiDegree, QUARTER_DAY_MINUTES, nextTithiDegrees)
-		if err == nil {
-			currentTithi++
-			if currentTithi > TOTAL_TITHIS {
-				currentTithi = 1
-			}
-			// paksha := GetPaksha(currentTithi)
-			t := t.Add(time.Minute*time.Duration(transitMinutes) + time.Minute*time.Duration(counter*QUARTER_DAY_MINUTES))
-
-			tithiTransit := &astroV1.PanchangTransits{
-				Name:    int32(currentTithi),
-				Transit: timestamppb.New(t),
-			}
-
-			tithis = append(tithis, tithiTransit)
-
-			// logrus.Infof("%s(%s), %f<->%f @ %v", PAKSHA_NAMES[paksha], TITHI_NAMES[currentTithi], startTithiDegree, endTithiDegree, t.In(zone))
+		fmt.Printf("\n\n Day                          %d", day.Day)
+		for _, star := range day.Stars {
+			fmt.Printf("\n  Star    %2d %25s  %v", star.Name, STAR_NAMES[star.Name], star.Transit.AsTime().In(zone).Format(time.Kitchen))
 		}
-
-		counter++
-
+		for _, tithi := range day.Tithis {
+			fmt.Printf("\n  Tithi   %2d %25s  %v", tithi.Name, TITHI_NAMES[tithi.Name], tithi.Transit.AsTime().In(zone).Format(time.Kitchen))
+		}
+		for _, yoga := range day.Yogas {
+			fmt.Printf("\n  Yoga    %2d %25s  %v", yoga.Name, YOGA_NAMES[yoga.Name], yoga.Transit.AsTime().In(zone).Format(time.Kitchen))
+		}
+		for _, karana := range day.Karanas {
+			fmt.Printf("\n  Karana  %2d %25s  %v", karana.Name, KARANA_NAMES[karana.Name], karana.Transit.AsTime().In(zone).Format(time.Kitchen))
+		}
+		for _, paada := range day.Paadas {
+			fmt.Printf("\n  Paada   %2d %25s  %v", paada.Name%9+1, RASI_NAMES[paada.Name/9], paada.Transit.AsTime().In(zone).Format(time.Kitchen))
+		}
+		fmt.Printf("\n  Tags   %v\n\n", day.Tags)
+		fmt.Println()
 	}
-
-	panchang.Tithis = tithis
-
 }
 
-func (panchang *Panchang) getKaranaPanchang() {
-	// zone, _ := time.LoadLocation("Asia/Kolkata")
+func (p *Panchang) GetTransitingObjects(curIndex int, startTime time.Time, endTime time.Time, transits []*astroV1.Transit) (int, []*astroV1.Transit) {
 
-	karanas := make([]*astroV1.PanchangTransits, 0)
+	// zone, _ := time.LoadLocation(p.InDate.Zone)
+	newTransits := make([]*astroV1.Transit, 0)
+	safeCounter := 0
+	for {
 
-	counter := 0
-	numItems := len(panchang.Ephimeris) - 1
-	currentKarana := GetKaranaNumber(panchang.Ephimeris[0].Sun, panchang.Ephimeris[0].Moon)
-
-	for counter < numItems {
-		t := panchang.StartTime.AsTime()
-		nextKarana := currentKarana + 1
-		if nextKarana > TOTAL_KARANAS {
-			nextKarana = 1
+		safeCounter++
+		if safeCounter > 24 {
+			break
 		}
 
-		nextKaranaDegrees := KARANA_DEGREES * float64(nextKarana-1)
-		//logrus.Infof("Checking star current (%d), next (%d), transit degrees (%f)", currentStar, nextStar, nextStarDegrees)
+		if curIndex >= len(transits) {
+			break
+		}
 
-		startKaranaDegree := GetTithiDegree(panchang.Ephimeris[counter].Sun, panchang.Ephimeris[counter].Moon)
-		endKaranaDegree := GetTithiDegree(panchang.Ephimeris[counter+1].Sun, panchang.Ephimeris[counter+1].Moon)
+		// fmt.Printf(" Checking item %d @ %v  %v <== ==> %v\n", transits[curIndex].Name, transits[curIndex].Transit.AsTime().In(zone), startTime.In(zone), endTime.In(zone))
 
-		transitMinutes, err := GetTransitTime(startKaranaDegree, endKaranaDegree, QUARTER_DAY_MINUTES, nextKaranaDegrees)
-		if err == nil {
-			currentKarana++
-			if currentKarana > TOTAL_KARANAS {
-				currentKarana = 1
+		if transits[curIndex].Transit.AsTime().After(startTime) {
+			if transits[curIndex].Transit.AsTime().Before(endTime) {
+				// fmt.Printf(" item %s @ %v \n", transits[curIndex].Name, transits[curIndex].Transit.AsTime().In(zone))
+				newTransits = append(newTransits, transits[curIndex])
+			} else {
+				break
 			}
-			t := t.Add(time.Minute*time.Duration(transitMinutes) + time.Minute*time.Duration(counter*QUARTER_DAY_MINUTES))
-
-			karanas = append(karanas, &astroV1.PanchangTransits{
-				Name:    int32(currentKarana),
-				Transit: timestamppb.New(t),
-			})
-
-			// logrus.Infof("%s, %f<->%f @ %v", KARANA_NAMES[currentKarana], startKaranaDegree, endKaranaDegree, t.In(zone))
 		}
-
-		counter++
+		curIndex++
 
 	}
-
-	panchang.Karanas = karanas
-
-}
-
-func (panchang *Panchang) getYogaPanchang() {
-
-	// zone, _ := time.LoadLocation("Asia/Kolkata")
-
-	yogas := make([]*astroV1.PanchangTransits, 0)
-
-	counter := 0
-	numItems := len(panchang.Ephimeris) - 1
-	currentYoga := GetYogaNumber(panchang.Ephimeris[0].Sun, panchang.Ephimeris[0].Moon)
-	logrus.Infof("Starting Yoga (%d)", currentYoga)
-	for counter < numItems {
-		t := panchang.StartTime.AsTime()
-		nextYoga := currentYoga + 1
-		if nextYoga > TOTAL_YOGAS {
-			nextYoga = 1
-		}
-
-		nextYogaDegrees := YOGA_DEGREES * float64(nextYoga-1)
-
-		startYogaDegree := GetYogaDegree(panchang.Ephimeris[counter].Sun, panchang.Ephimeris[counter].Moon)
-		endYogaDegree := GetYogaDegree(panchang.Ephimeris[counter+1].Sun, panchang.Ephimeris[counter+1].Moon)
-
-		transitMinutes, err := GetTransitTime(startYogaDegree, endYogaDegree, QUARTER_DAY_MINUTES, nextYogaDegrees)
-		if err == nil {
-			currentYoga++
-			if currentYoga > TOTAL_YOGAS {
-				currentYoga = 1
-			}
-
-			t := t.Add(time.Minute*time.Duration(transitMinutes) + time.Minute*time.Duration(counter*QUARTER_DAY_MINUTES))
-
-			yogas = append(yogas, &astroV1.PanchangTransits{
-				Name:    int32(currentYoga),
-				Transit: timestamppb.New(t),
-			})
-
-			// logrus.Infof(" %s, %f<->%f @ %v", YOGA_NAMES[currentYoga], startYogaDegree, endYogaDegree, t.In(zone))
-		}
-
-		counter++
-
-	}
-
-	panchang.Yogas = yogas
-
+	return curIndex, newTransits
 }
