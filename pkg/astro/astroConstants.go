@@ -1,5 +1,7 @@
 package astro
 
+import astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
+
 const (
 	PLANET_ASC     = "asc"
 	PLANET_SUN     = "sun"
@@ -96,6 +98,10 @@ var STAR_NAMES_WITH_ABHIJIT = []string{"", "Aswini", "Barani", "Krittika",
 	"Poorvabhadra", "Uttarabadra", "Revathi"}
 
 var RASI_NAMES = []string{"", "Mesham", "Rishabam", "Mithunam", "Karkataka", "Simha", "Kanya", "Thula", "Vrishika", "Dhanus", "Makara", "Kumbha", "Meena"}
+var RASI_OWNERS = []int{-1, int(astroV1.AstroConstants_Mars), int(astroV1.AstroConstants_Venus), int(astroV1.AstroConstants_Mercury),
+	int(astroV1.AstroConstants_Moon), int(astroV1.AstroConstants_Sun), int(astroV1.AstroConstants_Mercury),
+	int(astroV1.AstroConstants_Venus), int(astroV1.AstroConstants_Mars), int(astroV1.AstroConstants_Jupiter),
+	int(astroV1.AstroConstants_Saturn), int(astroV1.AstroConstants_Saturn), int(astroV1.AstroConstants_Jupiter)}
 
 var PAKSHA_NAMES = []string{"", "Shukra Paksha", "Krishna Paksha"}
 

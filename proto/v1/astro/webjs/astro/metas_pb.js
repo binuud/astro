@@ -199,7 +199,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.astro.StarWeekdayYoga = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, proto.astro.StarWeekdayYoga.repeatedFields_, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
 goog.inherits(proto.astro.StarWeekdayYoga, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -2319,13 +2319,6 @@ proto.astro.AstroMetadata.prototype.hasUpdatedat = function() {
 
 
 
-/**
- * List of repeated fields within this message type.
- * @private {!Array<number>}
- * @const
- */
-proto.astro.StarWeekdayYoga.repeatedFields_ = [3];
-
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -2359,9 +2352,8 @@ proto.astro.StarWeekdayYoga.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 1, ""),
     yoga: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    starsList: (f = jspb.Message.getRepeatedField(msg, 3)) == null ? undefined : f,
-    nature: jspb.Message.getFieldWithDefault(msg, 4, 0),
-    desc: jspb.Message.getFieldWithDefault(msg, 5, "")
+    nature: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    desc: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -2407,16 +2399,10 @@ proto.astro.StarWeekdayYoga.deserializeBinaryFromReader = function(msg, reader) 
       msg.setYoga(value);
       break;
     case 3:
-      var values = /** @type {!Array<!proto.astro.AstroConstants.Stars>} */ (reader.isDelimited() ? reader.readPackedEnum() : [reader.readEnum()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addStars(values[i]);
-      }
-      break;
-    case 4:
       var value = /** @type {!proto.astro.AstroMetas.Nature} */ (reader.readEnum());
       msg.setNature(value);
       break;
-    case 5:
+    case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setDesc(value);
       break;
@@ -2463,24 +2449,17 @@ proto.astro.StarWeekdayYoga.serializeBinaryToWriter = function(message, writer) 
       f
     );
   }
-  f = message.getStarsList();
-  if (f.length > 0) {
-    writer.writePackedEnum(
-      3,
-      f
-    );
-  }
   f = message.getNature();
   if (f !== 0.0) {
     writer.writeEnum(
-      4,
+      3,
       f
     );
   }
   f = message.getDesc();
   if (f.length > 0) {
     writer.writeString(
-      5,
+      4,
       f
     );
   }
@@ -2559,48 +2538,11 @@ proto.astro.StarWeekdayYoga.prototype.setYoga = function(value) {
 
 
 /**
- * repeated AstroConstants.Stars Stars = 3;
- * @return {!Array<!proto.astro.AstroConstants.Stars>}
- */
-proto.astro.StarWeekdayYoga.prototype.getStarsList = function() {
-  return /** @type {!Array<!proto.astro.AstroConstants.Stars>} */ (jspb.Message.getRepeatedField(this, 3));
-};
-
-
-/**
- * @param {!Array<!proto.astro.AstroConstants.Stars>} value
- * @return {!proto.astro.StarWeekdayYoga} returns this
- */
-proto.astro.StarWeekdayYoga.prototype.setStarsList = function(value) {
-  return jspb.Message.setField(this, 3, value || []);
-};
-
-
-/**
- * @param {!proto.astro.AstroConstants.Stars} value
- * @param {number=} opt_index
- * @return {!proto.astro.StarWeekdayYoga} returns this
- */
-proto.astro.StarWeekdayYoga.prototype.addStars = function(value, opt_index) {
-  return jspb.Message.addToRepeatedField(this, 3, value, opt_index);
-};
-
-
-/**
- * Clears the list making it empty but non-null.
- * @return {!proto.astro.StarWeekdayYoga} returns this
- */
-proto.astro.StarWeekdayYoga.prototype.clearStarsList = function() {
-  return this.setStarsList([]);
-};
-
-
-/**
- * optional AstroMetas.Nature Nature = 4;
+ * optional AstroMetas.Nature Nature = 3;
  * @return {!proto.astro.AstroMetas.Nature}
  */
 proto.astro.StarWeekdayYoga.prototype.getNature = function() {
-  return /** @type {!proto.astro.AstroMetas.Nature} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+  return /** @type {!proto.astro.AstroMetas.Nature} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
@@ -2609,16 +2551,16 @@ proto.astro.StarWeekdayYoga.prototype.getNature = function() {
  * @return {!proto.astro.StarWeekdayYoga} returns this
  */
 proto.astro.StarWeekdayYoga.prototype.setNature = function(value) {
-  return jspb.Message.setProto3EnumField(this, 4, value);
+  return jspb.Message.setProto3EnumField(this, 3, value);
 };
 
 
 /**
- * optional string desc = 5;
+ * optional string desc = 4;
  * @return {string}
  */
 proto.astro.StarWeekdayYoga.prototype.getDesc = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
 
@@ -2627,7 +2569,7 @@ proto.astro.StarWeekdayYoga.prototype.getDesc = function() {
  * @return {!proto.astro.StarWeekdayYoga} returns this
  */
 proto.astro.StarWeekdayYoga.prototype.setDesc = function(value) {
-  return jspb.Message.setProto3StringField(this, 5, value);
+  return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 

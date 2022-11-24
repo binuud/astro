@@ -484,11 +484,6 @@ export class StarWeekdayYoga extends jspb.Message {
   getYoga(): StarWeekdayYoga.StarWeekdayYogaTypes;
   setYoga(value: StarWeekdayYoga.StarWeekdayYogaTypes): StarWeekdayYoga;
 
-  getStarsList(): Array<AstroConstants.Stars>;
-  setStarsList(value: Array<AstroConstants.Stars>): StarWeekdayYoga;
-  clearStarsList(): StarWeekdayYoga;
-  addStars(value: AstroConstants.Stars, index?: number): StarWeekdayYoga;
-
   getNature(): AstroMetas.Nature;
   setNature(value: AstroMetas.Nature): StarWeekdayYoga;
 
@@ -507,7 +502,6 @@ export namespace StarWeekdayYoga {
   export type AsObject = {
     name: string,
     yoga: StarWeekdayYoga.StarWeekdayYogaTypes,
-    starsList: Array<AstroConstants.Stars>,
     nature: AstroMetas.Nature,
     desc: string,
   }
