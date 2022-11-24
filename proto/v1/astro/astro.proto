@@ -28,6 +28,7 @@ message Metadata {
     google.protobuf.Timestamp updatedAt = 102;
 }
 
+
 message PlanetDetails {
     string name = 1;
     
@@ -45,11 +46,13 @@ message PlanetDetails {
     int64 bhava_h = 25;
 
     bool exalted = 51;
-    bool deblited = 52;
-    bool ownHouse = 53;
-    bool friendHouse = 54;
-    bool enemyHouse = 55;
-    bool moolTrikona = 56;
+    bool moolTrikona = 52;
+    bool deblited = 53;
+    
+    bool ownHouse = 54;
+    bool friendHouse = 55;
+    bool enemyHouse = 56;
+    bool neutralHouse = 57;
 
     int64 amsa2 = 1002;
     int64 amsa9 = 1009;

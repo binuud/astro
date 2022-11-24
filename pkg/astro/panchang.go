@@ -89,6 +89,7 @@ func (p *Panchang) BuildPanchang() error {
 			Year:    int32(startTime.In(zone).Year()),
 			Month:   int32(startTime.In(zone).Month()),
 			Day:     int32(startTime.In(zone).Day()),
+			Weekday: int32(startTime.In(zone).Weekday()),
 			Zone:    p.InDate.Zone,
 			Stars:   stars,
 			Tithis:  tithis,
@@ -103,7 +104,7 @@ func (p *Panchang) BuildPanchang() error {
 		dayCount++
 		startTime = startTime.Add(time.Hour * 24)
 
-		if dayCount > 30 {
+		if int32(startTime.In(zone).Month()) != p.InDate.M {
 			break
 		}
 	}
@@ -120,9 +121,13 @@ func (p *Panchang) PrintMonth() {
 		if p.InDate.M != day.Month {
 			break
 		}
-		fmt.Printf("\n\n Day                          %d", day.Day)
+		fmt.Printf("\n\n Day               %10s %d", WEEKDAYS[day.Weekday], day.Day)
 		for _, star := range day.Stars {
 			fmt.Printf("\n  Star    %2d %25s  %v", star.Name, STAR_NAMES[star.Name], star.Transit.AsTime().In(zone).Format(time.Kitchen))
+			if star.Yoga.GetYogaStarWeekday() != nil {
+				fmt.Printf("\n   Yoga (%v) (%v)", star.Yoga.GetYogaStarWeekday().Name, star.Yoga.GetYogaStarWeekday().Nature)
+			}
+
 		}
 		for _, tithi := range day.Tithis {
 			fmt.Printf("\n  Tithi   %2d %25s  %v", tithi.Name, TITHI_NAMES[tithi.Name], tithi.Transit.AsTime().In(zone).Format(time.Kitchen))
@@ -146,6 +151,13 @@ func (p *Panchang) GetTransitingObjects(curIndex int, startTime time.Time, endTi
 	// zone, _ := time.LoadLocation(p.InDate.Zone)
 	newTransits := make([]*astroV1.Transit, 0)
 	safeCounter := 0
+
+	// add last Transit item by default
+	if curIndex > 0 {
+		lastTransit := CloneTransit(transits[curIndex-1])
+		newTransits = append(newTransits, lastTransit)
+	}
+
 	for {
 
 		safeCounter++

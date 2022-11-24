@@ -158,6 +158,16 @@ export namespace AstroConstants {
   export type AsObject = {
   }
 
+  export enum Weekdays { 
+    SUNDAY = 0,
+    MONDAY = 1,
+    TUESDAY = 2,
+    WEDNESDAY = 3,
+    THURSDAY = 4,
+    FRIDAY = 5,
+    SATURDAY = 6,
+  }
+
   export enum Planets { 
     LAGNA = 0,
     SUN = 1,
@@ -166,7 +176,7 @@ export namespace AstroConstants {
     MERCURY = 4,
     JUPITER = 5,
     VENUS = 6,
-    SATURDAY = 7,
+    SATURN = 7,
     RAHU = 8,
     KETU = 9,
     URANUS = 10,
@@ -305,6 +315,15 @@ export class AstroMetas extends jspb.Message {
 
 export namespace AstroMetas {
   export type AsObject = {
+  }
+
+  export enum Nature { 
+    IGNORENATURE = 0,
+    BENEFIC = 1,
+    MALEFIC = 2,
+    CHOOSY = 3,
+    BOTH = 4,
+    AVOID = 5,
   }
 
   export enum MetaTags { 
@@ -455,6 +474,144 @@ export namespace AstroMetadata {
     description: string,
     createdat?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     updatedat?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+  }
+}
+
+export class StarWeekdayYoga extends jspb.Message {
+  getName(): string;
+  setName(value: string): StarWeekdayYoga;
+
+  getYoga(): StarWeekdayYoga.StarWeekdayYogaTypes;
+  setYoga(value: StarWeekdayYoga.StarWeekdayYogaTypes): StarWeekdayYoga;
+
+  getNature(): AstroMetas.Nature;
+  setNature(value: AstroMetas.Nature): StarWeekdayYoga;
+
+  getDesc(): string;
+  setDesc(value: string): StarWeekdayYoga;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): StarWeekdayYoga.AsObject;
+  static toObject(includeInstance: boolean, msg: StarWeekdayYoga): StarWeekdayYoga.AsObject;
+  static serializeBinaryToWriter(message: StarWeekdayYoga, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): StarWeekdayYoga;
+  static deserializeBinaryFromReader(message: StarWeekdayYoga, reader: jspb.BinaryReader): StarWeekdayYoga;
+}
+
+export namespace StarWeekdayYoga {
+  export type AsObject = {
+    name: string,
+    yoga: StarWeekdayYoga.StarWeekdayYogaTypes,
+    nature: AstroMetas.Nature,
+    desc: string,
+  }
+
+  export enum StarWeekdayYogaTypes { 
+    IGNORESTARYOGA = 0,
+    ANANDA = 1,
+    KAALDANDA = 2,
+    DHUMRA = 3,
+    DHATA = 4,
+    SAUMYA = 5,
+    DHWANSHA = 6,
+    KETU = 7,
+    SRIVATSA = 8,
+    VAJRA = 9,
+    MUDGARA = 10,
+    CHHATRA = 11,
+    MITRA = 12,
+    MANAS = 13,
+    PADMA = 14,
+    LUMBA = 15,
+    UTPAATA = 16,
+    MRITYU = 17,
+    KAANA = 18,
+    SIDDHI = 19,
+    SUBHA = 20,
+    AMRITA = 21,
+    MUSHALA = 22,
+    GADA = 23,
+    MATANGA = 24,
+    RAKSHA = 25,
+    CHARA = 26,
+    SUSTHIRA = 27,
+    PRAVARDHAMAMA = 28,
+  }
+}
+
+export class StarThithiWeekdayYoga extends jspb.Message {
+  getYoga(): StarThithiWeekdayYoga.StarThithiWeekdayYogaTypes;
+  setYoga(value: StarThithiWeekdayYoga.StarThithiWeekdayYogaTypes): StarThithiWeekdayYoga;
+
+  getNature(): AstroMetas.Nature;
+  setNature(value: AstroMetas.Nature): StarThithiWeekdayYoga;
+
+  getDesc(): string;
+  setDesc(value: string): StarThithiWeekdayYoga;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): StarThithiWeekdayYoga.AsObject;
+  static toObject(includeInstance: boolean, msg: StarThithiWeekdayYoga): StarThithiWeekdayYoga.AsObject;
+  static serializeBinaryToWriter(message: StarThithiWeekdayYoga, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): StarThithiWeekdayYoga;
+  static deserializeBinaryFromReader(message: StarThithiWeekdayYoga, reader: jspb.BinaryReader): StarThithiWeekdayYoga;
+}
+
+export namespace StarThithiWeekdayYoga {
+  export type AsObject = {
+    yoga: StarThithiWeekdayYoga.StarThithiWeekdayYogaTypes,
+    nature: AstroMetas.Nature,
+    desc: string,
+  }
+
+  export enum StarThithiWeekdayYogaTypes { 
+    IGNORESTARTHITHIWEEKDAYYOGA = 0,
+    TRIPUSHKARAYOGA = 1,
+    DWIPUSHKARAYOGA = 2,
+  }
+}
+
+export class YogaIdentifier extends jspb.Message {
+  getType(): YogaIdentifier.YogaTypes;
+  setType(value: YogaIdentifier.YogaTypes): YogaIdentifier;
+
+  getYogastarweekday(): StarWeekdayYoga | undefined;
+  setYogastarweekday(value?: StarWeekdayYoga): YogaIdentifier;
+  hasYogastarweekday(): boolean;
+  clearYogastarweekday(): YogaIdentifier;
+
+  getYogastarthithiweekday(): StarThithiWeekdayYoga | undefined;
+  setYogastarthithiweekday(value?: StarThithiWeekdayYoga): YogaIdentifier;
+  hasYogastarthithiweekday(): boolean;
+  clearYogastarthithiweekday(): YogaIdentifier;
+
+  getYogaCase(): YogaIdentifier.YogaCase;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): YogaIdentifier.AsObject;
+  static toObject(includeInstance: boolean, msg: YogaIdentifier): YogaIdentifier.AsObject;
+  static serializeBinaryToWriter(message: YogaIdentifier, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): YogaIdentifier;
+  static deserializeBinaryFromReader(message: YogaIdentifier, reader: jspb.BinaryReader): YogaIdentifier;
+}
+
+export namespace YogaIdentifier {
+  export type AsObject = {
+    type: YogaIdentifier.YogaTypes,
+    yogastarweekday?: StarWeekdayYoga.AsObject,
+    yogastarthithiweekday?: StarThithiWeekdayYoga.AsObject,
+  }
+
+  export enum YogaTypes { 
+    IGNOREYOGATYPES = 0,
+    STARWEEKDAYYOGA = 1,
+    STARTHITHIWEEKDAYYOGA = 2,
+  }
+
+  export enum YogaCase { 
+    YOGA_NOT_SET = 0,
+    YOGASTARWEEKDAY = 2,
+    YOGASTARTHITHIWEEKDAY = 3,
   }
 }
 

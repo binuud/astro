@@ -47,7 +47,7 @@ func (s *grpcAstroServer) Update(ctx context.Context, in *astroV1.UserUpdateRequ
 		},
 	})
 	if err != nil {
-		logrus.Error("Cannot prepare chart err(%v)", err)
+		logrus.Errorf("Cannot prepare chart err(%v)", err)
 	}
 	chart.PrintChartTable()
 
@@ -99,7 +99,7 @@ func (s *grpcAstroServer) Get(ctx context.Context, in *astroV1.UserGetRequest) (
 		},
 	})
 	if err != nil {
-		logrus.Error("Cannot prepare chart err(%v)", err)
+		logrus.Errorf("Cannot prepare chart err(%v)", err)
 	}
 	chart.PrintChartTable()
 

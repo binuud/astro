@@ -6,6 +6,7 @@ import (
 	"time"
 
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
+	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -127,4 +128,50 @@ func GetTransitTime(startDegree float64, endDegree float64, duration int64, tran
 	}
 	err := fmt.Errorf("transition degree has to be in between start and end degree")
 	return 0, err
+}
+
+func GetAbhijitAdjustedStarNumber(starNum int32) (int32, error) {
+	if starNum < 1 || starNum > 27 {
+		err := fmt.Errorf("wrong star number (range 1-7)")
+		return 0, err
+	}
+	if starNum > 21 {
+		return starNum + 1, nil // for Abhijit adjust
+	}
+	return starNum, nil
+}
+
+func CloneTransit(in *astroV1.Transit) *astroV1.Transit {
+
+	logrus.Infof("Cloning Transit (%v)", in)
+	out := &astroV1.Transit{
+		Name:    in.Name,
+		Transit: in.Transit,
+	}
+
+	if in.Yoga == nil {
+		return out
+	}
+
+	out.Yoga = &astroV1.YogaIdentifier{
+		Type: in.Yoga.Type,
+	}
+
+	if in.Yoga.Type == astroV1.YogaIdentifier_StarWeekdayYoga {
+		cloneYoga := in.Yoga.GetYogaStarWeekday()
+		out.Yoga.Yoga = &astroV1.YogaIdentifier_YogaStarWeekday{
+			YogaStarWeekday: cloneYoga,
+		}
+
+	}
+
+	if in.Yoga.Type == astroV1.YogaIdentifier_StarThithiWeekdayYoga {
+		cloneYoga := in.Yoga.GetYogaStarThithiWeekday()
+		out.Yoga.Yoga = &astroV1.YogaIdentifier_YogaStarThithiWeekday{
+			YogaStarThithiWeekday: cloneYoga,
+		}
+	}
+
+	return out
+
 }

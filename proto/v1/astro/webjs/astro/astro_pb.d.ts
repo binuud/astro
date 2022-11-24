@@ -99,6 +99,9 @@ export class PlanetDetails extends jspb.Message {
   getExalted(): boolean;
   setExalted(value: boolean): PlanetDetails;
 
+  getMooltrikona(): boolean;
+  setMooltrikona(value: boolean): PlanetDetails;
+
   getDeblited(): boolean;
   setDeblited(value: boolean): PlanetDetails;
 
@@ -111,8 +114,8 @@ export class PlanetDetails extends jspb.Message {
   getEnemyhouse(): boolean;
   setEnemyhouse(value: boolean): PlanetDetails;
 
-  getMooltrikona(): boolean;
-  setMooltrikona(value: boolean): PlanetDetails;
+  getNeutralhouse(): boolean;
+  setNeutralhouse(value: boolean): PlanetDetails;
 
   getAmsa2(): number;
   setAmsa2(value: number): PlanetDetails;
@@ -151,11 +154,12 @@ export namespace PlanetDetails {
     bhava: number,
     bhavaH: number,
     exalted: boolean,
+    mooltrikona: boolean,
     deblited: boolean,
     ownhouse: boolean,
     friendhouse: boolean,
     enemyhouse: boolean,
-    mooltrikona: boolean,
+    neutralhouse: boolean,
     amsa2: number,
     amsa9: number,
     amsa10: number,

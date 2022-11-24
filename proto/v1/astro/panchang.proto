@@ -18,7 +18,8 @@ message SunMoonEphimeris  {
 
 message Transit {
     int32 name = 1;
-    google.protobuf.Timestamp transit   = 2;
+    google.protobuf.Timestamp transit   = 2; // time of transit
+    YogaIdentifier Yoga = 3; // each transit can have a yoga associated with it, the yoga can be benefic or malefic
 }
 
 message Kaalam {
@@ -54,6 +55,7 @@ message PanchangDay {
     int32 day = 3;
     string zone = 4;
     GeoLocation geo = 5;
+    int32 weekday = 6;
 
     Kaalam sunRiseSet = 11;
     Kaalam moonRiseSet = 12;

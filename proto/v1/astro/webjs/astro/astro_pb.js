@@ -731,11 +731,12 @@ proto.astro.PlanetDetails.toObject = function(includeInstance, msg) {
     bhava: jspb.Message.getFieldWithDefault(msg, 24, 0),
     bhavaH: jspb.Message.getFieldWithDefault(msg, 25, 0),
     exalted: jspb.Message.getBooleanFieldWithDefault(msg, 51, false),
-    deblited: jspb.Message.getBooleanFieldWithDefault(msg, 52, false),
-    ownhouse: jspb.Message.getBooleanFieldWithDefault(msg, 53, false),
-    friendhouse: jspb.Message.getBooleanFieldWithDefault(msg, 54, false),
-    enemyhouse: jspb.Message.getBooleanFieldWithDefault(msg, 55, false),
-    mooltrikona: jspb.Message.getBooleanFieldWithDefault(msg, 56, false),
+    mooltrikona: jspb.Message.getBooleanFieldWithDefault(msg, 52, false),
+    deblited: jspb.Message.getBooleanFieldWithDefault(msg, 53, false),
+    ownhouse: jspb.Message.getBooleanFieldWithDefault(msg, 54, false),
+    friendhouse: jspb.Message.getBooleanFieldWithDefault(msg, 55, false),
+    enemyhouse: jspb.Message.getBooleanFieldWithDefault(msg, 56, false),
+    neutralhouse: jspb.Message.getBooleanFieldWithDefault(msg, 57, false),
     amsa2: jspb.Message.getFieldWithDefault(msg, 1002, 0),
     amsa9: jspb.Message.getFieldWithDefault(msg, 1009, 0),
     amsa10: jspb.Message.getFieldWithDefault(msg, 1010, 0),
@@ -827,23 +828,27 @@ proto.astro.PlanetDetails.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 52:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setDeblited(value);
+      msg.setMooltrikona(value);
       break;
     case 53:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setOwnhouse(value);
+      msg.setDeblited(value);
       break;
     case 54:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setFriendhouse(value);
+      msg.setOwnhouse(value);
       break;
     case 55:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setEnemyhouse(value);
+      msg.setFriendhouse(value);
       break;
     case 56:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setMooltrikona(value);
+      msg.setEnemyhouse(value);
+      break;
+    case 57:
+      var value = /** @type {boolean} */ (reader.readBool());
+      msg.setNeutralhouse(value);
       break;
     case 1002:
       var value = /** @type {number} */ (reader.readInt64());
@@ -978,38 +983,45 @@ proto.astro.PlanetDetails.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getDeblited();
+  f = message.getMooltrikona();
   if (f) {
     writer.writeBool(
       52,
       f
     );
   }
-  f = message.getOwnhouse();
+  f = message.getDeblited();
   if (f) {
     writer.writeBool(
       53,
       f
     );
   }
-  f = message.getFriendhouse();
+  f = message.getOwnhouse();
   if (f) {
     writer.writeBool(
       54,
       f
     );
   }
-  f = message.getEnemyhouse();
+  f = message.getFriendhouse();
   if (f) {
     writer.writeBool(
       55,
       f
     );
   }
-  f = message.getMooltrikona();
+  f = message.getEnemyhouse();
   if (f) {
     writer.writeBool(
       56,
+      f
+    );
+  }
+  f = message.getNeutralhouse();
+  if (f) {
+    writer.writeBool(
+      57,
       f
     );
   }
@@ -1268,10 +1280,10 @@ proto.astro.PlanetDetails.prototype.setExalted = function(value) {
 
 
 /**
- * optional bool deblited = 52;
+ * optional bool moolTrikona = 52;
  * @return {boolean}
  */
-proto.astro.PlanetDetails.prototype.getDeblited = function() {
+proto.astro.PlanetDetails.prototype.getMooltrikona = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 52, false));
 };
 
@@ -1280,16 +1292,16 @@ proto.astro.PlanetDetails.prototype.getDeblited = function() {
  * @param {boolean} value
  * @return {!proto.astro.PlanetDetails} returns this
  */
-proto.astro.PlanetDetails.prototype.setDeblited = function(value) {
+proto.astro.PlanetDetails.prototype.setMooltrikona = function(value) {
   return jspb.Message.setProto3BooleanField(this, 52, value);
 };
 
 
 /**
- * optional bool ownHouse = 53;
+ * optional bool deblited = 53;
  * @return {boolean}
  */
-proto.astro.PlanetDetails.prototype.getOwnhouse = function() {
+proto.astro.PlanetDetails.prototype.getDeblited = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 53, false));
 };
 
@@ -1298,16 +1310,16 @@ proto.astro.PlanetDetails.prototype.getOwnhouse = function() {
  * @param {boolean} value
  * @return {!proto.astro.PlanetDetails} returns this
  */
-proto.astro.PlanetDetails.prototype.setOwnhouse = function(value) {
+proto.astro.PlanetDetails.prototype.setDeblited = function(value) {
   return jspb.Message.setProto3BooleanField(this, 53, value);
 };
 
 
 /**
- * optional bool friendHouse = 54;
+ * optional bool ownHouse = 54;
  * @return {boolean}
  */
-proto.astro.PlanetDetails.prototype.getFriendhouse = function() {
+proto.astro.PlanetDetails.prototype.getOwnhouse = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 54, false));
 };
 
@@ -1316,16 +1328,16 @@ proto.astro.PlanetDetails.prototype.getFriendhouse = function() {
  * @param {boolean} value
  * @return {!proto.astro.PlanetDetails} returns this
  */
-proto.astro.PlanetDetails.prototype.setFriendhouse = function(value) {
+proto.astro.PlanetDetails.prototype.setOwnhouse = function(value) {
   return jspb.Message.setProto3BooleanField(this, 54, value);
 };
 
 
 /**
- * optional bool enemyHouse = 55;
+ * optional bool friendHouse = 55;
  * @return {boolean}
  */
-proto.astro.PlanetDetails.prototype.getEnemyhouse = function() {
+proto.astro.PlanetDetails.prototype.getFriendhouse = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 55, false));
 };
 
@@ -1334,16 +1346,16 @@ proto.astro.PlanetDetails.prototype.getEnemyhouse = function() {
  * @param {boolean} value
  * @return {!proto.astro.PlanetDetails} returns this
  */
-proto.astro.PlanetDetails.prototype.setEnemyhouse = function(value) {
+proto.astro.PlanetDetails.prototype.setFriendhouse = function(value) {
   return jspb.Message.setProto3BooleanField(this, 55, value);
 };
 
 
 /**
- * optional bool moolTrikona = 56;
+ * optional bool enemyHouse = 56;
  * @return {boolean}
  */
-proto.astro.PlanetDetails.prototype.getMooltrikona = function() {
+proto.astro.PlanetDetails.prototype.getEnemyhouse = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 56, false));
 };
 
@@ -1352,8 +1364,26 @@ proto.astro.PlanetDetails.prototype.getMooltrikona = function() {
  * @param {boolean} value
  * @return {!proto.astro.PlanetDetails} returns this
  */
-proto.astro.PlanetDetails.prototype.setMooltrikona = function(value) {
+proto.astro.PlanetDetails.prototype.setEnemyhouse = function(value) {
   return jspb.Message.setProto3BooleanField(this, 56, value);
+};
+
+
+/**
+ * optional bool neutralHouse = 57;
+ * @return {boolean}
+ */
+proto.astro.PlanetDetails.prototype.getNeutralhouse = function() {
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 57, false));
+};
+
+
+/**
+ * @param {boolean} value
+ * @return {!proto.astro.PlanetDetails} returns this
+ */
+proto.astro.PlanetDetails.prototype.setNeutralhouse = function(value) {
+  return jspb.Message.setProto3BooleanField(this, 57, value);
 };
 
 

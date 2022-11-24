@@ -3,7 +3,9 @@ package astro
 import (
 	"time"
 
+	"github.com/dronasys-com/astro/pkg/astro/astroRules"
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
+	"github.com/sirupsen/logrus"
 )
 
 type PanchangDay struct {
@@ -13,6 +15,7 @@ type PanchangDay struct {
 func ProcessPanchangDay(day *astroV1.PanchangDay) {
 	p := &PanchangDay{day}
 	p.TagPanchangDay()
+	p.AddYogas()
 }
 
 func (p *PanchangDay) TagPanchangDay() {
@@ -22,20 +25,20 @@ func (p *PanchangDay) TagPanchangDay() {
 	sunSetTime := time.Date(int(p.Year), time.Month(p.Month), int(p.Day), int(18), int(0), int(0), 0, zone)
 
 	for _, star := range p.Stars {
-		if star.Name == int32(astroV1.AstroConstants_Krittika) &&
-			star.Transit.AsTime().Before(sunSetTime) {
-			p.AddTag(astroV1.AstroMetas_Krithika)
-			break
+		if star.Transit.AsTime().Day() == int(p.Day) {
+			if star.Name == int32(astroV1.AstroConstants_Krittika) &&
+				star.Transit.AsTime().Before(sunSetTime) {
+				p.AddTag(astroV1.AstroMetas_Krithika)
+				break
+			}
 		}
-		//  else if star.Name == int32(astroV1.AstroConstants_Rohini) &&
-		// 	star.Transit.AsTime().After(sunRiseTime) {
-		// 	p.AddTag(astroV1.AstroMetas_Krithika)
-		// 	break
-		// }
+
 	}
 
 	for _, tithi := range p.Tithis {
-
+		if tithi.Transit.AsTime().Day() != int(p.Day) {
+			continue
+		}
 		if tithi.Name <= int32(astroV1.AstroConstants_Purnima) {
 			p.AddTag(astroV1.AstroMetas_ShuklaPaksha)
 		} else if tithi.Name > int32(astroV1.AstroConstants_Purnima) {
@@ -77,6 +80,28 @@ func (p *PanchangDay) TagPanchangDay() {
 	// }
 
 	// logrus.Infof(" Tagged %d (%v) (%v -- %v) %v", p.Day, tithiName, tithiTime.In(zone), sunRiseTime.In(zone), p.Tags)
+
+}
+
+func (p *PanchangDay) AddYogas() {
+
+	for _, star := range p.Stars {
+
+		// add star vaar yoga to transit
+		abhijitAdjustedStarNum, _ := GetAbhijitAdjustedStarNumber(star.Name)
+		starVaarYoga, err := astroRules.GetVaarStarYoga(p.Weekday, abhijitAdjustedStarNum)
+		if err != nil {
+			logrus.Fatalf("wrong chart or panchang data")
+		}
+		star.Yoga = &astroV1.YogaIdentifier{
+			Type: astroV1.YogaIdentifier_StarWeekdayYoga,
+			Yoga: &astroV1.YogaIdentifier_YogaStarWeekday{
+				YogaStarWeekday: starVaarYoga,
+			},
+		}
+		// logrus.Infof("Yoga Debug day/weekday (%s/%d/%v) %v", STAR_NAMES[star.Name], p.Day, p.Weekday, star.Yoga)
+
+	}
 
 }
 
