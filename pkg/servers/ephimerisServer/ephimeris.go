@@ -1,4 +1,4 @@
-package astro
+package ephimerisServer
 
 import (
 	"fmt"
@@ -18,7 +18,7 @@ const (
 	FLONGITUDE             = "Pl"
 	FLONGITUDEONLY         = "l"
 	PLANET_DEFAULT_COLUMNS = "Plbrds"
-	ASTRO_CMD              = "/go/src/github.com/dronasys-com/astro/services/astroCalc/cmd/astroBin/astrobin"
+	ASTRO_CMD              = "/go/src/github.com/dronasys-com/astro/services/ephimeris/cmd/astroBin/astrobin"
 )
 
 type Ephimeris struct {
@@ -63,7 +63,7 @@ func (e *Ephimeris) GetSunMoonEphimerisForYear() (string, error) {
 
 }
 
-func (e *Ephimeris) GetSunMoonEphimerisForMonth() (string, error) {
+func (e *Ephimeris) GetPanchangMonth() (string, error) {
 
 	numDays := 34
 	count := numDays * 24

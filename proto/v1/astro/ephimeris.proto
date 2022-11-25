@@ -1,0 +1,28 @@
+/// Please use the following editor setup for this file:
+
+// Tab size=4; Tabs as spaces; Clean up trailing whitepsace
+// 'make proto' will run clang-format to fix formatiing
+// binu@dronasys.com
+syntax = "proto3";
+package astro;
+
+import "astro/metas.proto";
+
+option go_package = "./go";
+
+
+message EphimerisRequest {
+	BirthData birthData  = 1;
+}
+
+message EphimerisResponse {
+	string output = 1;
+}
+
+
+
+service Ephimeris {
+    rpc GetChart(EphimerisRequest) returns (EphimerisResponse) {}  // get ephimeris data
+	rpc GetMoonEphimeris(EphimerisRequest) returns (EphimerisResponse) {}  // get ephimeris data
+	rpc GetPanchangMonth(EphimerisRequest) returns (EphimerisResponse) {}  // get ephimeris data
+}

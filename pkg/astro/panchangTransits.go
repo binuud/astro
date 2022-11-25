@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/dronasys-com/astro/pkg/astro/ephimerisClient"
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -62,8 +63,8 @@ func (panchang *Transits) getSunMoonEphimeris(year int32, month int32) ([]*astro
 	// 	logrus.Errorf("Cannot parse time data for astro chart err(%v)", err)
 	// }
 
-	ephimeris := NewEphimeris((birthData))
-	moonEphimeris, err := ephimeris.GetSunMoonEphimerisForMonth()
+	ephimeris := ephimerisClient.NewEphimerisClient()
+	moonEphimeris, err := ephimeris.GetPanchangMonth(birthData)
 	if err != nil {
 		return nil, err
 	}

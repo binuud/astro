@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/dronasys-com/astro/pkg/astro/ephimerisClient"
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
 )
@@ -31,13 +32,13 @@ func NewAstroChart(birthData *astroV1.BirthData) (*Chart, error) {
 		logrus.Errorf("Cannot parse time data for astro chart err(%v)", err)
 	}
 
-	ephimeris := NewEphimeris(birthData)
-	planetsEphimeris, err := ephimeris.GetPlanetsEphimeris()
+	ephimeris := ephimerisClient.NewEphimerisClient()
+	planetsEphimeris, err := ephimeris.GetPlanetsEphimeris(birthData)
 	if err != nil {
 		return nil, err
 	}
 
-	moonEphimeris, err := ephimeris.GetMoonEphimeris()
+	moonEphimeris, err := ephimeris.GetMoonEphimeris(birthData)
 	if err != nil {
 		return nil, err
 	}

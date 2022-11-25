@@ -39,6 +39,9 @@ export class Metadata extends jspb.Message {
   hasUpdatedat(): boolean;
   clearUpdatedat(): Metadata;
 
+  getCharttype(): Metadata.ChartType;
+  setCharttype(value: Metadata.ChartType): Metadata;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Metadata.AsObject;
   static toObject(includeInstance: boolean, msg: Metadata): Metadata.AsObject;
@@ -59,6 +62,15 @@ export namespace Metadata {
     annotationsMap: Array<[string, string]>,
     createdat?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     updatedat?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    charttype: Metadata.ChartType,
+  }
+
+  export enum ChartType { 
+    IGNORECHARTTYPE = 0,
+    SELF = 1,
+    GLOBAL = 2,
+    CLIENT = 3,
+    TEST = 4,
   }
 }
 
@@ -219,6 +231,46 @@ export namespace AstroObject {
     metadata?: Metadata.AsObject,
     birthdata?: astro_metas_pb.BirthData.AsObject,
     planets?: Planets.AsObject,
+  }
+}
+
+export class UserCreateRequest extends jspb.Message {
+  getBirthdata(): astro_metas_pb.BirthData | undefined;
+  setBirthdata(value?: astro_metas_pb.BirthData): UserCreateRequest;
+  hasBirthdata(): boolean;
+  clearBirthdata(): UserCreateRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserCreateRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: UserCreateRequest): UserCreateRequest.AsObject;
+  static serializeBinaryToWriter(message: UserCreateRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserCreateRequest;
+  static deserializeBinaryFromReader(message: UserCreateRequest, reader: jspb.BinaryReader): UserCreateRequest;
+}
+
+export namespace UserCreateRequest {
+  export type AsObject = {
+    birthdata?: astro_metas_pb.BirthData.AsObject,
+  }
+}
+
+export class UserCreateResponse extends jspb.Message {
+  getAstro(): AstroObject | undefined;
+  setAstro(value?: AstroObject): UserCreateResponse;
+  hasAstro(): boolean;
+  clearAstro(): UserCreateResponse;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserCreateResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: UserCreateResponse): UserCreateResponse.AsObject;
+  static serializeBinaryToWriter(message: UserCreateResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserCreateResponse;
+  static deserializeBinaryFromReader(message: UserCreateResponse, reader: jspb.BinaryReader): UserCreateResponse;
+}
+
+export namespace UserCreateResponse {
+  export type AsObject = {
+    astro?: AstroObject.AsObject,
   }
 }
 

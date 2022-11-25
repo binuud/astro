@@ -6,9 +6,10 @@ import (
 	"log"
 	"net"
 
+	"github.com/dronasys-com/astro/pkg/foundation/bootstrap"
 	"github.com/dronasys-com/astro/pkg/servers/astroServer"
 	"github.com/dronasys-com/astro/pkg/servers/panchangServer"
-	"github.com/dronasys-com/trance-microservices/pkg/foundation/bootstrap"
+	"github.com/dronasys-com/astro/services/db"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
@@ -20,7 +21,7 @@ var (
 func main() {
 
 	bootstrap.Init()
-	// db.Init()
+	db.Init()
 
 	logrus.Info("Astro Calc - Trance !")
 	logrus.Info("--------->>>> Starting Astro Calc Microservice  <<<----------")
