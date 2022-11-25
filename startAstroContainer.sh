@@ -10,7 +10,7 @@ main() {
     --name $container_name \
     --volume $local_workdir:$container_workdir \
     --workdir $container_workdir \
-    -p 127.0.0.1:50061:50061 \
+    -p 127.0.0.1:50062:50062 \
     golang
 }
 

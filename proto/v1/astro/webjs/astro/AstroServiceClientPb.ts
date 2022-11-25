@@ -35,6 +35,49 @@ export class AstroClient {
     this.options_ = options;
   }
 
+  methodDescriptorCreate = new grpcWeb.MethodDescriptor(
+    '/astro.Astro/Create',
+    grpcWeb.MethodType.UNARY,
+    astro_astro_pb.UserCreateRequest,
+    astro_astro_pb.UserCreateResponse,
+    (request: astro_astro_pb.UserCreateRequest) => {
+      return request.serializeBinary();
+    },
+    astro_astro_pb.UserCreateResponse.deserializeBinary
+  );
+
+  create(
+    request: astro_astro_pb.UserCreateRequest,
+    metadata: grpcWeb.Metadata | null): Promise<astro_astro_pb.UserCreateResponse>;
+
+  create(
+    request: astro_astro_pb.UserCreateRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: astro_astro_pb.UserCreateResponse) => void): grpcWeb.ClientReadableStream<astro_astro_pb.UserCreateResponse>;
+
+  create(
+    request: astro_astro_pb.UserCreateRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: astro_astro_pb.UserCreateResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/astro.Astro/Create',
+        request,
+        metadata || {},
+        this.methodDescriptorCreate,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/astro.Astro/Create',
+    request,
+    metadata || {},
+    this.methodDescriptorCreate);
+  }
+
   methodDescriptorUpdate = new grpcWeb.MethodDescriptor(
     '/astro.Astro/Update',
     grpcWeb.MethodType.UNARY,

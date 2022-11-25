@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AstroClient interface {
+	Create(ctx context.Context, in *UserCreateRequest, opts ...grpc.CallOption) (*UserCreateResponse, error)
 	Update(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserUpdateResponse, error)
 	Get(ctx context.Context, in *UserGetRequest, opts ...grpc.CallOption) (*UserGetResponse, error)
 	List(ctx context.Context, in *UserListRequest, opts ...grpc.CallOption) (*UserListResponse, error)
@@ -33,6 +34,15 @@ type astroClient struct {
 
 func NewAstroClient(cc grpc.ClientConnInterface) AstroClient {
 	return &astroClient{cc}
+}
+
+func (c *astroClient) Create(ctx context.Context, in *UserCreateRequest, opts ...grpc.CallOption) (*UserCreateResponse, error) {
+	out := new(UserCreateResponse)
+	err := c.cc.Invoke(ctx, "/astro.Astro/Create", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *astroClient) Update(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserUpdateResponse, error) {
@@ -66,6 +76,7 @@ func (c *astroClient) List(ctx context.Context, in *UserListRequest, opts ...grp
 // All implementations must embed UnimplementedAstroServer
 // for forward compatibility
 type AstroServer interface {
+	Create(context.Context, *UserCreateRequest) (*UserCreateResponse, error)
 	Update(context.Context, *UserUpdateRequest) (*UserUpdateResponse, error)
 	Get(context.Context, *UserGetRequest) (*UserGetResponse, error)
 	List(context.Context, *UserListRequest) (*UserListResponse, error)
@@ -76,6 +87,9 @@ type AstroServer interface {
 type UnimplementedAstroServer struct {
 }
 
+func (UnimplementedAstroServer) Create(context.Context, *UserCreateRequest) (*UserCreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
 func (UnimplementedAstroServer) Update(context.Context, *UserUpdateRequest) (*UserUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
@@ -96,6 +110,24 @@ type UnsafeAstroServer interface {
 
 func RegisterAstroServer(s grpc.ServiceRegistrar, srv AstroServer) {
 	s.RegisterService(&Astro_ServiceDesc, srv)
+}
+
+func _Astro_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserCreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AstroServer).Create(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/astro.Astro/Create",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AstroServer).Create(ctx, req.(*UserCreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Astro_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -159,6 +191,10 @@ var Astro_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "astro.Astro",
 	HandlerType: (*AstroServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Create",
+			Handler:    _Astro_Create_Handler,
+		},
 		{
 			MethodName: "Update",
 			Handler:    _Astro_Update_Handler,

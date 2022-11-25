@@ -26,6 +26,16 @@ message Metadata {
     
     google.protobuf.Timestamp createdAt = 101;
     google.protobuf.Timestamp updatedAt = 102;
+
+    enum ChartType {
+        IgnoreChartType = 0;
+        Self = 1;
+        Global = 2;
+        Client = 3;
+        Test = 4;
+
+    }
+    ChartType chartType = 501;
 }
 
 
@@ -73,9 +83,18 @@ message AstroObject {
 }
 
 service Astro {
-    rpc Update(UserUpdateRequest) returns (UserUpdateResponse) {} 
-    rpc Get(UserGetRequest) returns (UserGetResponse) {} 
-    rpc List(UserListRequest) returns (UserListResponse) {}
+    rpc Create(UserCreateRequest) returns (UserCreateResponse) {} // update place and birth details
+    rpc Update(UserUpdateRequest) returns (UserUpdateResponse) {} // update place and birth details
+    rpc Get(UserGetRequest) returns (UserGetResponse) {}  // get chart and dasa
+    rpc List(UserListRequest) returns (UserListResponse) {} // list all charts of user/global charts
+}
+
+message UserCreateRequest {
+    BirthData birthData = 2;
+}
+
+message UserCreateResponse {
+    AstroObject astro = 1;
 }
 
 

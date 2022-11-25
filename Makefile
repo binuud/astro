@@ -47,6 +47,7 @@ protos: ## Build Go and Web Proto
 	--go_out=./proto/v1/astro/ \
     --go-grpc_out=./proto/v1/astro/ \
 	proto/v1/astro/metas.proto \
+	proto/v1/astro/ephimeris.proto \
 	proto/v1/astro/astro.proto \
 	proto/v1/astro/dasha.proto \
 	proto/v1/astro/panchang.proto 
@@ -62,10 +63,13 @@ win: ## Build windows docker image
 	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(APP_NAME) -f windows.dockerfile .
 	
 run: ## Run astro microservice
-	cd services/astrocalc/cmd && ./run.sh	
+	cd services/astro/cmd && ./run.sh	
 
 runContainer: ## Start container
 	./startAstroContainer.sh	
+
+runEphimeris: ## Run ephimeris microservice
+	cd services/ephimeris/cmd && ./run.sh	
 
 test: ## Run tests
 	go test ./pkg/...

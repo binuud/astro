@@ -3,7 +3,6 @@
 github.com/dronasys-com/trance-microservices/pkg/dataLayer/mongo
 github.com/dronasys-com/trance-microservices/pkg/foundation/bootstrap
 github.com/dronasys-com/trance-microservices/pkg/foundation/config
-github.com/dronasys-com/trance-microservices/pkg/foundation/helpers
 github.com/dronasys-com/trance-microservices/pkg/foundation/logger
 # github.com/golang/protobuf v1.5.2
 ## explicit; go 1.9
