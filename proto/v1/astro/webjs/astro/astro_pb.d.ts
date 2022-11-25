@@ -242,6 +242,11 @@ export namespace AstroObject {
 }
 
 export class UserCreateRequest extends jspb.Message {
+  getMetadata(): Metadata | undefined;
+  setMetadata(value?: Metadata): UserCreateRequest;
+  hasMetadata(): boolean;
+  clearMetadata(): UserCreateRequest;
+
   getBirthdata(): astro_metas_pb.BirthData | undefined;
   setBirthdata(value?: astro_metas_pb.BirthData): UserCreateRequest;
   hasBirthdata(): boolean;
@@ -257,6 +262,7 @@ export class UserCreateRequest extends jspb.Message {
 
 export namespace UserCreateRequest {
   export type AsObject = {
+    metadata?: Metadata.AsObject,
     birthdata?: astro_metas_pb.BirthData.AsObject,
   }
 }

@@ -2073,6 +2073,7 @@ proto.astro.UserCreateRequest.prototype.toObject = function(opt_includeInstance)
  */
 proto.astro.UserCreateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
+    metadata: (f = msg.getMetadata()) && proto.astro.Metadata.toObject(includeInstance, f),
     birthdata: (f = msg.getBirthdata()) && astro_metas_pb.BirthData.toObject(includeInstance, f)
   };
 
@@ -2110,6 +2111,11 @@ proto.astro.UserCreateRequest.deserializeBinaryFromReader = function(msg, reader
     }
     var field = reader.getFieldNumber();
     switch (field) {
+    case 1:
+      var value = new proto.astro.Metadata;
+      reader.readMessage(value,proto.astro.Metadata.deserializeBinaryFromReader);
+      msg.setMetadata(value);
+      break;
     case 2:
       var value = new astro_metas_pb.BirthData;
       reader.readMessage(value,astro_metas_pb.BirthData.deserializeBinaryFromReader);
@@ -2144,6 +2150,14 @@ proto.astro.UserCreateRequest.prototype.serializeBinary = function() {
  */
 proto.astro.UserCreateRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
+  f = message.getMetadata();
+  if (f != null) {
+    writer.writeMessage(
+      1,
+      f,
+      proto.astro.Metadata.serializeBinaryToWriter
+    );
+  }
   f = message.getBirthdata();
   if (f != null) {
     writer.writeMessage(
@@ -2152,6 +2166,43 @@ proto.astro.UserCreateRequest.serializeBinaryToWriter = function(message, writer
       astro_metas_pb.BirthData.serializeBinaryToWriter
     );
   }
+};
+
+
+/**
+ * optional Metadata metadata = 1;
+ * @return {?proto.astro.Metadata}
+ */
+proto.astro.UserCreateRequest.prototype.getMetadata = function() {
+  return /** @type{?proto.astro.Metadata} */ (
+    jspb.Message.getWrapperField(this, proto.astro.Metadata, 1));
+};
+
+
+/**
+ * @param {?proto.astro.Metadata|undefined} value
+ * @return {!proto.astro.UserCreateRequest} returns this
+*/
+proto.astro.UserCreateRequest.prototype.setMetadata = function(value) {
+  return jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.astro.UserCreateRequest} returns this
+ */
+proto.astro.UserCreateRequest.prototype.clearMetadata = function() {
+  return this.setMetadata(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.astro.UserCreateRequest.prototype.hasMetadata = function() {
+  return jspb.Message.getField(this, 1) != null;
 };
 
 

@@ -1,5 +1,5 @@
 export MONGO_ENDPOINT="127.0.0.1:27027"
-export MONGO_DB="trance"
+export MONGO_DB="astro"
 export MONGO_USER="root"
 export MONGO_PASSWORD="rootpassword"
 export MONGO_ENCRYPTION_KEY=""
