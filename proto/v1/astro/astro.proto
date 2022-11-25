@@ -92,6 +92,7 @@ service Astro {
 }
 
 message UserCreateRequest {
+    Metadata metadata = 1;
     BirthData birthData = 2;
 }
 

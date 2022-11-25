@@ -144,6 +144,29 @@ func (m *MongoConnection) Find(collectionName string, query interface{}, sortTyp
 	return cur, nil
 }
 
+func (m *MongoConnection) FindWithProjection(collectionName string, query interface{}, projection interface{}, sortType interface{}, currentPage int64, page_size int64) (*mongo.Cursor, error) {
+	// Pass these options to the Find method
+
+	logrus.Info(" Database ", m.DBName, " Collection ", collectionName)
+	findOptions := options.Find()
+	if currentPage > 1 {
+		findOptions.SetSkip((currentPage - 1) * page_size)
+	}
+
+	findOptions.SetLimit(page_size)
+	findOptions.SetSort(sortType)
+	findOptions.SetProjection(projection)
+
+	collection := m.Client.Database(m.DBName).Collection(collectionName)
+	// Passing bson.D{{}} as the filter matches all documents in the collection
+	cur, err := collection.Find(context.TODO(), query, findOptions)
+	if err != nil {
+		return nil, err
+	}
+
+	return cur, nil
+}
+
 func (m *MongoConnection) FindOne(collectionName string, query interface{}, result interface{}) error {
 
 	findOptions := options.FindOne()
