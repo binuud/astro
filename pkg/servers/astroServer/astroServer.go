@@ -254,6 +254,7 @@ func (s *grpcAstroServer) List(ctx context.Context, in *astroV1.UserListRequest)
 	sortType := bson.M{}
 	projection := bson.D{
 		{"metadata", 1},
+		{"birthdata", 1},
 	}
 	cursor, err := mongo.FindWithProjection(ASTRO_BUCKET_NAME, filter, projection, sortType, 1, 1000)
 	if err != nil {
