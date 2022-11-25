@@ -176,6 +176,7 @@ func (s *grpcAstroServer) Get(ctx context.Context, in *astroV1.UserGetRequest) (
 			Planets: &astroV1.Planets{
 				PlanetsMap: chart.Planets.PlanetsMap,
 			},
+			Dashas: chart.DashaBhukti,
 		},
 	}, nil
 

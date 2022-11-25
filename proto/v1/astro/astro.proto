@@ -8,6 +8,7 @@ package astro;
 
 import "google/protobuf/timestamp.proto";
 import "astro/metas.proto";
+import "astro/dasha.proto";
 
 option go_package = "./go";
 
@@ -80,6 +81,7 @@ message AstroObject {
     Metadata metadata = 1;
     BirthData birthData = 2;
     Planets planets = 4;
+    repeated DashaItem dashas = 11;
 }
 
 service Astro {

@@ -1,11 +1,9 @@
 {
 	"folders": [
 		{
-			"name": "astro",
 			"path": "."
 		},
 		{
-			"name": "astro-ui",
 			"path": "../astro-ui"
 		}
 	],

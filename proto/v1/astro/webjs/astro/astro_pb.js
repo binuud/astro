@@ -19,6 +19,8 @@ var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/time
 goog.object.extend(proto, google_protobuf_timestamp_pb);
 var astro_metas_pb = require('../astro/metas_pb.js');
 goog.object.extend(proto, astro_metas_pb);
+var astro_dasha_pb = require('../astro/dasha_pb.js');
+goog.object.extend(proto, astro_dasha_pb);
 goog.exportSymbol('proto.astro.AstroObject', null, global);
 goog.exportSymbol('proto.astro.Metadata', null, global);
 goog.exportSymbol('proto.astro.Metadata.ChartType', null, global);
@@ -106,7 +108,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.astro.AstroObject = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.astro.AstroObject.repeatedFields_, null);
 };
 goog.inherits(proto.astro.AstroObject, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -1727,6 +1729,13 @@ proto.astro.Planets.prototype.clearPlanetsmapMap = function() {
 
 
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.astro.AstroObject.repeatedFields_ = [11];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -1760,7 +1769,9 @@ proto.astro.AstroObject.toObject = function(includeInstance, msg) {
   var f, obj = {
     metadata: (f = msg.getMetadata()) && proto.astro.Metadata.toObject(includeInstance, f),
     birthdata: (f = msg.getBirthdata()) && astro_metas_pb.BirthData.toObject(includeInstance, f),
-    planets: (f = msg.getPlanets()) && proto.astro.Planets.toObject(includeInstance, f)
+    planets: (f = msg.getPlanets()) && proto.astro.Planets.toObject(includeInstance, f),
+    dashasList: jspb.Message.toObjectList(msg.getDashasList(),
+    astro_dasha_pb.DashaItem.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -1811,6 +1822,11 @@ proto.astro.AstroObject.deserializeBinaryFromReader = function(msg, reader) {
       var value = new proto.astro.Planets;
       reader.readMessage(value,proto.astro.Planets.deserializeBinaryFromReader);
       msg.setPlanets(value);
+      break;
+    case 11:
+      var value = new astro_dasha_pb.DashaItem;
+      reader.readMessage(value,astro_dasha_pb.DashaItem.deserializeBinaryFromReader);
+      msg.addDashas(value);
       break;
     default:
       reader.skipField();
@@ -1863,6 +1879,14 @@ proto.astro.AstroObject.serializeBinaryToWriter = function(message, writer) {
       4,
       f,
       proto.astro.Planets.serializeBinaryToWriter
+    );
+  }
+  f = message.getDashasList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      11,
+      f,
+      astro_dasha_pb.DashaItem.serializeBinaryToWriter
     );
   }
 };
@@ -1976,6 +2000,44 @@ proto.astro.AstroObject.prototype.clearPlanets = function() {
  */
 proto.astro.AstroObject.prototype.hasPlanets = function() {
   return jspb.Message.getField(this, 4) != null;
+};
+
+
+/**
+ * repeated DashaItem dashas = 11;
+ * @return {!Array<!proto.astro.DashaItem>}
+ */
+proto.astro.AstroObject.prototype.getDashasList = function() {
+  return /** @type{!Array<!proto.astro.DashaItem>} */ (
+    jspb.Message.getRepeatedWrapperField(this, astro_dasha_pb.DashaItem, 11));
+};
+
+
+/**
+ * @param {!Array<!proto.astro.DashaItem>} value
+ * @return {!proto.astro.AstroObject} returns this
+*/
+proto.astro.AstroObject.prototype.setDashasList = function(value) {
+  return jspb.Message.setRepeatedWrapperField(this, 11, value);
+};
+
+
+/**
+ * @param {!proto.astro.DashaItem=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.astro.DashaItem}
+ */
+proto.astro.AstroObject.prototype.addDashas = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 11, opt_value, proto.astro.DashaItem, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.astro.AstroObject} returns this
+ */
+proto.astro.AstroObject.prototype.clearDashasList = function() {
+  return this.setDashasList([]);
 };
 
 

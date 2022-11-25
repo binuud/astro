@@ -2,6 +2,7 @@ import * as jspb from 'google-protobuf'
 
 import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb';
 import * as astro_metas_pb from '../astro/metas_pb';
+import * as astro_dasha_pb from '../astro/dasha_pb';
 
 
 export class Metadata extends jspb.Message {
@@ -218,6 +219,11 @@ export class AstroObject extends jspb.Message {
   hasPlanets(): boolean;
   clearPlanets(): AstroObject;
 
+  getDashasList(): Array<astro_dasha_pb.DashaItem>;
+  setDashasList(value: Array<astro_dasha_pb.DashaItem>): AstroObject;
+  clearDashasList(): AstroObject;
+  addDashas(value?: astro_dasha_pb.DashaItem, index?: number): astro_dasha_pb.DashaItem;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): AstroObject.AsObject;
   static toObject(includeInstance: boolean, msg: AstroObject): AstroObject.AsObject;
@@ -231,6 +237,7 @@ export namespace AstroObject {
     metadata?: Metadata.AsObject,
     birthdata?: astro_metas_pb.BirthData.AsObject,
     planets?: Planets.AsObject,
+    dashasList: Array<astro_dasha_pb.DashaItem.AsObject>,
   }
 }
 
