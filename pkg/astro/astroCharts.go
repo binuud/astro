@@ -21,8 +21,9 @@ const (
 )
 
 type Chart struct {
-	BirthData *astroV1.BirthData
-	Planets   *astroV1.Planets
+	BirthData   *astroV1.BirthData
+	Planets     *astroV1.Planets
+	DashaBhukti []*astroV1.DashaItem
 }
 
 func NewAstroChart(birthData *astroV1.BirthData) (*Chart, error) {
@@ -52,8 +53,18 @@ func NewAstroChart(birthData *astroV1.BirthData) (*Chart, error) {
 	logrus.Infof(" Moon (%v)", moonEphimeris)
 	logrus.Infof(" Planet (%v)", planetsEphimeris)
 	chart.ParseEphimeris()
+	chart.CalculateDasaBhukti()
 	return chart, nil
 
+}
+
+func (chart *Chart) CalculateDasaBhukti() {
+	dasa := NewVimshottariDasha(chart.BirthData.Tob.Tobtime.AsTime())
+	curStar := chart.Planets.PlanetsMap[PLANET_MOON].Star - 1
+	dasa.AdjustStartTime(chart.Planets.PlanetsMap[PLANET_MOON].Longitude - float64(curStar)*float64(STAR_DEGREES))
+	dasa.Calculate()
+	chart.DashaBhukti = dasa.Dashas
+	dasa.Print()
 }
 
 func (chart *Chart) ParseEphimeris() {
