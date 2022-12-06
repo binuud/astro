@@ -39,6 +39,12 @@ message Metadata {
     ChartType chartType = 501;
 }
 
+message Pagination {
+    int64 total = 1;
+    int64 current = 2;
+    int64 perPage = 3;
+}
+
 
 message PlanetDetails {
     string name = 1;
@@ -120,8 +126,10 @@ message UserGetResponse {
 
 message UserListRequest {
     string uuid = 1;
+    Pagination pagination = 2;
 }
 
 message UserListResponse {
     repeated AstroObject astro = 1;
+    Pagination pagination = 2;
 }

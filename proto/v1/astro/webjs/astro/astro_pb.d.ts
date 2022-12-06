@@ -75,6 +75,32 @@ export namespace Metadata {
   }
 }
 
+export class Pagination extends jspb.Message {
+  getTotal(): number;
+  setTotal(value: number): Pagination;
+
+  getCurrent(): number;
+  setCurrent(value: number): Pagination;
+
+  getPerpage(): number;
+  setPerpage(value: number): Pagination;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Pagination.AsObject;
+  static toObject(includeInstance: boolean, msg: Pagination): Pagination.AsObject;
+  static serializeBinaryToWriter(message: Pagination, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Pagination;
+  static deserializeBinaryFromReader(message: Pagination, reader: jspb.BinaryReader): Pagination;
+}
+
+export namespace Pagination {
+  export type AsObject = {
+    total: number,
+    current: number,
+    perpage: number,
+  }
+}
+
 export class PlanetDetails extends jspb.Message {
   getName(): string;
   setName(value: string): PlanetDetails;
@@ -373,6 +399,11 @@ export class UserListRequest extends jspb.Message {
   getUuid(): string;
   setUuid(value: string): UserListRequest;
 
+  getPagination(): Pagination | undefined;
+  setPagination(value?: Pagination): UserListRequest;
+  hasPagination(): boolean;
+  clearPagination(): UserListRequest;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): UserListRequest.AsObject;
   static toObject(includeInstance: boolean, msg: UserListRequest): UserListRequest.AsObject;
@@ -384,6 +415,7 @@ export class UserListRequest extends jspb.Message {
 export namespace UserListRequest {
   export type AsObject = {
     uuid: string,
+    pagination?: Pagination.AsObject,
   }
 }
 
@@ -392,6 +424,11 @@ export class UserListResponse extends jspb.Message {
   setAstroList(value: Array<AstroObject>): UserListResponse;
   clearAstroList(): UserListResponse;
   addAstro(value?: AstroObject, index?: number): AstroObject;
+
+  getPagination(): Pagination | undefined;
+  setPagination(value?: Pagination): UserListResponse;
+  hasPagination(): boolean;
+  clearPagination(): UserListResponse;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): UserListResponse.AsObject;
@@ -404,6 +441,7 @@ export class UserListResponse extends jspb.Message {
 export namespace UserListResponse {
   export type AsObject = {
     astroList: Array<AstroObject.AsObject>,
+    pagination?: Pagination.AsObject,
   }
 }
 

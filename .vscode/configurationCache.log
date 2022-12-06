@@ -1,1 +1,1 @@
-{"buildTargets":["build","help","protos","protos-web-js","run","runContainer","runEphimeris","test","testCoverage","vendor","vendor-update","win"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}
+{"buildTargets":["build","help","protos","protos-web-js","run","runContainer","runEphimeris","runTestData","test","testCoverage","vendor","vendor-update","win"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}

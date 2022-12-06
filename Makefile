@@ -71,6 +71,9 @@ runContainer: ## Start container
 runEphimeris: ## Run ephimeris microservice
 	cd services/ephimeris/cmd && ./run.sh	
 
+runTestData: ## Creates test data charts
+	cd services/testData/cmd && ./run.sh	
+
 test: ## Run tests
 	go test ./pkg/...
 

@@ -6,7 +6,6 @@ import (
 	"golang.org/x/exp/slices"
 
 	aV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
-	"github.com/sirupsen/logrus"
 )
 
 const (
@@ -189,7 +188,7 @@ func CalculatePlanetMeta(planet *aV1.PlanetDetails) error {
 
 	// find ownwer of house
 
-	logrus.Infof(" Planet house/owner %v (%v/%v)", planet.Name, planet.Rasi)
+	// logrus.Infof(" Planet house/owner %v %v", planet.Name, planet.Rasi)
 	if slices.Index(planetMeta.FriendHouses, int(planet.Rasi)) != -1 {
 		planet.FriendHouse = true
 	} else if slices.Index(planetMeta.EnemyHouses, int(planet.Rasi)) != -1 {

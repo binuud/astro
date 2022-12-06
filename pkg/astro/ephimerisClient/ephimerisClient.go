@@ -10,11 +10,19 @@ import (
 	"google.golang.org/grpc"
 )
 
+var EphimerisClientConnection *EphimerisClient
+
 type EphimerisClient struct {
 	serverConn *grpc.ClientConn
 }
 
 func NewEphimerisClient() *EphimerisClient {
+
+	// if singleton exists return same
+	if EphimerisClientConnection != nil {
+		logrus.Trace("Singleton exists, returned existing Mongo DB Connection")
+		return EphimerisClientConnection
+	}
 
 	serverConn, err := grpc.Dial(config.Config.AstroEphimerisEndpoint, grpc.WithInsecure())
 	if err != nil {
@@ -24,9 +32,11 @@ func NewEphimerisClient() *EphimerisClient {
 	// defer serverConn.Close()
 	logrus.Info("Dialed in to GRPC server ", config.Config.AstroEphimerisEndpoint, err)
 
-	return &EphimerisClient{
+	EphimerisClientConnection = &EphimerisClient{
 		serverConn: serverConn,
 	}
+
+	return EphimerisClientConnection
 
 }
 

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/dronasys-com/astro/pkg/foundation/config"
+	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	mongolib "go.mongodb.org/mongo-driver/mongo"
@@ -14,6 +15,12 @@ import (
 )
 
 var DataLayer_Mongo *MongoConnection
+
+type Pagination struct {
+	CurPage int
+	Total   int
+	PerPage int
+}
 
 type MongoConnection struct {
 	Client     *mongo.Client
@@ -111,6 +118,17 @@ func (m *MongoConnection) UpdateOne(collectionName string, query interface{}, do
 	return err
 }
 
+func (m *MongoConnection) InsertMany(collectionName string, docs ...interface{}) error {
+
+	coll := m.Client.Database(m.DBName).Collection(collectionName)
+	opts := options.InsertMany()
+	_, err := coll.InsertMany(context.TODO(), docs, opts)
+	if err != nil {
+		logrus.Fatal("Cannot insert docs into database ", err)
+	}
+	return err
+}
+
 func (m *MongoConnection) InsertOne(collectionName string, doc interface{}) error {
 
 	coll := m.Client.Database(m.DBName).Collection(collectionName)
@@ -144,20 +162,30 @@ func (m *MongoConnection) Find(collectionName string, query interface{}, sortTyp
 	return cur, nil
 }
 
-func (m *MongoConnection) FindWithProjection(collectionName string, query interface{}, projection interface{}, sortType interface{}, currentPage int64, page_size int64) (*mongo.Cursor, error) {
+func (m *MongoConnection) FindWithProjection(collectionName string, query interface{}, projection interface{}, sortType interface{}, pagination *astroV1.Pagination) (*mongo.Cursor, error) {
 	// Pass these options to the Find method
+
+	if pagination.GetPerPage() > 50 {
+		pagination.PerPage = 50
+	}
 
 	logrus.Info(" Database ", m.DBName, " Collection ", collectionName)
 	findOptions := options.Find()
-	if currentPage > 1 {
-		findOptions.SetSkip((currentPage - 1) * page_size)
+	if pagination.GetCurrent() > 1 {
+		findOptions.SetSkip((pagination.GetCurrent() - 1) * pagination.GetPerPage())
 	}
 
-	findOptions.SetLimit(page_size)
+	findOptions.SetLimit(pagination.GetPerPage())
 	findOptions.SetSort(sortType)
 	findOptions.SetProjection(projection)
 
 	collection := m.Client.Database(m.DBName).Collection(collectionName)
+	// total, err := collection.CountDocuments(context.Background(), query)
+	// if err == nil {
+	// 	pagination.Total = int64(total)
+	// }
+	pagination.Total = 111147
+
 	// Passing bson.D{{}} as the filter matches all documents in the collection
 	cur, err := collection.Find(context.TODO(), query, findOptions)
 	if err != nil {
