@@ -5,7 +5,6 @@ import (
 	"time"
 
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
-	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -38,7 +37,7 @@ func (d *AstroDasha) AdjustStartTime(degreesMoved float64) {
 	adjustTime := float64(d.Meta.YearInSeconds) * float64(d.Meta.SubDashaMetas[currentDasha].Duration) * degreesMoved / d.Meta.DasaDegrees
 
 	startTime := d.Meta.StartTime.AsTime().Add(-(time.Second * time.Duration(adjustTime)))
-	logrus.Infof("Correction time %v %v", startTime, d.Meta.StartTime.AsTime())
+	// logrus.Infof("Correction time %v %v", startTime, d.Meta.StartTime.AsTime())
 	d.Meta.StartTime = timestamppb.New(startTime)
 }
 

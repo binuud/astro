@@ -21,9 +21,7 @@ const (
 )
 
 type Chart struct {
-	BirthData   *astroV1.BirthData
-	Planets     *astroV1.Planets
-	DashaBhukti []*astroV1.DashaItem
+	*astroV1.AstroObject
 }
 
 func NewAstroChart(birthData *astroV1.BirthData) (*Chart, error) {
@@ -39,19 +37,21 @@ func NewAstroChart(birthData *astroV1.BirthData) (*Chart, error) {
 		return nil, err
 	}
 
-	moonEphimeris, err := ephimeris.GetMoonEphimeris(birthData)
-	if err != nil {
-		return nil, err
-	}
+	// moonEphimeris, err := ephimeris.GetMoonEphimeris(birthData)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	chart := &Chart{
-		BirthData: birthData,
-		Planets: &astroV1.Planets{
-			Ephimeris: planetsEphimeris,
+		&astroV1.AstroObject{
+			BirthData: birthData,
+			Planets: &astroV1.Planets{
+				Ephimeris: planetsEphimeris,
+			},
 		},
 	}
-	logrus.Infof(" Moon (%v)", moonEphimeris)
-	logrus.Infof(" Planet (%v)", planetsEphimeris)
+	// logrus.Infof(" Moon (%v)", moonEphimeris)
+	// logrus.Infof(" Planet (%v)", planetsEphimeris)
 	chart.ParseEphimeris()
 	chart.CalculateDasaBhukti()
 	return chart, nil
@@ -63,8 +63,8 @@ func (chart *Chart) CalculateDasaBhukti() {
 	curStar := chart.Planets.PlanetsMap[PLANET_MOON].Star - 1
 	dasa.AdjustStartTime(chart.Planets.PlanetsMap[PLANET_MOON].Longitude - float64(curStar)*float64(STAR_DEGREES))
 	dasa.Calculate()
-	chart.DashaBhukti = dasa.Dashas
-	dasa.Print()
+	chart.Dashas = dasa.Dashas
+	// dasa.Print()
 }
 
 func (chart *Chart) ParseEphimeris() {
