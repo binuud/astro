@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  astroservice:
+    container_name: astro-service
+    build:
+      context: .
+      dockerfile: astro.dockerfile
+    environment:
+      - TRANCE_LOG_VERBOSITY=1
+      - TRANCE_PRODUCTION=astro 
+      - MONGO_ENDPOINT=host.docker.internal:27027
+      - MONGO_DB=astro
+      - MONGO_USER=root  
+      - MONGO_PASSWORD=rootpassword
+      - MONGO_ENCRYPTION_KEY=  
+      - ASTRO_EPHIMERIS_ENDPOINT=host.docker.internal:50062  
+    ports:
+      - '50061:50061'
+
+  ephimerisservice:
+    container_name: ephimeris-service
+    build:
+      context: .
+      dockerfile: ephimeris.dockerfile
+    environment:
+      - TRANCE_LOG_VERBOSITY=1  
+    ports:
+      - '50062:50062'
+
+
+
+# networks:
+#   envoymesh: {}  

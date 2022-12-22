@@ -32,7 +32,7 @@ func (s *grpcAstroServer) GetMonth(ctx context.Context, in *astroV1.PanchangMont
 	if err != nil {
 		logrus.Errorf("Cannot prepare chart err(%v)", err)
 	}
-	p.PrintMonth()
+	// p.PrintMonth()
 
 	return &astroV1.PanchangMonthGetResponse{
 		Month: p.PanchangMonth,

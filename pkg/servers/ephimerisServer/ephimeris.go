@@ -18,7 +18,7 @@ const (
 	FLONGITUDE             = "Pl"
 	FLONGITUDEONLY         = "l"
 	PLANET_DEFAULT_COLUMNS = "Plbrds"
-	ASTRO_CMD              = "/go/src/github.com/dronasys-com/astro/services/ephimeris/cmd/astroBin/astrobin"
+	ASTRO_CMD              = "/astroBin/astrobin"
 )
 
 type Ephimeris struct {

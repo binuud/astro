@@ -1,30 +1,29 @@
-FROM gcc:4.9 as builder
+FROM golang:latest as builder
 
 # LABEL maintainer="Binu Udayakumar <binu@dronasys.com>"
 
-# COPY ephimerals/ /ephimerals/
-# WORKDIR /ephimerals/src
-
-# RUN  make astro
- 
-# LABEL maintainer="binu@dronasys.com"
+RUN mkdir /build
+COPY ./ /build/
+WORKDIR /build
+ENV GO111MODULE auto
+RUN CGO_ENABLED=0 GOOS=linux go build services/astro/cmd/main.go   
 
  
 # generate clean, final image for end users
 # STAGE 2: build the container to run
-# FROM gcr.io/distroless/static AS final
+FROM gcr.io/distroless/static AS final
  
 LABEL maintainer="binu@dronasys.com"
-#USER nonroot:nonroot
+USER nonroot:nonroot
+EXPOSE 50061
 
-
-COPY astroBin/ /astroBin/
-WORKDIR /astroBin
+# copy compiled app
+COPY --from=builder --chown=nonroot:nonroot /build/main /main
 
 ARG BUILD_VER
 ENV TRANCE_VERSION $BUILD_VER
 
-
+ENTRYPOINT ["./main"]
  
 # run binary; use vector form
-ENTRYPOINT ["sleep", "12000"]
+#ENTRYPOINT ["sleep", "12000"]

@@ -172,7 +172,7 @@ func (panchang *Transits) getPaadaPanchang() {
 	t := panchang.StartTime.AsTime()
 	numItems := len(panchang.Ephimeris) - 1
 	currentItem := GetPaadaNumber(panchang.Ephimeris[0].Moon)
-	logrus.Infof("Checking Paadas %d total ", numItems)
+	// logrus.Infof("Checking Paadas %d total ", numItems)
 
 	for counter < numItems {
 
@@ -317,7 +317,7 @@ func (panchang *Transits) getYogaPanchang() {
 	counter := 0
 	numItems := len(panchang.Ephimeris) - 1
 	currentYoga := GetYogaNumber(panchang.Ephimeris[0].Sun, panchang.Ephimeris[0].Moon)
-	logrus.Infof("Starting Yoga (%d)", currentYoga)
+	// logrus.Infof("Starting Yoga (%d)", currentYoga)
 	for counter < numItems {
 		t := panchang.StartTime.AsTime()
 		nextYoga := currentYoga + 1
