@@ -2,7 +2,8 @@
 
 # Optional environmental variables
 REPO ?= dronasys-com
-APP_NAME ?= astro-stack
+ASTRO_APP ?= astro
+EPHIMERIS_APP ?= ephimeris
 AWS_ECR ?= 919350043131.dkr.ecr.ap-southeast-1.amazonaws.com
 
 BUILD_VER ?= a1.0.0
@@ -46,6 +47,8 @@ protos: ## Build Go and Web Proto
 	$(PROTOC) -I=./proto/v1/.  \
 	--go_out=./proto/v1/astro/ \
     --go-grpc_out=./proto/v1/astro/ \
+	--swift_out=./proto/v1/astro/swift/ \
+	--grpc-swift_out=Client=true,Server=false:./proto/v1/astro/swift/ \
 	proto/v1/astro/metas.proto \
 	proto/v1/astro/ephimeris.proto \
 	proto/v1/astro/astro.proto \
@@ -55,15 +58,40 @@ protos: ## Build Go and Web Proto
 
 build: ## Build docker image
 # docker system prune -f
-	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(APP_NAME) -f astro.dockerfile .
-	
+	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(ASTRO_APP) -f astro.dockerfile .
+	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(EPHIMERIS_APP) -f ephimeris.dockerfile .
 
-win: ## Build windows docker image
-# docker system prune -f
-	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(APP_NAME) -f windows.dockerfile .
+
+compose-up: ## docker compose up
+	docker-compose up  --remove-orphans 
 	
 run: ## Run astro microservice
 	cd services/astro/cmd && ./run.sh	
+
+clean-docker: ## Clean existing containers
+	docker rm -f $(EPHIMERIS_APP)
+	docker rm -f $(ASTRO_APP)
+
+run-docker-astro: ## run container image
+	docker rm -f $(ASTRO_APP)
+	docker run	\
+	-e TRANCE_LOG_VERBOSITY="6"	\
+	-e MONGO_ENDPOINT="host.docker.internal:27027"	\
+	-e MONGO_DB="astro"	\
+	-e MONGO_USER="root"	\
+	-e MONGO_PASSWORD="rootpassword" \
+	-e MONGO_ENCRYPTION_KEY="" \
+	-e TRANCE_PRODUCTION="false" \
+	-e ASTRO_EPHIMERIS_ENDPOINT="host.docker.internal:50062" \
+	-p self.local:50061:50061 \
+	--name $(ASTRO_APP) $(REPO)/$(ASTRO_APP)
+
+run-docker-ephimeris: ## run container image
+	docker rm -f $(EPHIMERIS_APP)
+	docker run   \
+	-e TRANCE_LOG_VERBOSITY="1" \
+	-p 127.0.0.1:50062:50062 \
+	--name $(EPHIMERIS_APP) $(REPO)/$(EPHIMERIS_APP)
 
 runContainer: ## Start container
 	./startAstroContainer.sh	

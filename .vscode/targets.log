@@ -10,7 +10,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target `all'.  Stop.
 
 
-# Make data base, printed on Thu Dec  1 22:02:33 2022
+# Make data base, printed on Thu Dec 22 19:40:06 2022
 
 # Variables
 
@@ -28,13 +28,13 @@ make: *** No rule to make target `all'.  Stop.
 CURDIR := /Users/diablo/Code/astro
 # makefile
 SHELL = /bin/sh
-# makefile (from `Makefile', line 15)
+# makefile (from `Makefile', line 16)
 BIN := /Users/diablo/Code/astro/bin
-# makefile (from `Makefile', line 14)
+# makefile (from `Makefile', line 15)
 BASE_DIR := /Users/diablo/Code/astro
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-gb","availableLanguages":{},"_languagePackSupport":true}
-# makefile (from `Makefile', line 12)
+# makefile (from `Makefile', line 13)
 TAGGED_NAME = $(REPO)/$(APP_NAME)
 # environment
 _ = /usr/bin/make
@@ -48,14 +48,12 @@ __CFBundleIdentifier = com.microsoft.VSCode
 VSCODE_CWD = /
 # environment
 GOPROXY = https://proxy.golang.org,direct
-# makefile (from `Makefile', line 28)
+# makefile (from `Makefile', line 29)
 PROTOC = protoc
 # environment
-PATH = /usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/diablo/.brew/bin:/Users/diablo/.brew/sbin:/Users/diablo/local/aws-cli:/Users/diablo/local/bin:/Users/diablo/local/bin/node-v16.14.2-darwin-x64/bin:/Users/diablo/local/node/bin:/Users/diablo/go/bin:/Users/diablo/local/bin/protoc-3/bin:/usr/local/go/bin
+PATH = /Users/diablo/.docker/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/Users/diablo/.brew/bin:/Users/diablo/.brew/sbin:/Users/diablo/.brew/opt/protobuf@3/bin:/Users/diablo/local/aws-cli:/Users/diablo/local/bin:/Users/diablo/local/bin/node-v16.14.2-darwin-x64/bin:/Users/diablo/local/node/bin:/Users/diablo/go/bin:/Users/diablo/local/bin/protoc-3/bin:/Users/diablo/.gem/ruby/2.6.0/bin:/usr/local/go/bin
 # environment
 GOPATH = /Users/diablo/go
-# environment
-LaunchInstanceID = BEA84D8C-9D98-4AB7-A485-0D1362978C6B
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
@@ -63,10 +61,10 @@ KUBECONFIG =
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.5kYFbP7jau/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.1JrmfHmCeE/Listeners
 # automatic
 %F = $(notdir $%)
-# makefile (from `Makefile', line 10)
+# makefile (from `Makefile', line 11)
 DOCKER_HUB_TAG = a1.0.0
 # environment
 PWD = /Users/diablo/Code/astro
@@ -76,12 +74,12 @@ ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 GOMODCACHE = /Users/diablo/go/pkg/mod
 # environment
 HOME = /Users/diablo
-# makefile (from `Makefile', line 32)
+# makefile (from `Makefile', line 33)
 PROTOWEB = protoc-gen-grpc-web
 # default
-MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
+MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/diablo/Library/Application Support/Code/CachedData/6261075646f055b99068d3688932416f2346dd3b
+VSCODE_CODE_CACHE_PATH = /Users/diablo/Library/Application Support/Code/CachedData/1ad8d514439d5077d2b0b7ee64d2ce82a9308e5a
 # environment
 LOGNAME = diablo
 # environment
@@ -90,6 +88,8 @@ APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
+# makefile (from `Makefile', line 5)
+ASTRO_APP = astro
 # environment
 XPC_FLAGS = 0x0
 # default
@@ -104,14 +104,14 @@ AWS_PROFILE =
 MAKE_VERSION := 3.81
 # environment
 USER = diablo
-# makefile (from `Makefile', line 25)
+# makefile (from `Makefile', line 26)
 .DEFAULT_GOAL := help
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
-# makefile (from `Makefile', line 6)
+# makefile (from `Makefile', line 7)
 AWS_ECR = 919350043131.dkr.ecr.ap-southeast-1.amazonaws.com
 # default
-MAKE_COMMAND := /Library/Developer/CommandLineTools/usr/bin/make
+MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
 # default
 .VARIABLES := 
 # environment
@@ -119,27 +119,27 @@ TMPDIR = /var/folders/c0/g8v9w9yd7ssbl7snn__tw9jc0000gq/T/
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /Users/diablo/Library/Application Support/Code/1.73.1-main.sock
+VSCODE_IPC_HOOK = /Users/diablo/Library/Application Support/Code/1.74.1-main.sock
 # environment
 MallocNanoZone = 0
 # makefile (from `Makefile', line 4)
 REPO = dronasys-com
 # makefile
 MAKEFLAGS = Rrqp
+# makefile (from `Makefile', line 6)
+EPHIMERIS_APP = ephimeris
 # environment
 MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
-# makefile (from `Makefile', line 8)
+# makefile (from `Makefile', line 9)
 BUILD_VER = a1.0.0
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.12246250.12246256
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.17781298.17781304
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
 +F = $(notdir $+)
-# makefile (from `Makefile', line 5)
-APP_NAME = astro-stack
 # environment
 __CF_USER_TEXT_ENCODING = 0x1F7:0x0:0x0
 # environment
@@ -152,8 +152,6 @@ MAKEFILES :=
 GOPRIVATE = github.com/dronasys-com/*
 # environment
 LC_ALL = C
-# environment
-SECURITYSESSIONID = 186a6
 # automatic
 ^F = $(notdir $^)
 # default
@@ -165,9 +163,9 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 476
+VSCODE_PID = 12592
 # variable set hash-table stats:
-# Load=76/1024=7%, Rehash=0, Collisions=2/111=2%
+# Load=75/1024=7%, Rehash=0, Collisions=2/111=2%
 
 # Pattern-specific Variable Values
 
@@ -175,15 +173,35 @@ VSCODE_PID = 476
 
 # Directories
 
-# . (device 16777220, inode 9983152): 19 files, no impossibilities.
+# . (device 16777220, inode 9983152): 21 files, no impossibilities.
 
-# 19 files, no impossibilities in 1 directories.
+# 21 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 # No implicit rules.
 
 # Files
+
+run-docker-astro:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 73):
+	docker rm -f $(ASTRO_APP)
+	docker run	\
+	-e TRANCE_LOG_VERBOSITY="1"	\
+	-e MONGO_ENDPOINT="host.docker.internal:27027"	\
+	-e MONGO_DB="astro"	\
+	-e MONGO_USER="root"	\
+	-e MONGO_PASSWORD="rootpassword" \
+	-e MONGO_ENCRYPTION_KEY="" \
+	-e TRANCE_PRODUCTION="false" \
+	-e TRANCE_LOG_VERBOSITY="6" \
+	-e ASTRO_EPHIMERIS_ENDPOINT="host.docker.internal:50062" \
+	-p self.local:50061:50061 \
+	--name $(ASTRO_APP) $(REPO)/$(ASTRO_APP)
+	
 
 # Not a target:
 all:
@@ -194,6 +212,18 @@ all:
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
+run-docker-ephimeris:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 88):
+	docker rm -f $(EPHIMERIS_APP)
+	docker run   \
+	-e TRANCE_LOG_VERBOSITY="1" \
+	-p 127.0.0.1:50062:50062 \
+	--name $(EPHIMERIS_APP) $(REPO)/$(EPHIMERIS_APP)
+	
+
 .PHONY: help vendor vendor-update
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -203,11 +233,13 @@ protos:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 45):
+#  commands to execute (from `Makefile', line 46):
 	# ****** Astro Calculations Related Proto 
 	$(PROTOC) -I=./proto/v1/.  \
 	--go_out=./proto/v1/astro/ \
 	--go-grpc_out=./proto/v1/astro/ \
+	--swift_out=./proto/v1/astro/swift/ \
+	--grpc-swift_out=Client=true,Server=false:./proto/v1/astro/swift/ \
 	proto/v1/astro/metas.proto \
 	proto/v1/astro/ephimeris.proto \
 	proto/v1/astro/astro.proto \
@@ -226,14 +258,14 @@ runTestData:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 75):
+#  commands to execute (from `Makefile', line 101):
 	cd services/testData/cmd && ./run.sh	
 	
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-12-01 14:19:08
+#  Last modified 2022-12-20 10:18:33
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -243,7 +275,7 @@ test:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 78):
+#  commands to execute (from `Makefile', line 104):
 	go test ./pkg/...
 	
 
@@ -251,8 +283,9 @@ build:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 58):
-	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(APP_NAME) -f astro.dockerfile .
+#  commands to execute (from `Makefile', line 61):
+	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(ASTRO_APP) -f astro.dockerfile .
+	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(EPHIMERIS_APP) -f ephimeris.dockerfile .
 	
 
 help:
@@ -260,7 +293,7 @@ help:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 23):
+#  commands to execute (from `Makefile', line 24):
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 	
 
@@ -273,16 +306,9 @@ vendor-update:
 # Not a target:
 .DEFAULT:
 #  Implicit rule search has not been done.
+ 
 #  Modification time never checked.
 #  File has not been updated.
-
-win:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  commands to execute (from `Makefile', line 63):
-	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(APP_NAME) -f windows.dockerfile .
-	
 
 run:
 #  Implicit rule search has not been done.
@@ -296,7 +322,7 @@ protos-web-js:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 36):
+#  commands to execute (from `Makefile', line 37):
 	$(PROTOC) -I=./proto/v1/. \
 	--js_out=import_style=commonjs:./proto/v1/astro/webjs/ \
 	--grpc-web_out=import_style=typescript,mode=grpcwebtext:./proto/v1/astro/webjs/ \
@@ -310,16 +336,15 @@ runEphimeris:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 72):
+#  commands to execute (from `Makefile', line 98):
 	cd services/ephimeris/cmd && ./run.sh	
 	
 
- 
 testCoverage:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 81):
+#  commands to execute (from `Makefile', line 107):
 	go test ./pkg/... -coverprofile=coverage.out
 	
 
@@ -327,7 +352,7 @@ runContainer:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 69):
+#  commands to execute (from `Makefile', line 95):
 	./startAstroContainer.sh	
 	
 
@@ -337,8 +362,17 @@ vendor:
 #  File does not exist.
 #  File has not been updated.
 
+clean-docker:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 69):
+	docker rm -f $(EPHIMERIS_APP)
+	docker rm -f $(ASTRO_APP)
+	
+
 # files hash-table stats:
-# Load=18/1024=2%, Rehash=0, Collisions=0/33=0%
+# Load=20/1024=2%, Rehash=0, Collisions=0/35=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -350,6 +384,6 @@ vendor:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Thu Dec  1 22:02:33 2022
+# Finished Make data base on Thu Dec 22 19:40:06 2022
 
  
