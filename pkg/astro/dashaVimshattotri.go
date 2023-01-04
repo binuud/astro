@@ -23,39 +23,39 @@ func NewVimshottariDasha(startTime time.Time) *AstroDasha {
 
 	subDashaMeta := []*astroV1.SubDashaMeta{
 		&astroV1.SubDashaMeta{
-			Name:     "KETU",
+			Name:     PLANET_KETU,
 			Duration: 7,
 		},
 		&astroV1.SubDashaMeta{
-			Name:     "VENUS",
+			Name:     PLANET_VENUS,
 			Duration: 20,
 		},
 		&astroV1.SubDashaMeta{
-			Name:     "SUN",
+			Name:     PLANET_SUN,
 			Duration: 6,
 		},
 		&astroV1.SubDashaMeta{
-			Name:     "MOON",
+			Name:     PLANET_MOON,
 			Duration: 10,
 		},
 		&astroV1.SubDashaMeta{
-			Name:     "MARS",
+			Name:     PLANET_MARS,
 			Duration: 7,
 		},
 		&astroV1.SubDashaMeta{
-			Name:     "RAHU",
+			Name:     PLANET_RAHU,
 			Duration: 18,
 		},
 		&astroV1.SubDashaMeta{
-			Name:     "JUPITER",
+			Name:     PLANET_JUPITER,
 			Duration: 16,
 		},
 		&astroV1.SubDashaMeta{
-			Name:     "SATURN",
+			Name:     PLANET_SATURN,
 			Duration: 19,
 		},
 		&astroV1.SubDashaMeta{
-			Name:     "MERCURY",
+			Name:     PLANET_MERCURY,
 			Duration: 17,
 		},
 	}

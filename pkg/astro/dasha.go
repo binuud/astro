@@ -2,6 +2,7 @@ package astro
 
 import (
 	"fmt"
+	"math"
 	"time"
 
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
@@ -30,6 +31,44 @@ func (d *AstroDasha) Calculate() {
 	currentDasha := d.Meta.StartDasa
 	endTime := startTime.Add(time.Second * time.Duration(d.Meta.YearInSeconds*d.Meta.DurationYears))
 	d.CalculateLevel(1, 3, startTime, endTime, int(currentDasha))
+}
+
+// AdjustTimePeriods
+// Instead of having fixed dasa bhukti time periods, calculate same from longitude moved by planets in corresponding rasis
+func (d *AstroDasha) AdjustTimePeriods(chart *astroV1.AstroObject) {
+
+}
+
+func (d *AstroDasha) AdjustTimePeriodsWithBase(chart *astroV1.AstroObject, basePlanet string) {
+
+	// calculate new midpoint for reference
+	// baseDegrees := chart.Planets.PlanetsMap[basePlanet].Longitude
+	degreeCorrection := 0.0 // math.Mod(float64(baseDegrees), STAR_DEGREES) - 6.5
+	totalDuration := 0
+	for _, dasha := range d.Meta.SubDashaMetas {
+
+		planet := chart.Planets.PlanetsMap[dasha.Name]
+		bavaDeg := float64(planet.Longitude) - degreeCorrection
+		//	print "$bavaDeg <br/>";
+		if bavaDeg > 360.0 {
+			bavaDeg = bavaDeg - 360.0
+		}
+
+		if bavaDeg < 0 {
+			bavaDeg = 360 + bavaDeg
+		}
+
+		remainingDegrees := float64(planet.Star)*float64(STAR_DEGREES) - bavaDeg
+
+		dasha.Duration = int32(math.Round(remainingDegrees))
+		totalDuration += int(dasha.Duration)
+
+		fmt.Printf(" %10s %02d %02d %06.2f %06.2f %06.2f %03d\n", planet.Name, planet.Star, planet.Paada, planet.Longitude, bavaDeg, remainingDegrees, dasha.Duration)
+	}
+
+	fmt.Printf("Total Duration %d Age - %d", totalDuration, totalDuration+int(chart.BirthData.Tob.Y))
+	// d.Meta.DurationYears = int64(totalDuration)
+
 }
 
 func (d *AstroDasha) AdjustStartTime(degreesMoved float64) {
@@ -97,7 +136,18 @@ func (d *AstroDasha) PrintDashas(intend string, dashas []*astroV1.DashaItem) {
 	for _, dasha := range dashas {
 		fmt.Printf(" %s %10s %v %v \n", intend, dasha.Name, dasha.StartTime.AsTime().In(zone), dasha.EndTime.AsTime().In(zone))
 		if len(dasha.Dashas) > 0 {
-			d.PrintDashas(intend+"-----", dasha.Dashas)
+			d.PrintAntarDashas(intend+"-----", dasha.Dashas)
 		}
+	}
+}
+
+func (d *AstroDasha) PrintAntarDashas(intend string, dashas []*astroV1.DashaItem) {
+	zone, _ := time.LoadLocation("Asia/Kolkata")
+
+	for _, dasha := range dashas {
+		fmt.Printf(" %s %10s %v %v \n", intend, dasha.Name, dasha.StartTime.AsTime().In(zone), dasha.EndTime.AsTime().In(zone))
+		// if len(dasha.Dashas) > 0 {
+		// 	d.PrintDashas(intend+"-----", dasha.Dashas)
+		// }
 	}
 }
