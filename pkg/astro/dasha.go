@@ -3,6 +3,7 @@ package astro
 import (
 	"fmt"
 	"math"
+	"strings"
 	"time"
 
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
@@ -30,7 +31,7 @@ func (d *AstroDasha) Calculate() {
 	startTime := d.Meta.StartTime.AsTime()
 	currentDasha := d.Meta.StartDasa
 	endTime := startTime.Add(time.Second * time.Duration(d.Meta.YearInSeconds*d.Meta.DurationYears))
-	d.CalculateLevel(1, 3, startTime, endTime, int(currentDasha))
+	d.CalculateLevel(1, 2, startTime, endTime, int(currentDasha))
 }
 
 // AdjustTimePeriods
@@ -39,7 +40,7 @@ func (d *AstroDasha) AdjustTimePeriods(chart *astroV1.AstroObject) {
 
 }
 
-func (d *AstroDasha) AdjustTimePeriodsWithBase(chart *astroV1.AstroObject, basePlanet string) {
+func (d *AstroDasha) AdjustTimePeriodsWithBaseOld(chart *astroV1.AstroObject, basePlanet string) {
 
 	// calculate new midpoint for reference
 	// baseDegrees := chart.Planets.PlanetsMap[basePlanet].Longitude
@@ -68,6 +69,46 @@ func (d *AstroDasha) AdjustTimePeriodsWithBase(chart *astroV1.AstroObject, baseP
 
 	fmt.Printf("Total Duration %d Age - %d", totalDuration, totalDuration+int(chart.BirthData.Tob.Y))
 	// d.Meta.DurationYears = int64(totalDuration)
+
+}
+
+// finds the long traversed by the base planet
+// subtracts same from all planet longiture, this resets the clock to base planet.
+// image the sky as clock, with each planet as hands like hr,min, second
+// we want the clocks start time to sync with birth
+// so rotate the clock counter clockwise so that the base planet points to 0 long of the corresponding star
+// during birth
+
+func (d *AstroDasha) AdjustTimePeriodsWithBase(chart *astroV1.AstroObject, basePlanetName string) {
+
+	// calculate new midpoint for reference
+	basePlanet := chart.Planets.PlanetsMap[basePlanetName]
+	degreeCorrection := basePlanet.Longitude - float64(basePlanet.Star-1)*STAR_DEGREES
+	fmt.Println("Base Planet degree correction %f", degreeCorrection)
+	totalDuration := 0
+	for _, dasha := range d.Meta.SubDashaMetas {
+
+		planet := chart.Planets.PlanetsMap[dasha.Name]
+		bavaDeg := float64(planet.Longitude) - degreeCorrection
+		//	print "$bavaDeg <br/>";
+		if bavaDeg > 360.0 {
+			bavaDeg = bavaDeg - 360.0
+		}
+
+		if bavaDeg < 0 {
+			bavaDeg = 360 + bavaDeg
+		}
+
+		remainingDegrees := float64(planet.Star)*float64(STAR_DEGREES) - bavaDeg
+
+		dasha.Duration = int32(math.Round(remainingDegrees))
+		totalDuration += int(dasha.Duration)
+
+		fmt.Printf(" %10s %02d %02d %06.2f %06.2f %06.2f %03d\n", planet.Name, planet.Star, planet.Paada, planet.Longitude, bavaDeg, remainingDegrees, dasha.Duration)
+	}
+
+	fmt.Printf("Total Duration %d Age - %d\n\n", totalDuration, totalDuration+int(chart.BirthData.Tob.Y))
+	d.Meta.DurationYears = int64(totalDuration)
 
 }
 
@@ -127,16 +168,17 @@ func (d *AstroDasha) getDurationRatioInSeconds(totalSeconds int, ratio int) int6
 }
 
 func (d *AstroDasha) Print() {
-	d.PrintDashas("", d.Dashas)
+	d.PrintDashas(1, 2, d.Dashas)
 }
 
-func (d *AstroDasha) PrintDashas(intend string, dashas []*astroV1.DashaItem) {
+func (d *AstroDasha) PrintDashas(level int, totalLevels int, dashas []*astroV1.DashaItem) {
 	zone, _ := time.LoadLocation("Asia/Kolkata")
 
+	intend := strings.Repeat("-----", level)
 	for _, dasha := range dashas {
 		fmt.Printf(" %s %10s %v %v \n", intend, dasha.Name, dasha.StartTime.AsTime().In(zone), dasha.EndTime.AsTime().In(zone))
-		if len(dasha.Dashas) > 0 {
-			d.PrintAntarDashas(intend+"-----", dasha.Dashas)
+		if len(dasha.Dashas) > 0 && level <= totalLevels {
+			d.PrintDashas(level+1, totalLevels, dasha.Dashas)
 		}
 	}
 }
