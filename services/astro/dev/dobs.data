@@ -1,0 +1,33 @@
+rajiv ghandi
+chart, err := astro.NewAstroChart(&astroV1.BirthData{
+		Tob: &astroV1.TobData{
+			D:    20,
+			M:    8,
+			Y:    1944,
+			Hour: 9,
+			Min:  53,
+			Sec:  0,
+			Zone: "Asia/Kolkata",
+		},
+		Pob: &astroV1.PobData{
+			City: "Chennai",
+			Lat:  18.58,
+			Long: 72.50,
+		},
+	})
+
+binu
+Tob: &astroV1.TobData{
+			D:    04,
+			M:    02,
+			Y:    1978,
+			Hour: 10,
+			Min:  45,
+			Sec:  0,
+			Zone: "Asia/Kolkata",
+		},
+		Pob: &astroV1.PobData{
+			City: "Chennai",
+			Lat:  13.08,
+			Long: 80.7,
+		},

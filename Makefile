@@ -2,8 +2,8 @@
 
 # Optional environmental variables
 REPO ?= dronasys-com
-ASTRO_APP ?= astro
-EPHIMERIS_APP ?= ephimeris
+ASTRO_APP ?= astro-backend
+EPHIMERIS_APP ?= astro-ephimeris
 AWS_ECR ?= 919350043131.dkr.ecr.ap-southeast-1.amazonaws.com
 
 BUILD_VER ?= a1.0.0
@@ -33,6 +33,22 @@ ifndef PROTOWEB
 PROTOWEB = protoc-gen-grpc-web
 endif
 
+build: ## Build docker image
+# docker system prune -f
+	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(ASTRO_APP) -f astro.dockerfile .
+	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(EPHIMERIS_APP) -f ephimeris.dockerfile .
+
+deploy: ## Deploy all images to docker hub
+	@echo "====================> Pushing image to dockerhub$(AWS_ECR) ."
+	## @docker login --username=$(DOCKER_HUB_USER) --password="$(DOCKER_HUB_PASSWD)"
+	aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 919350043131.dkr.ecr.ap-southeast-1.amazonaws.com
+	docker tag $(REPO)/${ASTRO_APP} $(AWS_ECR)/${ASTRO_APP}:$(DOCKER_HUB_TAG)
+	docker tag $(REPO)/${EPHIMERIS_APP} $(AWS_ECR)/${EPHIMERIS_APP}:$(DOCKER_HUB_TAG)
+
+	docker push $(AWS_ECR)/$(ASTRO_APP):$(DOCKER_HUB_TAG)
+	docker push $(AWS_ECR)/$(EPHIMERIS_APP):$(DOCKER_HUB_TAG)
+
+
 protos-web-js: ## WebJs Proto - working for streams too
 	$(PROTOC) -I=./proto/v1/. \
 	--js_out=import_style=commonjs:./proto/v1/astro/webjs/ \
@@ -56,10 +72,7 @@ protos: ## Build Go and Web Proto
 	proto/v1/astro/panchang.proto 
 	make protos-web-js
 
-build: ## Build docker image
-# docker system prune -f
-	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(ASTRO_APP) -f astro.dockerfile .
-	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(EPHIMERIS_APP) -f ephimeris.dockerfile .
+
 
 
 compose-up: ## docker compose up
