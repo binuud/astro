@@ -84,7 +84,10 @@ func (d *AstroDasha) AdjustTimePeriodsWithBase(chart *astroV1.AstroObject, baseP
 	// calculate new midpoint for reference
 	basePlanet := chart.Planets.PlanetsMap[basePlanetName]
 	degreeCorrection := basePlanet.Longitude - float64(basePlanet.Star-1)*STAR_DEGREES
+	// degreeCorrection := math.Mod(float64(basePlanet.Longitude), PAADA_DEGREES) // rounded at paada
+
 	fmt.Println("Base Planet degree correction %f", degreeCorrection)
+
 	totalDuration := 0
 	for _, dasha := range d.Meta.SubDashaMetas {
 
@@ -106,9 +109,25 @@ func (d *AstroDasha) AdjustTimePeriodsWithBase(chart *astroV1.AstroObject, baseP
 
 		fmt.Printf(" %10s %02d %02d %06.2f %06.2f %06.2f %03d\n", planet.Name, planet.Star, planet.Paada, planet.Longitude, bavaDeg, remainingDegrees, dasha.Duration)
 	}
+	fmt.Printf("Total Duration %d Age - %d\n\n\n", totalDuration, totalDuration+int(chart.BirthData.Tob.Y))
 
-	fmt.Printf("Total Duration %d Age - %d\n\n", totalDuration, totalDuration+int(chart.BirthData.Tob.Y))
-	d.Meta.DurationYears = int64(totalDuration)
+	if totalDuration > DASHA_VIMSHOTTARI_YEARS {
+		// now ratio the num years so that the total duration matches 120 (upscale/downscale)
+		scaledTotalDuration := 0
+		for _, dasha := range d.Meta.SubDashaMetas {
+			planet := chart.Planets.PlanetsMap[dasha.Name]
+			oldDuration := dasha.Duration
+			dasha.Duration = int32(math.Round(float64(dasha.Duration) / float64(totalDuration) * DASHA_VIMSHOTTARI_YEARS))
+			scaledTotalDuration += int(dasha.Duration)
+
+			fmt.Printf(" %10s %02d %02d  %03d\n", planet.Name, planet.Star, oldDuration, dasha.Duration)
+		}
+
+		fmt.Printf("Total Scaled Duration %d  --  %d Age - %d\n\n", totalDuration, scaledTotalDuration, scaledTotalDuration+int(chart.BirthData.Tob.Y))
+
+	} else {
+		d.Meta.DurationYears = int64(totalDuration)
+	}
 
 }
 
@@ -176,7 +195,9 @@ func (d *AstroDasha) PrintDashas(level int, totalLevels int, dashas []*astroV1.D
 
 	intend := strings.Repeat("-----", level)
 	for _, dasha := range dashas {
-		fmt.Printf(" %s %10s %v %v \n", intend, dasha.Name, dasha.StartTime.AsTime().In(zone), dasha.EndTime.AsTime().In(zone))
+		startAge := dasha.StartTime.AsTime().In(zone).Year() - d.Meta.StartTime.AsTime().In(zone).Year()
+		endAge := dasha.EndTime.AsTime().In(zone).Year() - d.Meta.StartTime.AsTime().In(zone).Year()
+		fmt.Printf(" %s %10s %v %v %3d to %3d years \n", intend, dasha.Name, dasha.StartTime.AsTime().In(zone), dasha.EndTime.AsTime().In(zone), startAge, endAge)
 		if len(dasha.Dashas) > 0 && level <= totalLevels {
 			d.PrintDashas(level+1, totalLevels, dasha.Dashas)
 		}
