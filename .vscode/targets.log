@@ -6,11 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
- 
-make: *** No rule to make target `all'.  Stop.
 
-
-# Make data base, printed on Wed Jan 25 17:29:39 2023
+# Make data base, printed on Sun Feb  5 18:29:05 2023
 
 # Variables
 
@@ -89,7 +86,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # makefile (from `Makefile', line 5)
-ASTRO_APP = astro
+ASTRO_APP = astro-backend
 # environment
 XPC_FLAGS = 0x0
 # default
@@ -127,7 +124,7 @@ REPO = dronasys-com
 # makefile
 MAKEFLAGS = Rrqp
 # makefile (from `Makefile', line 6)
-EPHIMERIS_APP = ephimeris
+EPHIMERIS_APP = astro-ephimeris
 # environment
 MFLAGS = -Rrqp
 # automatic
@@ -163,7 +160,7 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 40761
+VSCODE_PID = 67703
 # variable set hash-table stats:
 # Load=75/1024=7%, Rehash=0, Collisions=2/111=2%
 
@@ -187,7 +184,7 @@ run-docker-astro:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 76):
+#  commands to execute (from `Makefile', line 89):
 	docker rm -f $(ASTRO_APP)
 	docker run	\
 	-e TRANCE_LOG_VERBOSITY="6"	\
@@ -215,7 +212,7 @@ run-docker-ephimeris:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 90):
+#  commands to execute (from `Makefile', line 103):
 	docker rm -f $(EPHIMERIS_APP)
 	docker run   \
 	-e TRANCE_LOG_VERBOSITY="1" \
@@ -232,7 +229,7 @@ protos:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 46):
+#  commands to execute (from `Makefile', line 62):
 	# ****** Astro Calculations Related Proto 
 	$(PROTOC) -I=./proto/v1/.  \
 	--go_out=./proto/v1/astro/ \
@@ -251,7 +248,7 @@ compose-up:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 66):
+#  commands to execute (from `Makefile', line 79):
 	docker-compose up  --remove-orphans 
 	
 
@@ -265,14 +262,14 @@ runTestData:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 103):
+#  commands to execute (from `Makefile', line 116):
 	cd services/testData/cmd && ./run.sh	
 	
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-12-22 20:10:37
+#  Last modified 2023-01-25 22:01:29
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -282,7 +279,7 @@ test:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 106):
+#  commands to execute (from `Makefile', line 119):
 	go test ./pkg/...
 	
 
@@ -290,10 +287,13 @@ build:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 61):
+#  commands to execute (from `Makefile', line 38):
 	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(ASTRO_APP) -f astro.dockerfile .
 	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(EPHIMERIS_APP) -f ephimeris.dockerfile .
 	
+
+ 
+make: *** No rule to make target `all'.  Stop.
 
 help:
 #  Phony target (prerequisite of .PHONY).
@@ -301,7 +301,6 @@ help:
 #  File does not exist.
 #  File has not been updated.
 #  commands to execute (from `Makefile', line 24):
- 
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 	
 
@@ -321,7 +320,7 @@ run:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 69):
+#  commands to execute (from `Makefile', line 82):
 	cd services/astro/cmd && ./run.sh	
 	
 
@@ -329,7 +328,7 @@ protos-web-js:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 37):
+#  commands to execute (from `Makefile', line 53):
 	$(PROTOC) -I=./proto/v1/. \
 	--js_out=import_style=commonjs:./proto/v1/astro/webjs/ \
 	--grpc-web_out=import_style=typescript,mode=grpcwebtext:./proto/v1/astro/webjs/ \
@@ -343,7 +342,7 @@ runEphimeris:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 100):
+#  commands to execute (from `Makefile', line 113):
 	cd services/ephimeris/cmd && ./run.sh	
 	
 
@@ -351,7 +350,7 @@ testCoverage:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 109):
+#  commands to execute (from `Makefile', line 122):
 	go test ./pkg/... -coverprofile=coverage.out
 	
 
@@ -359,8 +358,22 @@ runContainer:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 97):
+#  commands to execute (from `Makefile', line 110):
 	./startAstroContainer.sh	
+	
+
+deploy:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 42):
+	@echo "====================> Pushing image to dockerhub$(AWS_ECR) ."
+	## @docker login --username=$(DOCKER_HUB_USER) --password="$(DOCKER_HUB_PASSWD)"
+	aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 919350043131.dkr.ecr.ap-southeast-1.amazonaws.com
+	docker tag $(REPO)/${ASTRO_APP} $(AWS_ECR)/${ASTRO_APP}:$(DOCKER_HUB_TAG)
+	docker tag $(REPO)/${EPHIMERIS_APP} $(AWS_ECR)/${EPHIMERIS_APP}:$(DOCKER_HUB_TAG)
+	docker push $(AWS_ECR)/$(ASTRO_APP):$(DOCKER_HUB_TAG)
+	docker push $(AWS_ECR)/$(EPHIMERIS_APP):$(DOCKER_HUB_TAG)
 	
 
 vendor:
@@ -373,13 +386,13 @@ clean-docker:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 72):
+#  commands to execute (from `Makefile', line 85):
 	docker rm -f $(EPHIMERIS_APP)
 	docker rm -f $(ASTRO_APP)
 	
 
 # files hash-table stats:
-# Load=21/1024=2%, Rehash=0, Collisions=0/36=0%
+# Load=22/1024=2%, Rehash=0, Collisions=0/37=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -391,6 +404,6 @@ clean-docker:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Wed Jan 25 17:29:39 2023
+# Finished Make data base on Sun Feb  5 18:29:05 2023
 
  
