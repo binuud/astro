@@ -6,10 +6,10 @@ import (
 	"log"
 	"net"
 
+	"github.com/dronasys-com/astro/pkg/foundation/bootstrap"
 	"github.com/dronasys-com/astro/pkg/servers/citiesServer"
 	"github.com/dronasys-com/astro/pkg/servers/ephimerisServer"
 	citiesV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
-	"github.com/dronasys-com/trance-microservices/pkg/foundation/bootstrap"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )

@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/dronasys-com/astro/pkg/foundation/config"
 	citiesV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
 )
@@ -24,7 +25,11 @@ func NewCityDB() *CityDB {
 }
 
 func (c *CityDB) initDB() []*citiesV1.CityInfo {
-	csvData, err := c.readCsvFile("../../../data/cities.csv")
+	csvFile := "../../../data/cities.csv"
+	if config.Config.Production == "true" {
+		csvFile = "/data/cities.csv"
+	}
+	csvData, err := c.readCsvFile(csvFile)
 	if err != nil {
 		panic(err)
 	}
