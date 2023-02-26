@@ -56,7 +56,8 @@ protos-web-js: ## WebJs Proto - working for streams too
 	proto/v1/astro/astro.proto \
 	proto/v1/astro/dasha.proto \
 	proto/v1/astro/panchang.proto \
-	proto/v1/astro/metas.proto 
+	proto/v1/astro/metas.proto \
+	proto/v1/astro/cities.proto 
 
 protos: ## Build Go and Web Proto
 	# ****** Astro Calculations Related Proto 
@@ -67,13 +68,11 @@ protos: ## Build Go and Web Proto
 	--grpc-swift_out=Client=true,Server=false:./proto/v1/astro/swift/ \
 	proto/v1/astro/metas.proto \
 	proto/v1/astro/ephimeris.proto \
+	proto/v1/astro/cities.proto \
 	proto/v1/astro/astro.proto \
 	proto/v1/astro/dasha.proto \
-	proto/v1/astro/panchang.proto 
+	proto/v1/astro/panchang.proto  
 	make protos-web-js
-
-
-
 
 compose-up: ## docker compose up
 	docker-compose up  --remove-orphans 
@@ -117,6 +116,9 @@ runTestData: ## Creates test data charts
 
 test: ## Run tests
 	go test ./pkg/...
+
+testCities: ## Run tests
+	go test ./pkg/servers/citiesServer/...	
 
 testCoverage: ## Run test coverage
 	go test ./pkg/... -coverprofile=coverage.out

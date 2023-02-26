@@ -12,8 +12,8 @@ func main() {
 
 	bootstrap.Init()
 
-	// test_dasa()
-	test_newdasa()
+	test_dasa()
+	// test_newdasa()
 	// test_calendar()
 	// test_chart()
 	// test_calendar()

@@ -1,0 +1,61 @@
+/// Please use the following editor setup for this file:
+
+// Tab size=4; Tabs as spaces; Clean up trailing whitepsace
+// 'make proto' will run clang-format to fix formatiing
+// binu@dronasys.com
+syntax = "proto3";
+package astro;
+
+option go_package = "./go";
+
+
+message CityInfo {
+    int64 id = 1;
+    string name = 2;
+    int64 state_id = 3;
+    string state_code = 4;
+    string state_name = 5;
+    int64 country_id = 6;
+    string country_code = 7;
+    string country_name = 8;
+    double latitude = 9;
+    double longitude = 10;
+    string wikiDataId = 11;
+    int64 index = 12; // positional index
+}
+
+message CitiesGetRequest {
+    int64 id = 1;
+    string name = 2;
+    int64 state_id = 3;
+    string state_code = 4;
+    string state_name = 5;
+    int64 country_id = 6;
+    string country_code = 7;
+    string country_name = 8;
+    int64 index = 9;
+}
+
+message CitiesGetResponse {
+    CityInfo details = 1;
+}
+
+message CitiesSearchRequest {
+    int64 id = 1;
+    string name = 2; // sub match
+    int64 state_id = 3; // optional
+    string state_code = 4; // optional
+    string state_name = 5; // optional
+    int64 country_id = 6; // either country_id or country_code or country_name
+    string country_code = 7; // either country_id or country_code or country_name
+    string country_name = 8; // either country_id or country_code or country_name
+}
+
+message CitiesSearchResponse {
+    repeated CityInfo cities = 1;
+}
+
+service Cities {
+    rpc Get(CitiesGetRequest) returns (CitiesGetResponse) {}  // get ephimeris data
+	rpc Search(CitiesSearchRequest) returns (CitiesSearchResponse) {}  // get ephimeris data
+}
