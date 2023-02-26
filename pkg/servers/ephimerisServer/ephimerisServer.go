@@ -5,17 +5,16 @@ import (
 
 	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
-	"google.golang.org/grpc"
 )
 
 type grpcEphimerisServer struct {
 	astroV1.UnimplementedEphimerisServer
 }
 
-func NewGrpcEphimerisServer(srv *grpc.Server) *grpcEphimerisServer {
+func NewGrpcEphimerisServer() *grpcEphimerisServer {
 
 	server := &grpcEphimerisServer{}
-	astroV1.RegisterEphimerisServer(srv, server)
+
 	return server
 }
 

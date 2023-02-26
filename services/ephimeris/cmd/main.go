@@ -6,8 +6,10 @@ import (
 	"log"
 	"net"
 
+	"github.com/dronasys-com/astro/pkg/foundation/bootstrap"
+	"github.com/dronasys-com/astro/pkg/servers/citiesServer"
 	"github.com/dronasys-com/astro/pkg/servers/ephimerisServer"
-	"github.com/dronasys-com/trance-microservices/pkg/foundation/bootstrap"
+	citiesV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
@@ -33,9 +35,10 @@ func main() {
 	// 	grpc.UnaryInterceptor(authServer.UnaryInterceptor))
 	secureServer := grpc.NewServer()
 
-	ephimerisServer.NewGrpcEphimerisServer(secureServer)
+	citiesV1.RegisterEphimerisServer(secureServer, ephimerisServer.NewGrpcEphimerisServer())
+	citiesV1.RegisterCitiesServer(secureServer, citiesServer.NewGrpcCitiesServer())
 
-	logrus.Infof("Astro Ephimeris Server *) (* listening on (%v)", secureConn.Addr())
+	logrus.Infof("Astro Ephimeris and Cities DB Server *) (* listening on (%v)", secureConn.Addr())
 	if err := secureServer.Serve(secureConn); err != nil {
 		logrus.Fatal("failed to serve: ", err)
 	}

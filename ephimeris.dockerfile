@@ -23,7 +23,7 @@ ENV TRANCE_VERSION $BUILD_VER
 # copy compiled app
 COPY --chown=nonroot:nonroot services/ephimeris/cmd/astroBin/ /astroBin
 COPY --chown=nonroot:nonroot --from=builder  /build/main /main
-
+COPY --chown=nonroot:nonroot ./data/ /data/
 # COPY services/ephimeris/cmd/astroBin/ /astroBin
 # COPY  --from=builder  /build/main /main
 
