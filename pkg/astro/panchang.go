@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
+	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/sirupsen/logrus"
 )
 

@@ -10,7 +10,6 @@ option go_package = "github.com/dronasys-com/astro/gen/go/v1/astro";
 
 import "google/protobuf/timestamp.proto";
 import "v1/astro/metas.proto";
-import "v1/astro/yoga.proto";
 
 message SunMoonEphimeris {
   double moon = 1;

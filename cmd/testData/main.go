@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/dronasys-com/astro/cmd/db"
-	"github.com/dronasys-com/astro/pkg/foundation/bootstrap"
+
 	"github.com/dronasys-com/astro/pkg/servers/astroServer"
 	"github.com/sirupsen/logrus"
 )
@@ -69,7 +69,6 @@ func updateCharts() error {
 
 func main() {
 
-	bootstrap.Init()
 	db.Init()
 
 	logrus.Info("Astro Chart DB Creator - Trance !")

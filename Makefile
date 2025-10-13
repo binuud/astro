@@ -122,7 +122,7 @@ run-docker-ephimeris: ## run container image
 	--name $(EPHIMERIS_APP) $(REPO)/$(EPHIMERIS_APP)
 
 runContainer: ## Start container
-	./startAstroContainer.sh	
+	./scripts/startAstroContainer.sh	
 
 runEphimeris: ## Run ephimeris microservice
 	./scripts/runEphimeris.sh	

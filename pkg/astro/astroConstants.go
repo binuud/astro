@@ -1,6 +1,6 @@
 package astro
 
-import astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
+import astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 
 const (
 	PLANET_ASC     = "asc"

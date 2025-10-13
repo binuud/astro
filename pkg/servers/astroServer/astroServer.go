@@ -3,7 +3,7 @@ package astroServer
 import (
 	"context"
 
-	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
+	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"google.golang.org/grpc"
