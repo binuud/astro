@@ -8,6 +8,7 @@ package astro;
 
 option go_package = "github.com/dronasys-com/astro/gen/go/v1/astro";
 
+import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "v1/astro/metas.proto";
 import "v1/astro/dasha.proto";

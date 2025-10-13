@@ -35,12 +35,17 @@ var (
 	_ = metadata.Join
 )
 
+var filter_Panchang_GetMonth_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
 func request_Panchang_GetMonth_0(ctx context.Context, marshaler runtime.Marshaler, client PanchangClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq PanchangMonthGetRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Panchang_GetMonth_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.GetMonth(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -52,19 +57,27 @@ func local_request_Panchang_GetMonth_0(ctx context.Context, marshaler runtime.Ma
 		protoReq PanchangMonthGetRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Panchang_GetMonth_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.GetMonth(ctx, &protoReq)
 	return msg, metadata, err
 }
 
+var filter_Panchang_GetDay_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
 func request_Panchang_GetDay_0(ctx context.Context, marshaler runtime.Marshaler, client PanchangClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq PanchangDayGetRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Panchang_GetDay_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.GetDay(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -76,7 +89,10 @@ func local_request_Panchang_GetDay_0(ctx context.Context, marshaler runtime.Mars
 		protoReq PanchangDayGetRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Panchang_GetDay_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.GetDay(ctx, &protoReq)
@@ -89,13 +105,13 @@ func local_request_Panchang_GetDay_0(ctx context.Context, marshaler runtime.Mars
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterPanchangHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterPanchangHandlerServer(ctx context.Context, mux *runtime.ServeMux, server PanchangServer) error {
-	mux.Handle(http.MethodPost, pattern_Panchang_GetMonth_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Panchang_GetMonth_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/astro.Panchang/GetMonth", runtime.WithHTTPPathPattern("/astro.Panchang/GetMonth"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/astro.Panchang/GetMonth", runtime.WithHTTPPathPattern("/v1/panchang/getMonth"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -109,13 +125,13 @@ func RegisterPanchangHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		}
 		forward_Panchang_GetMonth_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_Panchang_GetDay_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Panchang_GetDay_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/astro.Panchang/GetDay", runtime.WithHTTPPathPattern("/astro.Panchang/GetDay"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/astro.Panchang/GetDay", runtime.WithHTTPPathPattern("/v1/panchang/getDay"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -169,11 +185,11 @@ func RegisterPanchangHandler(ctx context.Context, mux *runtime.ServeMux, conn *g
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "PanchangClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterPanchangHandlerClient(ctx context.Context, mux *runtime.ServeMux, client PanchangClient) error {
-	mux.Handle(http.MethodPost, pattern_Panchang_GetMonth_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Panchang_GetMonth_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/astro.Panchang/GetMonth", runtime.WithHTTPPathPattern("/astro.Panchang/GetMonth"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/astro.Panchang/GetMonth", runtime.WithHTTPPathPattern("/v1/panchang/getMonth"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -186,11 +202,11 @@ func RegisterPanchangHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		}
 		forward_Panchang_GetMonth_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_Panchang_GetDay_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_Panchang_GetDay_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/astro.Panchang/GetDay", runtime.WithHTTPPathPattern("/astro.Panchang/GetDay"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/astro.Panchang/GetDay", runtime.WithHTTPPathPattern("/v1/panchang/getDay"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -207,8 +223,8 @@ func RegisterPanchangHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 }
 
 var (
-	pattern_Panchang_GetMonth_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"astro.Panchang", "GetMonth"}, ""))
-	pattern_Panchang_GetDay_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"astro.Panchang", "GetDay"}, ""))
+	pattern_Panchang_GetMonth_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "panchang", "getMonth"}, ""))
+	pattern_Panchang_GetDay_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "panchang", "getDay"}, ""))
 )
 
 var (

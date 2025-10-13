@@ -53,9 +53,9 @@ export type CitiesSearchResponse = {
 
 export class Cities {
   static Get(req: CitiesGetRequest, initReq?: fm.InitReq): Promise<CitiesGetResponse> {
-    return fm.fetchReq<CitiesGetRequest, CitiesGetResponse>(`/astro.Cities/Get`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+    return fm.fetchReq<CitiesGetRequest, CitiesGetResponse>(`/v1/cities/get?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"})
   }
   static Search(req: CitiesSearchRequest, initReq?: fm.InitReq): Promise<CitiesSearchResponse> {
-    return fm.fetchReq<CitiesSearchRequest, CitiesSearchResponse>(`/astro.Cities/Search`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+    return fm.fetchReq<CitiesSearchRequest, CitiesSearchResponse>(`/v1/cities/search?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"})
   }
 }
