@@ -6,25 +6,23 @@ import (
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/dronasys-com/astro/pkg/astro"
 	"github.com/sirupsen/logrus"
-	"google.golang.org/grpc"
 )
 
 const (
 	ASTRO_BUCKET_NAME = "astro"
 )
 
-type grpcAstroServer struct {
+type PanchangGRPCServer struct {
 	astroV1.UnimplementedPanchangServer
 }
 
-func NewGrpcPanchangerver(srv *grpc.Server) *grpcAstroServer {
+func NewGrpcPanchangerver() *PanchangGRPCServer {
 
-	server := &grpcAstroServer{}
-	astroV1.RegisterPanchangServer(srv, server)
+	server := &PanchangGRPCServer{}
 	return server
 }
 
-func (s *grpcAstroServer) GetMonth(ctx context.Context, in *astroV1.PanchangMonthGetRequest) (*astroV1.PanchangMonthGetResponse, error) {
+func (s *PanchangGRPCServer) GetMonth(ctx context.Context, in *astroV1.PanchangMonthGetRequest) (*astroV1.PanchangMonthGetResponse, error) {
 
 	logrus.Infof("Received GetMonth: (%v)", in)
 

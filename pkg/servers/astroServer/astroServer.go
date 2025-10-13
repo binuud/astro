@@ -6,25 +6,21 @@ import (
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
-	"google.golang.org/grpc"
 )
 
 const (
 	ASTRO_BUCKET_NAME = "charts"
 )
 
-type grpcAstroServer struct {
+type AstroGRPCServer struct {
 	astroV1.UnimplementedAstroServer
 }
 
-func NewGrpcAstroServer(srv *grpc.Server) *grpcAstroServer {
-
-	server := &grpcAstroServer{}
-	astroV1.RegisterAstroServer(srv, server)
-	return server
+func NewGrpcAstroServer() *AstroGRPCServer {
+	return &AstroGRPCServer{}
 }
 
-func (s *grpcAstroServer) Create(ctx context.Context, in *astroV1.UserCreateRequest) (*astroV1.UserCreateResponse, error) {
+func (s *AstroGRPCServer) Create(ctx context.Context, in *astroV1.UserCreateRequest) (*astroV1.UserCreateResponse, error) {
 
 	logrus.Info("Received Create: ", in)
 
@@ -40,7 +36,7 @@ func (s *grpcAstroServer) Create(ctx context.Context, in *astroV1.UserCreateRequ
 
 }
 
-func (s *grpcAstroServer) Update(ctx context.Context, in *astroV1.UserUpdateRequest) (*astroV1.UserUpdateResponse, error) {
+func (s *AstroGRPCServer) Update(ctx context.Context, in *astroV1.UserUpdateRequest) (*astroV1.UserUpdateResponse, error) {
 
 	logrus.Info("Received Update: ", in)
 
@@ -57,7 +53,7 @@ func (s *grpcAstroServer) Update(ctx context.Context, in *astroV1.UserUpdateRequ
 
 }
 
-func (s *grpcAstroServer) Get(ctx context.Context, in *astroV1.UserGetRequest) (*astroV1.UserGetResponse, error) {
+func (s *AstroGRPCServer) Get(ctx context.Context, in *astroV1.UserGetRequest) (*astroV1.UserGetResponse, error) {
 	logrus.Info("Received: Get request ", in)
 
 	filter := bson.D{{"metadata.uid", in.Uuid}}
@@ -72,7 +68,7 @@ func (s *grpcAstroServer) Get(ctx context.Context, in *astroV1.UserGetRequest) (
 
 }
 
-func (s *grpcAstroServer) List(ctx context.Context, in *astroV1.UserListRequest) (*astroV1.UserListResponse, error) {
+func (s *AstroGRPCServer) List(ctx context.Context, in *astroV1.UserListRequest) (*astroV1.UserListResponse, error) {
 
 	logrus.Info("Received: Listing request ", in)
 	filter := bson.D{{}}

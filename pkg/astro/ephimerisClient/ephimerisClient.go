@@ -5,7 +5,6 @@ import (
 	"os"
 
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
-	"github.com/dronasys-com/astro/pkg/foundation/config"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
@@ -24,13 +23,15 @@ func NewEphimerisClient() *EphimerisClient {
 		return EphimerisClientConnection
 	}
 
-	serverConn, err := grpc.Dial(config.Config.AstroEphimerisEndpoint, grpc.WithInsecure())
+	ephimerisEndpoint := os.Getenv("ASTRO_EPHIMERIS_ENDPOINT")
+
+	serverConn, err := grpc.Dial(ephimerisEndpoint, grpc.WithInsecure())
 	if err != nil {
-		logrus.Error("Cannot Dial GRPC server ", config.Config.AstroEphimerisEndpoint, err)
+		logrus.Error("Cannot Dial GRPC server ", ephimerisEndpoint, err)
 		os.Exit(1)
 	}
 	// defer serverConn.Close()
-	logrus.Info("Dialed in to GRPC server ", config.Config.AstroEphimerisEndpoint, err)
+	logrus.Info("Dialed in to GRPC server ", ephimerisEndpoint, err)
 
 	EphimerisClientConnection = &EphimerisClient{
 		serverConn: serverConn,

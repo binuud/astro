@@ -15,6 +15,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/reflection"
 )
 
 var (
@@ -41,7 +42,7 @@ func runHtppServer() {
 
 	gwMux := runtime.NewServeMux()
 
-	err = astroV1.RegisterAstroHandlerServer(ctx, gwMux, conn)
+	err = astroV1.RegisterAstroHandler(ctx, gwMux, conn)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -51,7 +52,7 @@ func runHtppServer() {
 		Handler: gwMux,
 	}
 
-	log.Info("HTTP server started")
+	log.Infof("HTTP server started on port %v", *server_http_port)
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
 	log.Fatalln(gwServer.ListenAndServe())
 
@@ -59,22 +60,22 @@ func runHtppServer() {
 
 func runGRPCServer() {
 
-	secureConn, err := net.Listen("tcp", fmt.Sprintf(":%d", *server_grpc_port))
+	insecureConn, err := net.Listen("tcp", fmt.Sprintf(":%d", *server_grpc_port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	// secureServer := grpc.NewServer(
-	// 	grpc.UnaryInterceptor(authServer.UnaryInterceptor))
-	secureServer := grpc.NewServer()
+	insecureServer := grpc.NewServer()
 
-	astroServer.NewGrpcAstroServer(secureServer)
-	panchangServer.NewGrpcPanchangerver(secureServer)
+	astroV1.RegisterAstroServer(insecureServer, astroServer.NewGrpcAstroServer())
 
-	log.Infof("Astro Calculations Server *) (* listening on (%v)", secureConn.Addr())
-	if err := secureServer.Serve(secureConn); err != nil {
-		log.Fatal("failed to serve: ", err)
-	}
+	astroV1.RegisterPanchangServer(insecureServer, panchangServer.NewGrpcPanchangerver())
+
+	// Register reflection service on gRPC server.
+	reflection.Register(insecureServer)
+
+	log.Infof("Astro Calculations Server *) (* listening on (%v)", insecureConn.Addr())
+	log.Fatalln(insecureServer.Serve(insecureConn))
 
 }
 
