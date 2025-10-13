@@ -1,16 +1,13 @@
 package main
 
 import (
-	astroV1 "github.com/dronasys-com/astro/gen/v1/astro"
+	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/dronasys-com/astro/pkg/astro"
 	"github.com/dronasys-com/astro/pkg/foundation/config"
-	"github.com/dronasys-com/trance-microservices/pkg/foundation/bootstrap"
 	"github.com/sirupsen/logrus"
 )
 
 func main() {
-
-	bootstrap.Init()
 
 	test_dasa()
 	// test_newdasa()

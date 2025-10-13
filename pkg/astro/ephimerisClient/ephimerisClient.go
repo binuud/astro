@@ -4,8 +4,8 @@ import (
 	"context"
 	"os"
 
+	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/dronasys-com/astro/pkg/foundation/config"
-	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )

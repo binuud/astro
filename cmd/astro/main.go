@@ -8,7 +8,7 @@ import (
 	"net/http"
 
 	"github.com/dronasys-com/astro/cmd/db"
-	astroV1 "github.com/dronasys-com/astro/gen/v1/astro"
+	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/dronasys-com/astro/pkg/servers/astroServer"
 	"github.com/dronasys-com/astro/pkg/servers/panchangServer"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"

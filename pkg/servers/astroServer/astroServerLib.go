@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
+	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/dronasys-com/astro/pkg/astro"
 	"github.com/dronasys-com/astro/pkg/dataLayer/mongo"
-	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
