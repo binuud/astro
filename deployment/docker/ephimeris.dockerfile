@@ -14,7 +14,7 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build cmd/ephimeris/m
 # generate clean, final image for end users
 # STAGE 2: build the container to run
 FROM  golang:latest 
-#FROM gcr.io/distroless/base-debian11
+#FROM gcr.io/distroless/base-debian11 ## for production
 ## Need to run dynamically linked bin, so using base-debian11
 
 LABEL maintainer="binu@dronasys.com"
