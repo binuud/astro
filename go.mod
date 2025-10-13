@@ -3,7 +3,6 @@ module github.com/dronasys-com/astro
 go 1.18
 
 require (
-	github.com/dronasys-com/trance-microservices v0.0.0-20220629134941-2e12ae521beb
 	github.com/sirupsen/logrus v1.9.0
 	go.mongodb.org/mongo-driver v1.10.3
 	google.golang.org/grpc v1.50.1

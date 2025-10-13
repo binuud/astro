@@ -6,68 +6,63 @@
 syntax = "proto3";
 package astro;
 
+option go_package = "github.com/dronasys-com/astro/gen/go/v1/astro";
+
 import "google/protobuf/timestamp.proto";
 
-
-option go_package = "./go";
-
-
 message SubDashaMeta {
-	string  name = 1;
-	int32   duration = 2; // ratios
+  string name = 1;
+  int32 duration = 2; // ratios
 }
 
 message DashaMeta {
-	string name = 1;
-	int64 yearInSeconds = 2;// in seconds
-    int64 durationYears = 3; // in the same units as the sub dasha duration ratios
-    int32 startDasa = 4;
-    double dasaDegrees = 5;
-	google.protobuf.Timestamp startTime = 11;
-    repeated SubDashaMeta SubDashaMetas = 12;
-    enum Types {
-        Ignore = 0;
-        Vimshottari = 1;
-        Ashtottari = 2;
-    }
-    Types type = 21;
+  string name = 1;
+  int64 yearInSeconds = 2; // in seconds
+  int64 durationYears = 3; // in the same units as the sub dasha duration ratios
+  int32 startDasa = 4;
+  double dasaDegrees = 5;
+  google.protobuf.Timestamp startTime = 11;
+  repeated SubDashaMeta SubDashaMetas = 12;
+  enum Types {
+    Ignore = 0;
+    Vimshottari = 1;
+    Ashtottari = 2;
+  }
+  Types type = 21;
 }
 
-
 message DashaItem {
-    string name = 1;
-    int32 level  = 2; // denotes the level of recursion
-    google.protobuf.Timestamp startTime = 5;
-    google.protobuf.Timestamp endTime = 6;
-	repeated DashaItem dashas = 10;
-	
+  string name = 1;
+  int32 level = 2; // denotes the level of recursion
+  google.protobuf.Timestamp startTime = 5;
+  google.protobuf.Timestamp endTime = 6;
+  repeated DashaItem dashas = 10;
 }
 
 message DashaSystem {
-	DashaMeta meta = 1;
-	repeated DashaItem dashas = 2;
+  DashaMeta meta = 1;
+  repeated DashaItem dashas = 2;
 }
 
-
 service Dasha {
-    rpc GetDashas(DashaGetReqeust) returns (DashaGetResponse) {}
-    rpc Update(DashaUpdateReqeust) returns (DashaUpdateResponse) {} 
+  rpc GetDashas(DashaGetReqeust) returns (DashaGetResponse) {}
+  rpc Update(DashaUpdateReqeust) returns (DashaUpdateResponse) {}
 }
 
 message DashaGetReqeust {
-    string uuid = 1; // uuid of the user 
-    int32 level = 2;
+  string uuid = 1; // uuid of the user
+  int32 level = 2;
 }
 
 message DashaGetResponse {
-    string user_uuid = 1; // uuid of the user 
-    DashaSystem dashaSystem = 2;
+  string user_uuid = 1; // uuid of the user
+  DashaSystem dashaSystem = 2;
 }
 
 message DashaUpdateReqeust {
-    string uuid = 1; // uuid of the user whose dasha should be updated
+  string uuid = 1; // uuid of the user whose dasha should be updated
 }
 
 message DashaUpdateResponse {
-    string uuid = 1; // uuid of the user whose dasha should be updated
+  string uuid = 1; // uuid of the user whose dasha should be updated
 }

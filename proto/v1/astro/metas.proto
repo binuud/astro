@@ -7,376 +7,368 @@
 syntax = "proto3";
 package astro;
 
+option go_package = "github.com/dronasys-com/astro/gen/go/v1/astro";
+
 import "google/protobuf/timestamp.proto";
 
-
-option go_package = "./go";
-
 message TobData {
-    
-    int32 d = 1;
-    int32 m = 2;
-    int32 y = 3;
-    
-    int32 hour = 4;
-    int32 min = 5;
-    int32 sec = 6;
-    string zone = 7;
-    string dateString = 11;
-    google.protobuf.Timestamp tobtime = 12;
+
+  int32 d = 1;
+  int32 m = 2;
+  int32 y = 3;
+
+  int32 hour = 4;
+  int32 min = 5;
+  int32 sec = 6;
+  string zone = 7;
+  string dateString = 11;
+  google.protobuf.Timestamp tobtime = 12;
 }
-
-
 
 message PobData {
-    string city     = 1;        // City of Birth
-    string state    = 2;        // State of Birth
-    string country  = 3;        // Country of Birth
-    float lat       = 11;       // Latitude of POB
-    float long      = 12;      // Longitude of POB
-    string planet   = 13;     // planet - earth, tosovo, buvalok, swargalok, patala, atala, vitala
-    string yuga     = 14;    // varsha, yuga, treated as space variable
+  string city = 1;    // City of Birth
+  string state = 2;   // State of Birth
+  string country = 3; // Country of Birth
+  float lat = 11;     // Latitude of POB
+  float long = 12;    // Longitude of POB
+  string planet =
+      13; // planet - earth, tosovo, buvalok, swargalok, patala, atala, vitala
+  string yuga = 14; // varsha, yuga, treated as space variable
 }
-
-
 
 message BirthData {
-    TobData tob      = 1;          // Date of birth
-    PobData pob     = 2;        // Place of Birth  
+  TobData tob = 1; // Date of birth
+  PobData pob = 2; // Place of Birth
 }
-
 
 message GeoLocation {
-    float lat       = 1;       // Latitude of POB
-    float long      = 2;      // Longitude of POB
+  float lat = 1;  // Latitude of POB
+  float long = 2; // Longitude of POB
 }
-
 
 message AstroConstants {
 
-    enum Weekdays {
-        Sunday = 0;
-        Monday = 1;
-        Tuesday = 2;
-        Wednesday = 3;
-        Thursday = 4;
-        Friday = 5;
-        Saturday = 6;
-    }
+  enum Weekdays {
+    Sunday = 0;
+    Monday = 1;
+    Tuesday = 2;
+    Wednesday = 3;
+    Thursday = 4;
+    Friday = 5;
+    Saturday = 6;
+  }
 
-    enum Planets {
-        Lagna = 0;
-        Sun = 1;
-        Moon = 2;
-        Mars = 3;
-        Mercury = 4;
-        Jupiter = 5;
-        Venus = 6;
-        Saturn = 7;
-        Rahu = 8;
-        Ketu = 9;
-        Uranus = 10;
-        Neptune = 11;
-        Pluto = 12;
-        Maandi = 13;
-        Gulika = 14;
-        BhavaLagna = 15;
-        HoraLagna = 16;
-        GhatiLagna = 17;
-        VighatiLagna = 18;
-        VamadaLagna = 19;
-        SreeLagna = 20;
-        PranapadaLagna = 21;
-        InduLagna = 22;
-        BrighuBindu = 23;
-        Dhooma = 24;
-        Vyatipata = 25;
-        Parivesha = 26;
-        IndraChapa = 27;
-        Upaketu = 28;
-        Kaala = 29;
-        Mrityu = 30;
-        ArthaPrahara = 31;
-        YamaGhantaka = 32;
-        
-    }
+  enum Planets {
+    Lagna = 0;
+    Sun = 1;
+    Moon = 2;
+    Mars = 3;
+    Mercury = 4;
+    Jupiter = 5;
+    Venus = 6;
+    Saturn = 7;
+    Rahu = 8;
+    Ketu = 9;
+    Uranus = 10;
+    Neptune = 11;
+    Pluto = 12;
+    Maandi = 13;
+    Gulika = 14;
+    BhavaLagna = 15;
+    HoraLagna = 16;
+    GhatiLagna = 17;
+    VighatiLagna = 18;
+    VamadaLagna = 19;
+    SreeLagna = 20;
+    PranapadaLagna = 21;
+    InduLagna = 22;
+    BrighuBindu = 23;
+    Dhooma = 24;
+    Vyatipata = 25;
+    Parivesha = 26;
+    IndraChapa = 27;
+    Upaketu = 28;
+    Kaala = 29;
+    Mrityu = 30;
+    ArthaPrahara = 31;
+    YamaGhantaka = 32;
+  }
 
-    enum  Sphutas {
-        IgnoreSphuta = 0;
-        PranaSphuta = 1;
-        DehaSphuta = 2;
-        MrityuSphuta = 3;
-        SookshamaTriSphuta = 4;
-        TithiSphuta = 5;
-        YogaSunMoonSphuta = 6;
-        RahuTithiSphuta = 7;
-        KsethraSphuta = 8;
-        BeejaSphuta = 9;
-        TriSphuta = 10;
-        ChatusSphuta = 11;
-        PanchaSphuta = 12;
-        YogaSphuta = 13;
-        AvayogaSphuta = 14;
-    }
+  enum Sphutas {
+    IgnoreSphuta = 0;
+    PranaSphuta = 1;
+    DehaSphuta = 2;
+    MrityuSphuta = 3;
+    SookshamaTriSphuta = 4;
+    TithiSphuta = 5;
+    YogaSunMoonSphuta = 6;
+    RahuTithiSphuta = 7;
+    KsethraSphuta = 8;
+    BeejaSphuta = 9;
+    TriSphuta = 10;
+    ChatusSphuta = 11;
+    PanchaSphuta = 12;
+    YogaSphuta = 13;
+    AvayogaSphuta = 14;
+  }
 
-    enum Rasis {
-        IgnoreRasis = 0;
-        Aries = 1;
-        Taurus = 2;
-        Gemini = 3;
-        Cancer = 4;
-        Leo = 5;
-        Virgo = 6;
-        Libra = 7;
-        Scorpio = 8;
-        Saggitarius = 9;
-        Capricon = 10;
-        Aquarius = 11;
-        Pisces = 12;
-    }
-    enum Stars {
-        IgnoreStars = 0;
-        Aswini      = 1;
-        Bharani     = 2;
-        Krittika    = 3;
-        Rohini      = 4;
-        Mrigasira   = 5;
-        Arudra      = 6;
-        Punarvasu   = 7;
-        Pushyami    = 8;
-        Aslesha     = 9;
-        Makha       = 10;
-        Poorvaphalguni  = 11; 
-        Uttaraphalguni  = 12;
-        Hasta       = 13;
-        Chitra      = 14;
-        Swati       = 15;
-        Vishaka     = 16;
-        Anuradha    = 17;
-        Jyeshta     = 18;
-        Moola       = 19;
-        Poorvashada = 20;
-        Uttarashada = 21;
-        Sravana     = 22;
-        Dhanishta   = 23;
-        Satabhisha  = 24;
-        Poorvabhadra    = 25;
-        Uttarabadra     = 26;
-        Revathi     = 27;
-    }
-    
-    enum Tithis {
-        Ignore_tithi = 0;
-        S_Prathima = 1;
-        S_Dwitiya = 2;
-        S_Tritiya = 3;
-        S_Chaturthi = 4;
-        S_Panchami = 5;
-	    S_Shasti = 6;
-        S_Saptami = 7;
-        S_Ashtami = 8;
-        S_Navami = 9;
-        S_Dashami = 10;
-	    S_Ekadashi = 11;
-        S_Dwadashi = 12;
-        S_Thrayodashi = 13;
-        S_Chaturdashi = 14;
-        Purnima = 15;
-	    K_Prathama = 16;
-        K_Dwitiya = 17;
-        K_Tritiya = 18;
-        K_Chaturthi = 19;
-        K_Panchami = 20;
-	    K_Shasti = 21;
-        K_Saptami = 22;
-        K_Ashtami = 23;
-        K_Navami = 24;
-        K_Dashami = 25;
-	    K_Ekadashi = 26;
-        K_Dwadashi = 27;
-        K_Thrayodashi = 28;
-        K_Chaturdashi = 29;
-        Amavasya = 30;
-    }
+  enum Rasis {
+    IgnoreRasis = 0;
+    Aries = 1;
+    Taurus = 2;
+    Gemini = 3;
+    Cancer = 4;
+    Leo = 5;
+    Virgo = 6;
+    Libra = 7;
+    Scorpio = 8;
+    Saggitarius = 9;
+    Capricon = 10;
+    Aquarius = 11;
+    Pisces = 12;
+  }
+  enum Stars {
+    IgnoreStars = 0;
+    Aswini = 1;
+    Bharani = 2;
+    Krittika = 3;
+    Rohini = 4;
+    Mrigasira = 5;
+    Arudra = 6;
+    Punarvasu = 7;
+    Pushyami = 8;
+    Aslesha = 9;
+    Makha = 10;
+    Poorvaphalguni = 11;
+    Uttaraphalguni = 12;
+    Hasta = 13;
+    Chitra = 14;
+    Swati = 15;
+    Vishaka = 16;
+    Anuradha = 17;
+    Jyeshta = 18;
+    Moola = 19;
+    Poorvashada = 20;
+    Uttarashada = 21;
+    Sravana = 22;
+    Dhanishta = 23;
+    Satabhisha = 24;
+    Poorvabhadra = 25;
+    Uttarabadra = 26;
+    Revathi = 27;
+  }
 
+  enum Tithis {
+    Ignore_tithi = 0;
+    S_Prathima = 1;
+    S_Dwitiya = 2;
+    S_Tritiya = 3;
+    S_Chaturthi = 4;
+    S_Panchami = 5;
+    S_Shasti = 6;
+    S_Saptami = 7;
+    S_Ashtami = 8;
+    S_Navami = 9;
+    S_Dashami = 10;
+    S_Ekadashi = 11;
+    S_Dwadashi = 12;
+    S_Thrayodashi = 13;
+    S_Chaturdashi = 14;
+    Purnima = 15;
+    K_Prathama = 16;
+    K_Dwitiya = 17;
+    K_Tritiya = 18;
+    K_Chaturthi = 19;
+    K_Panchami = 20;
+    K_Shasti = 21;
+    K_Saptami = 22;
+    K_Ashtami = 23;
+    K_Navami = 24;
+    K_Dashami = 25;
+    K_Ekadashi = 26;
+    K_Dwadashi = 27;
+    K_Thrayodashi = 28;
+    K_Chaturdashi = 29;
+    Amavasya = 30;
+  }
 }
 
 message AstroMetas {
-    enum Nature {
-        IgnoreNature = 0;
-        Benefic = 1;
-        Malefic = 2;
-        Choosy = 3;
-        Both = 4;
-        Avoid = 5;
-    }
-    enum MetaTags {
-        Ignore = 0;
-        Gender_male = 1;
-        Gender_female = 2;
-        Gender_neutral = 3;
-        Padding_4 = 4;
-        Padding_5 = 5;
-        Padding_6 = 6;
-        Padding_7 = 7;
-        Padding_8 = 8;
-        Padding_9 = 9;
-        Element_air = 10;
-        Element_fire = 11;
-        Element_water = 12;
-        Element_earth = 13;
-        Quality_fixed = 14;
-        Quality_moveable = 15;
-        Quality_mutable = 16;
-        Quality_cardinal = 17;
-        Padding_18 = 18;
-        Padding_19 = 19;
-        State_common = 20;
-        State_lame = 21;
-        Blind_day = 22;
-        Blind_night = 23;
-        Deaf_morning = 24;
-        Deaf_midday = 25;
-        Deaf_night = 26;
-        Padding_27 = 27;
-        Padding_28 = 28;
-        Padding_29 = 29;
-        Tithi_nanda = 30;
-        Tithi_bhadra = 31;
-        Tithi_jaya = 32;
-        Tithi_riktha = 33;
-        Tithi_poorna = 34;
-        Tridosha_vaatha = 35;
-        Tridosha_pitha = 36;
-        Tridosha_kapha = 37;
-        Padding_38 = 38;
-        Padding_39 = 39;
-        Bhava_trikona = 40;
-        Bhava_kendra = 41;
-        Bhava_upachaya = 42;
-        Bhava_dusthana = 43;
-        Bhava_trishadayas = 44;
-        Bhava_marakasthana = 45;
-        Padding_46 = 46;
-        Padding_47 = 47;
-        Padding_48 = 48;
-        Padding_49 = 49;
-        Rasi_exalted = 50;
-        Rasi_moolatrikona = 51;
-        Rasi_deblited = 52;
-    }
-    
-    enum PanchangTags {
-        Ignore_panchangTag = 0;
-        KrishnaPaksha = 1;
-        ShuklaPaksha = 2;
-        Amavasya = 3;
-        Poornima= 4;
-        SankataharaChaturti = 5;
-        Shasti = 6;
-        Ekadasi = 7;
-        AkshayaTritiya = 8;
-        
-        Krithika = 9;
-        Pradosham = 10;
-        Sivaratri = 11;
-        Mahasivaratri = 12;
+  enum Nature {
+    IgnoreNature = 0;
+    Benefic = 1;
+    Malefic = 2;
+    Choosy = 3;
+    Both = 4;
+    Avoid = 5;
+  }
+  enum MetaTags {
+    Ignore = 0;
+    Gender_male = 1;
+    Gender_female = 2;
+    Gender_neutral = 3;
+    Padding_4 = 4;
+    Padding_5 = 5;
+    Padding_6 = 6;
+    Padding_7 = 7;
+    Padding_8 = 8;
+    Padding_9 = 9;
+    Element_air = 10;
+    Element_fire = 11;
+    Element_water = 12;
+    Element_earth = 13;
+    Quality_fixed = 14;
+    Quality_moveable = 15;
+    Quality_mutable = 16;
+    Quality_cardinal = 17;
+    Padding_18 = 18;
+    Padding_19 = 19;
+    State_common = 20;
+    State_lame = 21;
+    Blind_day = 22;
+    Blind_night = 23;
+    Deaf_morning = 24;
+    Deaf_midday = 25;
+    Deaf_night = 26;
+    Padding_27 = 27;
+    Padding_28 = 28;
+    Padding_29 = 29;
+    Tithi_nanda = 30;
+    Tithi_bhadra = 31;
+    Tithi_jaya = 32;
+    Tithi_riktha = 33;
+    Tithi_poorna = 34;
+    Tridosha_vaatha = 35;
+    Tridosha_pitha = 36;
+    Tridosha_kapha = 37;
+    Padding_38 = 38;
+    Padding_39 = 39;
+    Bhava_trikona = 40;
+    Bhava_kendra = 41;
+    Bhava_upachaya = 42;
+    Bhava_dusthana = 43;
+    Bhava_trishadayas = 44;
+    Bhava_marakasthana = 45;
+    Padding_46 = 46;
+    Padding_47 = 47;
+    Padding_48 = 48;
+    Padding_49 = 49;
+    Rasi_exalted = 50;
+    Rasi_moolatrikona = 51;
+    Rasi_deblited = 52;
+  }
 
-        MarriageMuhurta = 13;
-        
-    }
+  enum PanchangTags {
+    Ignore_panchangTag = 0;
+    KrishnaPaksha = 1;
+    ShuklaPaksha = 2;
+    Amavasya = 3;
+    Poornima = 4;
+    SankataharaChaturti = 5;
+    Shasti = 6;
+    Ekadasi = 7;
+    AkshayaTritiya = 8;
 
-    enum AstroTypes {
-        Ignore_astro_type = 0;
-        Planet = 1;
-        Rasi = 2;
-        Planet_chaaya = 3; // shadow planet - rahu/ketu/gullika
-        Star = 5;
-        Special_star = 6;
-    }
+    Krithika = 9;
+    Pradosham = 10;
+    Sivaratri = 11;
+    Mahasivaratri = 12;
+
+    MarriageMuhurta = 13;
+  }
+
+  enum AstroTypes {
+    Ignore_astro_type = 0;
+    Planet = 1;
+    Rasi = 2;
+    Planet_chaaya = 3; // shadow planet - rahu/ketu/gullika
+    Star = 5;
+    Special_star = 6;
+  }
 }
 
 message AstroMetadata {
-    string uid = 1;           // UUID for the object
-    string name = 2;         // name of the object
-    string owner = 3;       // owner UUID of the object (user UUID)
-    string tenancy = 4;    // tenant UUID of the object
-    string parentUid = 5; // parent uuid
+  string uid = 1;       // UUID for the object
+  string name = 2;      // name of the object
+  string owner = 3;     // owner UUID of the object (user UUID)
+  string tenancy = 4;   // tenant UUID of the object
+  string parentUid = 5; // parent uuid
 
-    AstroMetas.AstroTypes type = 11;          // type of the astro object 
-    repeated AstroMetas.MetaTags tags = 12;  // tags to identify/describe the object
+  AstroMetas.AstroTypes type = 11; // type of the astro object
+  repeated AstroMetas.MetaTags tags =
+      12; // tags to identify/describe the object
 
+  map<string, string> labels = 51;
+  map<string, string> annotations = 52;
+  string description = 53;
 
-    map<string, string> labels = 51;
-    map<string, string> annotations = 52;
-    string description = 53;
-    
-    google.protobuf.Timestamp createdAt = 101;
-    google.protobuf.Timestamp updatedAt = 102;
+  google.protobuf.Timestamp createdAt = 101;
+  google.protobuf.Timestamp updatedAt = 102;
 }
 
 message StarWeekdayYoga {
-    enum StarWeekdayYogaTypes {
-        IgnoreStarYoga = 0;
-        Ananda = 1;
-        Kaaldanda = 2;
-        Dhumra = 3;
-        Dhata = 4;
-        Saumya = 5;
-        Dhwansha = 6;
-        Ketu = 7;
-	    Srivatsa = 8;
-        Vajra = 9;
-        Mudgara = 10;
-        Chhatra = 11;
-        Mitra = 12;
-        Manas = 13;
-        Padma = 14;
-	    Lumba = 15;
-        Utpaata = 16;
-        Mrityu = 17;
-        Kaana = 18;
-        Siddhi = 19;
-        Subha = 20;
-        Amrita = 21;
-	    Mushala = 22;
-        Gada = 23;
-        Matanga = 24;
-        Raksha = 25;
-        Chara = 26;
-        Susthira = 27;
-        Pravardhamama = 28;
-    }
-    
-    string Name = 1;
-    StarWeekdayYogaTypes Yoga = 2;
-    AstroMetas.Nature Nature = 3;
-    string desc = 4;
+  enum StarWeekdayYogaTypes {
+    IgnoreStarYoga = 0;
+    Ananda = 1;
+    Kaaldanda = 2;
+    Dhumra = 3;
+    Dhata = 4;
+    Saumya = 5;
+    Dhwansha = 6;
+    Ketu = 7;
+    Srivatsa = 8;
+    Vajra = 9;
+    Mudgara = 10;
+    Chhatra = 11;
+    Mitra = 12;
+    Manas = 13;
+    Padma = 14;
+    Lumba = 15;
+    Utpaata = 16;
+    Mrityu = 17;
+    Kaana = 18;
+    Siddhi = 19;
+    Subha = 20;
+    Amrita = 21;
+    Mushala = 22;
+    Gada = 23;
+    Matanga = 24;
+    Raksha = 25;
+    Chara = 26;
+    Susthira = 27;
+    Pravardhamama = 28;
+  }
+
+  string Name = 1;
+  StarWeekdayYogaTypes Yoga = 2;
+  AstroMetas.Nature Nature = 3;
+  string desc = 4;
 }
 
 message StarThithiWeekdayYoga {
-    enum StarThithiWeekdayYogaTypes {
-        IgnoreStarThithiWeekdayYoga = 0;
-        TriPushkaraYoga = 1;
-        DwipushkaraYoga = 2;
-    }
-    StarThithiWeekdayYogaTypes Yoga = 1;
-    AstroMetas.Nature nature = 2;
-    string desc = 3;
+  enum StarThithiWeekdayYogaTypes {
+    IgnoreStarThithiWeekdayYoga = 0;
+    TriPushkaraYoga = 1;
+    DwipushkaraYoga = 2;
+  }
+  StarThithiWeekdayYogaTypes Yoga = 1;
+  AstroMetas.Nature nature = 2;
+  string desc = 3;
 }
 
 // Generic Yoga
 // Yogas can be tied to transit events
 // Yogas can be of different types like star vaar yoga, star tithi vaar yoga etc
 message YogaIdentifier {
-    enum YogaTypes {
-        IgnoreYogaTypes = 0;
-        StarWeekdayYoga = 1;        
-        StarThithiWeekdayYoga = 2;
-    }
-    YogaTypes Type = 1; // to overload the Yoga identifier, this can be used for different yogas
-    oneof Yoga {
-        StarWeekdayYoga YogaStarWeekday= 2;
-        StarThithiWeekdayYoga YogaStarThithiWeekday = 3;
-    }
+  enum YogaTypes {
+    IgnoreYogaTypes = 0;
+    StarWeekdayYoga = 1;
+    StarThithiWeekdayYoga = 2;
+  }
+  YogaTypes Type = 1; // to overload the Yoga identifier, this can be used for
+                      // different yogas
+  oneof Yoga {
+    StarWeekdayYoga YogaStarWeekday = 2;
+    StarThithiWeekdayYoga YogaStarThithiWeekday = 3;
+  }
 }

@@ -6,106 +6,95 @@
 syntax = "proto3";
 package astro;
 
+option go_package = "github.com/dronasys-com/astro/gen/go/v1/astro";
+
 import "google/protobuf/timestamp.proto";
-import "astro/metas.proto";
+import "v1/astro/metas.proto";
+import "v1/astro/yoga.proto";
 
-option go_package = "./go";
-
-message SunMoonEphimeris  {
-    double moon = 1;
-    double sun = 2;
+message SunMoonEphimeris {
+  double moon = 1;
+  double sun = 2;
 }
 
 message Transit {
-    int32 name = 1;
-    google.protobuf.Timestamp transit   = 2; // time of transit
-    YogaIdentifier Yoga = 3; // each transit can have a yoga associated with it, the yoga can be benefic or malefic
+  int32 name = 1;
+  google.protobuf.Timestamp transit = 2; // time of transit
+  YogaIdentifier Yoga = 3; // each transit can have a yoga associated with it,
+                           // the yoga can be benefic or malefic
 }
 
 message Kaalam {
-    google.protobuf.Timestamp startTime   = 1;
-    google.protobuf.Timestamp endTime   = 2;
+  google.protobuf.Timestamp startTime = 1;
+  google.protobuf.Timestamp endTime = 2;
 }
 
 message Transits {
 
-    int32 year = 1;
-    int32 month = 2;
-    google.protobuf.Timestamp startTime   = 3;
+  int32 year = 1;
+  int32 month = 2;
+  google.protobuf.Timestamp startTime = 3;
 
-    repeated SunMoonEphimeris ephimeris = 11;
-    
-    repeated Transit stars = 21;
-    repeated Transit yogas = 22; 
-    repeated Transit karanas = 23;
-    repeated Transit tithis = 24;
-    repeated Transit paadas = 25;
+  repeated SunMoonEphimeris ephimeris = 11;
 
-    Kaalam rahuKalam = 51;
-    Kaalam guliKalam = 52;
-    Kaalam yamaGandam = 54;
-    
+  repeated Transit stars = 21;
+  repeated Transit yogas = 22;
+  repeated Transit karanas = 23;
+  repeated Transit tithis = 24;
+  repeated Transit paadas = 25;
+
+  Kaalam rahuKalam = 51;
+  Kaalam guliKalam = 52;
+  Kaalam yamaGandam = 54;
 }
 
-
 message PanchangDay {
-    
-    int32 year = 1;
-    int32 month = 2;
-    int32 day = 3;
-    string zone = 4;
-    GeoLocation geo = 5;
-    int32 weekday = 6;
 
-    Kaalam sunRiseSet = 11;
-    Kaalam moonRiseSet = 12;
+  int32 year = 1;
+  int32 month = 2;
+  int32 day = 3;
+  string zone = 4;
+  GeoLocation geo = 5;
+  int32 weekday = 6;
 
-    repeated Transit stars = 21;
-    repeated Transit yogas = 22; 
-    repeated Transit karanas = 23;
-    repeated Transit tithis = 24;
-    repeated Transit paadas = 25;
-    repeated Transit lagnas = 26;
+  Kaalam sunRiseSet = 11;
+  Kaalam moonRiseSet = 12;
 
+  repeated Transit stars = 21;
+  repeated Transit yogas = 22;
+  repeated Transit karanas = 23;
+  repeated Transit tithis = 24;
+  repeated Transit paadas = 25;
+  repeated Transit lagnas = 26;
 
-    Kaalam rahuKalam = 51;
-    Kaalam guliKalam = 52;
-    Kaalam yamaGandam = 53;
+  Kaalam rahuKalam = 51;
+  Kaalam guliKalam = 52;
+  Kaalam yamaGandam = 53;
 
-    repeated Transit marriage = 101;  // suitable for marriage ceremony
-    repeated Transit good = 102; // general favourable timing
-    repeated Transit bad = 103; // general unauspicious timing
+  repeated Transit marriage = 101; // suitable for marriage ceremony
+  repeated Transit good = 102;     // general favourable timing
+  repeated Transit bad = 103;      // general unauspicious timing
 
-    repeated AstroMetas.PanchangTags tags = 201;
-
+  repeated AstroMetas.PanchangTags tags = 201;
 }
 
 message PanchangMonth {
-    int32 year = 1;
-    int32 month = 2;
-    string zone = 4;
-    GeoLocation geo = 5;
-    repeated PanchangDay days = 11;
+  int32 year = 1;
+  int32 month = 2;
+  string zone = 4;
+  GeoLocation geo = 5;
+  repeated PanchangDay days = 11;
 }
-
 
 service Panchang {
-    rpc GetMonth(PanchangMonthGetRequest) returns (PanchangMonthGetResponse) {}
-    rpc GetDay(PanchangDayGetRequest) returns (PanchangDayGetResponse) {}
+  rpc GetMonth(PanchangMonthGetRequest) returns (PanchangMonthGetResponse) {}
+  rpc GetDay(PanchangDayGetRequest) returns (PanchangDayGetResponse) {}
 }
 
-message PanchangMonthGetRequest {
-    BirthData birthData = 1;
-}
+message PanchangMonthGetRequest { BirthData birthData = 1; }
 
-message PanchangMonthGetResponse {
-    PanchangMonth month = 1;
-}
+message PanchangMonthGetResponse { PanchangMonth month = 1; }
 
-message PanchangDayGetRequest {
-    BirthData birthData = 1;
-}
+message PanchangDayGetRequest { BirthData birthData = 1; }
 
-message PanchangDayGetResponse {
-    PanchangDay day = 1;
-}
+message PanchangDayGetResponse { PanchangDay day = 1; }

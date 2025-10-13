@@ -6,23 +6,19 @@
 syntax = "proto3";
 package astro;
 
-import "astro/metas.proto";
+option go_package = "github.com/dronasys-com/astro/gen/go/v1/astro";
 
-option go_package = "./go";
+import "v1/astro/metas.proto";
 
+message EphimerisRequest { BirthData birthData = 1; }
 
-message EphimerisRequest {
-	BirthData birthData  = 1;
-}
-
-message EphimerisResponse {
-	string output = 1;
-}
-
-
+message EphimerisResponse { string output = 1; }
 
 service Ephimeris {
-    rpc GetChart(EphimerisRequest) returns (EphimerisResponse) {}  // get ephimeris data
-	rpc GetMoonEphimeris(EphimerisRequest) returns (EphimerisResponse) {}  // get ephimeris data
-	rpc GetPanchangMonth(EphimerisRequest) returns (EphimerisResponse) {}  // get ephimeris data
+  rpc GetChart(EphimerisRequest) returns (EphimerisResponse) {
+  } // get ephimeris data
+  rpc GetMoonEphimeris(EphimerisRequest) returns (EphimerisResponse) {
+  } // get ephimeris data
+  rpc GetPanchangMonth(EphimerisRequest) returns (EphimerisResponse) {
+  } // get ephimeris data
 }

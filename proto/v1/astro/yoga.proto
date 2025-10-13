@@ -7,97 +7,90 @@
 syntax = "proto3";
 package astro;
 
+option go_package = "github.com/dronasys-com/astro/gen/go/v1/astro";
+
 import "google/protobuf/timestamp.proto";
 
+message YogaMetadata {
 
-option go_package = "./go";
+  string uid = 1;       // UUID for the object
+  string name = 2;      // name of the object
+  string owner = 3;     // owner UUID of the object (user UUID)
+  string tenancy = 4;   // tenant UUID of the object
+  string parentUid = 5; // parent uuid
+  int64 version = 11;
+  bool dataEncryption = 21;
+  map<string, string> labels = 51;
+  map<string, string> annotations = 52;
 
-
-
-message Metadata {
-    
-    string uid = 1;           // UUID for the object
-    string name = 2;         // name of the object
-    string owner = 3;       // owner UUID of the object (user UUID)
-    string tenancy = 4;    // tenant UUID of the object
-    string parentUid = 5; // parent uuid
-    int64 version = 11;
-    bool dataEncryption = 21;
-    map<string, string> labels = 51;
-    map<string, string> annotations = 52;
-    
-    google.protobuf.Timestamp createdAt = 101;
-    google.protobuf.Timestamp updatedAt = 102;
-
-} 
+  google.protobuf.Timestamp createdAt = 101;
+  google.protobuf.Timestamp updatedAt = 102;
+}
 
 message yogaInfo {
-    
-    string sloka = 1;
 
-    enum Books {
-        IgnoreBooks = 0;
-        BrihatParasharaHoraSastra = 1;
-        BrihamSamhita = 2;
-        Saravali = 3;
-        JatakTatva = 4;
-        PhalPeepika = 5;
-        UttarKalamrita = 6;
-        BhrihatJatak = 7;
-        JatakParijaat = 8;
-        SarvathChintamani = 9;
-        AstagavargaNibandh = 10;
-        BhavarathaRatnakar = 11;
-        Maansagri = 12;
-        TajikNeelkanthi = 13;
-        ShatPanchashika = 14;
-        LalKitab = 15;
-        KNRao = 16;
-        BVRaman = 17;
-        Others = 18;
-    }
-    Books classicalSource = 2;
-    string otherSource = 3;
-    string meaning = 11;
-    string englishTranslation = 12;
+  string sloka = 1;
 
-
+  enum Books {
+    IgnoreBooks = 0;
+    BrihatParasharaHoraSastra = 1;
+    BrihamSamhita = 2;
+    Saravali = 3;
+    JatakTatva = 4;
+    PhalPeepika = 5;
+    UttarKalamrita = 6;
+    BhrihatJatak = 7;
+    JatakParijaat = 8;
+    SarvathChintamani = 9;
+    AstagavargaNibandh = 10;
+    BhavarathaRatnakar = 11;
+    Maansagri = 12;
+    TajikNeelkanthi = 13;
+    ShatPanchashika = 14;
+    LalKitab = 15;
+    KNRao = 16;
+    BVRaman = 17;
+    Others = 18;
+  }
+  Books classicalSource = 2;
+  string otherSource = 3;
+  string meaning = 11;
+  string englishTranslation = 12;
 }
 
 message YogaRule {
-    string name = 1;
-    enum RuleType {
-        IgnoreRule = 0;
-        Bhava = 1;
-        Rasi = 2;
-        Panchang = 3;
-        Planet = 4;
-        AuxPlanet = 5;
-        PlanetArudra = 6;
-        RasiArudra = 7;
-        Divisional = 8;
-
-    }
-    enum DivisionRule {
-        IgnoreDivision = 0;
-        Hora = 2;
-        Drekkana = 3;
-        Chaturthamsa = 4;
-        Panchamsa = 5;
-        Shasthamsa = 6;
-        Saptamsa = 7;
-        Asthamsa = 8;
-        Navamsa = 9;
-        Dasamsa = 10;
-        Ekadasamsa = 11;
-        Dvadasamsa = 12;
-        Shodasamsa = 16;
-        Vimsamsa = 20;
-        ChaturVimsamsa = 24;
-        SaptaVimsamsa = 27;
-        Trimsamsa = 30;
-        KhaVedamsa = 40;
-        AkshaVedamsa = 45;
-        Shastiamsa = 60;
-    }
+  string name = 1;
+  enum RuleType {
+    IgnoreRule = 0;
+    Bhava = 1;
+    Rasi = 2;
+    Panchang = 3;
+    Planet = 4;
+    AuxPlanet = 5;
+    PlanetArudra = 6;
+    RasiArudra = 7;
+    Divisional = 8;
+  }
+  enum DivisionRule {
+    IgnoreDivision = 0;
+    Hora = 2;
+    Drekkana = 3;
+    Chaturthamsa = 4;
+    Panchamsa = 5;
+    Shasthamsa = 6;
+    Saptamsa = 7;
+    Asthamsa = 8;
+    Navamsa = 9;
+    Dasamsa = 10;
+    Ekadasamsa = 11;
+    Dvadasamsa = 12;
+    Shodasamsa = 16;
+    Vimsamsa = 20;
+    ChaturVimsamsa = 24;
+    SaptaVimsamsa = 27;
+    Trimsamsa = 30;
+    KhaVedamsa = 40;
+    AkshaVedamsa = 45;
+    Shastiamsa = 60;
+  }
 }
