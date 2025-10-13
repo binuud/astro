@@ -16,6 +16,8 @@ BASE_DIR	:=	$(shell git rev-parse --show-toplevel)
 BIN			:=	$(BASE_DIR)/bin
 
 
+MULTI_PLATFORM_DOCKER = --platform=linux/amd64,linux/arm64
+
 # HELP
 # This will output the help for each task
 # thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
@@ -35,8 +37,8 @@ endif
 
 build: ## Build docker image
 # docker system prune -f
-	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(ASTRO_APP) -f astro.dockerfile .
-	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) -t $(REPO)/$(EPHIMERIS_APP) -f ephimeris.dockerfile .
+	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) $(MULTI_PLATFORM_DOCKER) -t $(REPO)/$(ASTRO_APP) -f ./deployment/docker/astro.dockerfile .
+	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) $(MULTI_PLATFORM_DOCKER) -t $(REPO)/$(EPHIMERIS_APP) -f ./deployment/docker/ephimeris.dockerfile .
 
 deploy: ## Deploy all images to docker hub
 	@echo "====================> Pushing image to dockerhub$(AWS_ECR) ."
@@ -103,16 +105,17 @@ run-docker-ephimeris: ## run container image
 	docker run   \
 	-e TRANCE_LOG_VERBOSITY="1" \
 	-p 127.0.0.1:50062:50062 \
+	--platform linux/amd64 \
 	--name $(EPHIMERIS_APP) $(REPO)/$(EPHIMERIS_APP)
 
 runContainer: ## Start container
 	./startAstroContainer.sh	
 
 runEphimeris: ## Run ephimeris microservice
-	cd services/ephimeris/cmd && ./run.sh	
+	./scripts/runEphimeris.sh	
 
 runTestData: ## Creates test data charts
-	cd services/testData/cmd && ./run.sh	
+	./scripts/runTestData.sh	
 
 test: ## Run tests
 	go test ./pkg/...

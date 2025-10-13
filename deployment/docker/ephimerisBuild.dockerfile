@@ -1,4 +1,4 @@
-FROM gcc:4.9 as builder
+FROM gcc:4.9 AS builder
 
 # LABEL maintainer="Binu Udayakumar <binu@dronasys.com>"
 
@@ -18,11 +18,11 @@ LABEL maintainer="binu@dronasys.com"
 #USER nonroot:nonroot
 
 
-COPY astroBin/ /astroBin/
+COPY ./astroBin/ /astroBin/
 WORKDIR /astroBin
 
 ARG BUILD_VER
-ENV TRANCE_VERSION $BUILD_VER
+ENV TRANCE_VERSION=$BUILD_VER
 
 
  

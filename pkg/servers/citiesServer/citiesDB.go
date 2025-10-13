@@ -7,10 +7,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/dronasys-com/astro/pkg/foundation/config"
 	citiesV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
 	"github.com/sirupsen/logrus"
 )
+
+const DB_FILE = "cities.csv"
 
 type CityDB struct {
 	cities []*citiesV1.CityInfo
@@ -25,10 +26,12 @@ func NewCityDB() *CityDB {
 }
 
 func (c *CityDB) initDB() []*citiesV1.CityInfo {
-	csvFile := "../../../data/cities.csv"
-	if config.Config.Production == "true" {
-		csvFile = "/data/cities.csv"
+
+	dataPath := os.Getenv("DATA_PATH")
+	if dataPath == "" {
+		dataPath = "./data/"
 	}
+	csvFile := fmt.Sprintf("%s%s", dataPath, DB_FILE)
 	csvData, err := c.readCsvFile(csvFile)
 	if err != nil {
 		panic(err)

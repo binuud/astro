@@ -18,7 +18,7 @@ const (
 	FLONGITUDE             = "Pl"
 	FLONGITUDEONLY         = "l"
 	PLANET_DEFAULT_COLUMNS = "Plbrds"
-	ASTRO_CMD              = "/astroBin/astrobin"
+	ASTRO_CMD              = "./astroBin/astrobin"
 )
 
 type Ephimeris struct {
