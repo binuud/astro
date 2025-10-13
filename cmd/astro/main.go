@@ -1,33 +1,65 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
-	"log"
 	"net"
+	"net/http"
 
 	"github.com/dronasys-com/astro/cmd/db"
-	"github.com/dronasys-com/astro/pkg/foundation/bootstrap"
+	astroV1 "github.com/dronasys-com/astro/gen/v1/astro"
 	"github.com/dronasys-com/astro/pkg/servers/astroServer"
 	"github.com/dronasys-com/astro/pkg/servers/panchangServer"
-	"github.com/sirupsen/logrus"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 var (
-	grpcPort = flag.Int("grpcPort", 50061, "The Secure Server port, with Astro Calculations")
+	server_grpc_port = flag.Int("grpc_port", 9090, "Astro Calculations GRPC Serverport, no token required unsecured")
+	server_http_port = flag.Int("http_port", 9080, "Astro Calculations HTTP Server port, no token required unsecured")
 )
 
-func main() {
+// starting the http server from the GPRC generated code
+func runHtppServer() {
 
-	bootstrap.Init()
-	db.Init()
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
 
-	logrus.Info("Astro Calc - Trance !")
-	logrus.Info("--------->>>> Starting Astro Calc Microservice  <<<----------")
+	// Create a client connection to the gRPC server we just started
+	// This is where the gRPC-Gateway proxies the requests
+	conn, err := grpc.NewClient(
+		fmt.Sprintf("0.0.0.0:%d", *server_grpc_port),
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+	if err != nil {
+		log.Fatalln("Failed to dial server:", err)
+	}
 
-	flag.Parse()
-	secureConn, err := net.Listen("tcp", fmt.Sprintf(":%d", *grpcPort))
+	gwMux := runtime.NewServeMux()
+
+	err = astroV1.RegisterAstroHandlerServer(ctx, gwMux, conn)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	gwServer := &http.Server{
+		Addr:    fmt.Sprintf("0.0.0.0:%d", *server_http_port),
+		Handler: gwMux,
+	}
+
+	log.Info("HTTP server started")
+	// Start HTTP server (and proxy calls to gRPC server endpoint)
+	log.Fatalln(gwServer.ListenAndServe())
+
+}
+
+func runGRPCServer() {
+
+	secureConn, err := net.Listen("tcp", fmt.Sprintf(":%d", *server_grpc_port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -39,9 +71,26 @@ func main() {
 	astroServer.NewGrpcAstroServer(secureServer)
 	panchangServer.NewGrpcPanchangerver(secureServer)
 
-	logrus.Infof("Astro Calculations Server *) (* listening on (%v)", secureConn.Addr())
+	log.Infof("Astro Calculations Server *) (* listening on (%v)", secureConn.Addr())
 	if err := secureServer.Serve(secureConn); err != nil {
-		logrus.Fatal("failed to serve: ", err)
+		log.Fatal("failed to serve: ", err)
 	}
+
+}
+
+func main() {
+
+	flag.Parse()
+
+	db.Init()
+
+	log.Info("Astro Calc - Trance !")
+	log.Info("--------->>>> Starting Astro Calc Microservice  <<<----------")
+
+	go func() {
+		runGRPCServer()
+	}()
+
+	runHtppServer()
 
 }

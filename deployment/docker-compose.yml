@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: astro.dockerfile
     environment:
-      - TRANCE_LOG_VERBOSITY=1
-      - TRANCE_PRODUCTION=astro 
+      - LOG_VERBOSITY=1
+      - PRODUCTION=astro 
       - MONGO_ENDPOINT=host.docker.internal:27027
       - MONGO_DB=astro
       - MONGO_USER=root  
@@ -23,7 +23,7 @@ services:
       context: .
       dockerfile: ephimeris.dockerfile
     environment:
-      - TRANCE_LOG_VERBOSITY=1  
+      - LOG_VERBOSITY=1  
     ports:
       - '50062:50062'
 

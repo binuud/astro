@@ -6,130 +6,120 @@
 syntax = "proto3";
 package astro;
 
+option go_package = "github.com/dronasys-com/astro/gen/go/v1/astro";
+
 import "google/protobuf/timestamp.proto";
-import "astro/metas.proto";
-import "astro/dasha.proto";
-
-option go_package = "./go";
-
+import "v1/astro/metas.proto";
+import "v1/astro/dasha.proto";
 
 message Metadata {
-    
-    string uid = 1;           // UUID for the object
-    string name = 2;         // name of the object
-    string owner = 3;       // owner UUID of the object (user UUID)
-    string tenancy = 4;    // tenant UUID of the object
-    string parentUid = 5; // parent uuid
 
-    bool dataEncryption = 21;
-    map<string, string> labels = 51;
-    map<string, string> annotations = 52;
-    
-    google.protobuf.Timestamp createdAt = 101;
-    google.protobuf.Timestamp updatedAt = 102;
+  string uid = 1;       // UUID for the object
+  string name = 2;      // name of the object
+  string owner = 3;     // owner UUID of the object (user UUID)
+  string tenancy = 4;   // tenant UUID of the object
+  string parentUid = 5; // parent uuid
 
-    enum ChartType {
-        IgnoreChartType = 0;
-        Self = 1;
-        Global = 2;
-        Client = 3;
-        Test = 4;
+  bool dataEncryption = 21;
+  map<string, string> labels = 51;
+  map<string, string> annotations = 52;
 
-    }
-    ChartType chartType = 501;
+  google.protobuf.Timestamp createdAt = 101;
+  google.protobuf.Timestamp updatedAt = 102;
+
+  enum ChartType {
+    IgnoreChartType = 0;
+    Self = 1;
+    Global = 2;
+    Client = 3;
+    Test = 4;
+  }
+  ChartType chartType = 501;
 }
 
 message Pagination {
-    int64 total = 1;
-    int64 current = 2;
-    int64 perPage = 3;
+  int64 total = 1;
+  int64 current = 2;
+  int64 perPage = 3;
 }
 
-
 message PlanetDetails {
-    string name = 1;
-    
-    double longitude = 2;
-    double latitude = 3;
-    double declination = 4;
-    double speed = 5;
-    double distance = 6;
+  string name = 1;
 
-    
-    int64 star = 21;
-    int64 paada = 22;
-    int64 rasi = 23;
-    int64 bhava = 24;
-    int64 bhava_h = 25;
+  double longitude = 2;
+  double latitude = 3;
+  double declination = 4;
+  double speed = 5;
+  double distance = 6;
 
-    bool exalted = 51;
-    bool moolTrikona = 52;
-    bool deblited = 53;
-    
-    bool ownHouse = 54;
-    bool friendHouse = 55;
-    bool enemyHouse = 56;
-    bool neutralHouse = 57;
+  int64 star = 21;
+  int64 paada = 22;
+  int64 rasi = 23;
+  int64 bhava = 24;
+  int64 bhava_h = 25;
 
-    int64 amsa2 = 1002;
-    int64 amsa9 = 1009;
-    int64 amsa10 = 1010;
-    int64 amsa27 = 1027;
-    int64 amsa60 = 1060;
+  bool exalted = 51;
+  bool moolTrikona = 52;
+  bool deblited = 53;
+
+  bool ownHouse = 54;
+  bool friendHouse = 55;
+  bool enemyHouse = 56;
+  bool neutralHouse = 57;
+
+  int64 amsa2 = 1002;
+  int64 amsa9 = 1009;
+  int64 amsa10 = 1010;
+  int64 amsa27 = 1027;
+  int64 amsa60 = 1060;
 }
 
 message Planets {
-    string ephimeris = 1;
-    map<string, PlanetDetails> planetsMap = 2; 
+  string ephimeris = 1;
+  map<string, PlanetDetails> planetsMap = 2;
 }
 
 message AstroObject {
-    Metadata metadata = 1;
-    BirthData birthData = 2;
-    Planets planets = 4;
-    repeated DashaItem dashas = 11;
+  Metadata metadata = 1;
+  BirthData birthData = 2;
+  Planets planets = 4;
+  repeated DashaItem dashas = 11;
 }
 
 service Astro {
-    rpc Create(UserCreateRequest) returns (UserCreateResponse) {} // update place and birth details
-    rpc Update(UserUpdateRequest) returns (UserUpdateResponse) {} // update place and birth details
-    rpc Get(UserGetRequest) returns (UserGetResponse) {}  // get chart and dasa
-    rpc List(UserListRequest) returns (UserListResponse) {} // list all charts of user/global charts
+  rpc Create(UserCreateRequest) returns (UserCreateResponse) {
+  } // update place and birth details
+  rpc Update(UserUpdateRequest) returns (UserUpdateResponse) {
+  } // update place and birth details
+  rpc Get(UserGetRequest) returns (UserGetResponse) {} // get chart and dasa
+  rpc List(UserListRequest) returns (UserListResponse) {
+  } // list all charts of user/global charts
 }
 
 message UserCreateRequest {
-    Metadata metadata = 1;
-    BirthData birthData = 2;
+  Metadata metadata = 1;
+  BirthData birthData = 2;
 }
 
-message UserCreateResponse {
-    AstroObject astro = 1;
-}
-
+message UserCreateResponse { AstroObject astro = 1; }
 
 message UserUpdateRequest {
-    string uuid = 1;
-    BirthData birthData = 2;
+  string uuid = 1;
+  BirthData birthData = 2;
 }
 
-message UserUpdateResponse {
-    AstroObject astro = 1;
-}
+message UserUpdateResponse { AstroObject astro = 1; }
 
-message UserGetRequest {
-    string uuid = 1;
-}
+message UserGetRequest { string uuid = 1; }
 
-message UserGetResponse {
-    AstroObject astro = 1;
-}
+message UserGetResponse { AstroObject astro = 1; }
 
 message UserListRequest {
-    string uuid = 1;
-    Pagination pagination = 2;
+  string uuid = 1;
+  Pagination pagination = 2;
 }
 
 message UserListResponse {
-    repeated AstroObject astro = 1;
-    Pagination pagination = 2;
+  repeated AstroObject astro = 1;
+  Pagination pagination = 2;
 }

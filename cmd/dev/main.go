@@ -1,10 +1,10 @@
 package main
 
 import (
+	astroV1 "github.com/dronasys-com/astro/gen/v1/astro"
 	"github.com/dronasys-com/astro/pkg/astro"
-	"github.com/dronasys-com/astro/pkg/foundation/bootstrap"
 	"github.com/dronasys-com/astro/pkg/foundation/config"
-	astroV1 "github.com/dronasys-com/astro/proto/v1/astro/go"
+	"github.com/dronasys-com/trance-microservices/pkg/foundation/bootstrap"
 	"github.com/sirupsen/logrus"
 )
 
@@ -22,7 +22,7 @@ func main() {
 func test_calendar() {
 	p, err := astro.NewPanchang(2022, 2, 1)
 	if err != nil {
-		logrus.Errorf("Cannot prepare chart err(%v)", err)
+		log.Errorf("Cannot prepare chart err(%v)", err)
 	}
 	p.PrintMonth()
 	// p.CalculatePanchang()
@@ -82,7 +82,7 @@ func test_dasa() {
 }
 
 func test_newdasa() {
-	logrus.Infof("Config is (%v)", config.Config)
+	log.Infof("Config is (%v)", config.Config)
 	chart, err := astro.NewAstroChart(&astroV1.BirthData{
 		Tob: &astroV1.TobData{
 			D:    04,
@@ -100,7 +100,7 @@ func test_newdasa() {
 		},
 	})
 	if err != nil {
-		logrus.Error("Cannot prepare chart err(%v)", err)
+		log.Error("Cannot prepare chart err(%v)", err)
 	}
 
 	dasa := astro.NewVimshottariDasha(chart.BirthData.Tob.Tobtime.AsTime())
