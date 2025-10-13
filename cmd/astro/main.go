@@ -47,6 +47,11 @@ func runHtppServer() {
 		log.Fatalln(err)
 	}
 
+	err = astroV1.RegisterPanchangHandler(ctx, gwMux, conn)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 	gwServer := &http.Server{
 		Addr:    fmt.Sprintf("0.0.0.0:%d", *server_http_port),
 		Handler: gwMux,
@@ -74,7 +79,7 @@ func runGRPCServer() {
 	// Register reflection service on gRPC server.
 	reflection.Register(insecureServer)
 
-	log.Infof("Astro Calculations Server *) (* listening on (%v)", insecureConn.Addr())
+	log.Infof("Astro Calculations GRPC Server *) (* listening on (%v)", insecureConn.Addr())
 	log.Fatalln(insecureServer.Serve(insecureConn))
 
 }

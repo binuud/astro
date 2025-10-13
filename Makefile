@@ -81,7 +81,7 @@ protos: ## Build Go and Web Proto
 	--grpc-gateway-ts_out=./gen/web/ \
 	--grpc-gateway-ts_opt paths=source_relative \
 	--grpc-gateway-ts_opt generate_unbound_methods=true \
-	--oas_out ./gen/web/v1/astro/ \
+	--oas_out ./gen/web/ \
 	proto/v1/astro/metas.proto \
 	proto/v1/astro/ephimeris.proto \
 	proto/v1/astro/cities.proto \
@@ -123,6 +123,9 @@ run-docker-ephimeris: ## run container image
 
 runContainer: ## Start container
 	./scripts/startAstroContainer.sh	
+
+runAstro: ## Start astro
+	./scripts/runAstro.sh
 
 runEphimeris: ## Run ephimeris microservice
 	./scripts/runEphimeris.sh	

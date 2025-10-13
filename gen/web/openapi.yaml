@@ -1,0 +1,1281 @@
+openapi: 3.1.0
+info:
+  title: ""
+  version: ""
+paths:
+  /v1/cities/get:
+    get:
+      operationId: get
+      parameters:
+        - name: countryCode
+          in: query
+          schema:
+            type: string
+        - name: countryId
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: countryName
+          in: query
+          schema:
+            type: string
+        - name: id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: index
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: stateCode
+          in: query
+          schema:
+            type: string
+        - name: stateId
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: stateName
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: astro.Cities.Get response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitiesGetResponse'
+  /v1/cities/search:
+    get:
+      operationId: search
+      parameters:
+        - name: countryCode
+          in: query
+          schema:
+            description: either country_id or country_code or country_name
+            type: string
+        - name: countryId
+          in: query
+          schema:
+            description: either country_id or country_code or country_name
+            type: integer
+            format: int64
+        - name: countryName
+          in: query
+          schema:
+            description: either country_id or country_code or country_name
+            type: string
+        - name: id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          schema:
+            description: sub match
+            type: string
+        - name: stateCode
+          in: query
+          schema:
+            description: optional
+            type: string
+        - name: stateId
+          in: query
+          schema:
+            description: optional
+            type: integer
+            format: int64
+        - name: stateName
+          in: query
+          schema:
+            description: optional
+            type: string
+      responses:
+        "200":
+          description: astro.Cities.Search response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitiesSearchResponse'
+  /v1/panchang/getDay:
+    get:
+      operationId: getDay
+      parameters:
+        - name: birthData.pob.city
+          in: query
+          schema:
+            description: City of Birth
+            type: string
+        - name: birthData.pob.country
+          in: query
+          schema:
+            description: Country of Birth
+            type: string
+        - name: birthData.pob.lat
+          in: query
+          schema:
+            description: Latitude of POB
+            type: number
+            format: float
+        - name: birthData.pob.long
+          in: query
+          schema:
+            description: Longitude of POB
+            type: number
+            format: float
+        - name: birthData.pob.planet
+          in: query
+          schema:
+            description: planet - earth, tosovo, buvalok, swargalok, patala, atala, vitala
+            type: string
+        - name: birthData.pob.state
+          in: query
+          schema:
+            description: State of Birth
+            type: string
+        - name: birthData.pob.yuga
+          in: query
+          schema:
+            description: varsha, yuga, treated as space variable
+            type: string
+        - name: birthData.tob.d
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.dateString
+          in: query
+          schema:
+            type: string
+        - name: birthData.tob.hour
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.m
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.min
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.sec
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.tobtime
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: birthData.tob.y
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.zone
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: astro.Panchang.GetDay response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PanchangDayGetResponse'
+  /v1/panchang/getMonth:
+    get:
+      operationId: getMonth
+      parameters:
+        - name: birthData.pob.city
+          in: query
+          schema:
+            description: City of Birth
+            type: string
+        - name: birthData.pob.country
+          in: query
+          schema:
+            description: Country of Birth
+            type: string
+        - name: birthData.pob.lat
+          in: query
+          schema:
+            description: Latitude of POB
+            type: number
+            format: float
+        - name: birthData.pob.long
+          in: query
+          schema:
+            description: Longitude of POB
+            type: number
+            format: float
+        - name: birthData.pob.planet
+          in: query
+          schema:
+            description: planet - earth, tosovo, buvalok, swargalok, patala, atala, vitala
+            type: string
+        - name: birthData.pob.state
+          in: query
+          schema:
+            description: State of Birth
+            type: string
+        - name: birthData.pob.yuga
+          in: query
+          schema:
+            description: varsha, yuga, treated as space variable
+            type: string
+        - name: birthData.tob.d
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.dateString
+          in: query
+          schema:
+            type: string
+        - name: birthData.tob.hour
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.m
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.min
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.sec
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.tobtime
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: birthData.tob.y
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.zone
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: astro.Panchang.GetMonth response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PanchangMonthGetResponse'
+components:
+  schemas:
+    AstroConstants:
+      type: object
+    AstroConstants.Planets:
+      type: string
+      enum:
+        - Lagna
+        - Sun
+        - Moon
+        - Mars
+        - Mercury
+        - Jupiter
+        - Venus
+        - Saturn
+        - Rahu
+        - Ketu
+        - Uranus
+        - Neptune
+        - Pluto
+        - Maandi
+        - Gulika
+        - BhavaLagna
+        - HoraLagna
+        - GhatiLagna
+        - VighatiLagna
+        - VamadaLagna
+        - SreeLagna
+        - PranapadaLagna
+        - InduLagna
+        - BrighuBindu
+        - Dhooma
+        - Vyatipata
+        - Parivesha
+        - IndraChapa
+        - Upaketu
+        - Kaala
+        - Mrityu
+        - ArthaPrahara
+        - YamaGhantaka
+    AstroConstants.Rasis:
+      type: string
+      enum:
+        - IgnoreRasis
+        - Aries
+        - Taurus
+        - Gemini
+        - Cancer
+        - Leo
+        - Virgo
+        - Libra
+        - Scorpio
+        - Saggitarius
+        - Capricon
+        - Aquarius
+        - Pisces
+    AstroConstants.Sphutas:
+      type: string
+      enum:
+        - IgnoreSphuta
+        - PranaSphuta
+        - DehaSphuta
+        - MrityuSphuta
+        - SookshamaTriSphuta
+        - TithiSphuta
+        - YogaSunMoonSphuta
+        - RahuTithiSphuta
+        - KsethraSphuta
+        - BeejaSphuta
+        - TriSphuta
+        - ChatusSphuta
+        - PanchaSphuta
+        - YogaSphuta
+        - AvayogaSphuta
+    AstroConstants.Stars:
+      type: string
+      enum:
+        - IgnoreStars
+        - Aswini
+        - Bharani
+        - Krittika
+        - Rohini
+        - Mrigasira
+        - Arudra
+        - Punarvasu
+        - Pushyami
+        - Aslesha
+        - Makha
+        - Poorvaphalguni
+        - Uttaraphalguni
+        - Hasta
+        - Chitra
+        - Swati
+        - Vishaka
+        - Anuradha
+        - Jyeshta
+        - Moola
+        - Poorvashada
+        - Uttarashada
+        - Sravana
+        - Dhanishta
+        - Satabhisha
+        - Poorvabhadra
+        - Uttarabadra
+        - Revathi
+    AstroConstants.Tithis:
+      type: string
+      enum:
+        - Ignore_tithi
+        - S_Prathima
+        - S_Dwitiya
+        - S_Tritiya
+        - S_Chaturthi
+        - S_Panchami
+        - S_Shasti
+        - S_Saptami
+        - S_Ashtami
+        - S_Navami
+        - S_Dashami
+        - S_Ekadashi
+        - S_Dwadashi
+        - S_Thrayodashi
+        - S_Chaturdashi
+        - Purnima
+        - K_Prathama
+        - K_Dwitiya
+        - K_Tritiya
+        - K_Chaturthi
+        - K_Panchami
+        - K_Shasti
+        - K_Saptami
+        - K_Ashtami
+        - K_Navami
+        - K_Dashami
+        - K_Ekadashi
+        - K_Dwadashi
+        - K_Thrayodashi
+        - K_Chaturdashi
+        - Amavasya
+    AstroConstants.Weekdays:
+      type: string
+      enum:
+        - Sunday
+        - Monday
+        - Tuesday
+        - Wednesday
+        - Thursday
+        - Friday
+        - Saturday
+    AstroMetadata:
+      type: object
+      properties:
+        uid:
+          description: UUID for the object
+          type: string
+        name:
+          description: name of the object
+          type: string
+        owner:
+          description: owner UUID of the object (user UUID)
+          type: string
+        tenancy:
+          description: tenant UUID of the object
+          type: string
+        parentUid:
+          description: parent uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/AstroMetas.AstroTypes'
+          description: type of the astro object
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/AstroMetas.MetaTags'
+            description: tags to identify/describe the object
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    AstroMetadata.AnnotationsEntry:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    AstroMetadata.LabelsEntry:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    AstroMetas:
+      type: object
+    AstroMetas.AstroTypes:
+      type: string
+      enum:
+        - Ignore_astro_type
+        - Planet
+        - Rasi
+        - Planet_chaaya
+        - Star
+        - Special_star
+    AstroMetas.MetaTags:
+      type: string
+      enum:
+        - Ignore
+        - Gender_male
+        - Gender_female
+        - Gender_neutral
+        - Padding_4
+        - Padding_5
+        - Padding_6
+        - Padding_7
+        - Padding_8
+        - Padding_9
+        - Element_air
+        - Element_fire
+        - Element_water
+        - Element_earth
+        - Quality_fixed
+        - Quality_moveable
+        - Quality_mutable
+        - Quality_cardinal
+        - Padding_18
+        - Padding_19
+        - State_common
+        - State_lame
+        - Blind_day
+        - Blind_night
+        - Deaf_morning
+        - Deaf_midday
+        - Deaf_night
+        - Padding_27
+        - Padding_28
+        - Padding_29
+        - Tithi_nanda
+        - Tithi_bhadra
+        - Tithi_jaya
+        - Tithi_riktha
+        - Tithi_poorna
+        - Tridosha_vaatha
+        - Tridosha_pitha
+        - Tridosha_kapha
+        - Padding_38
+        - Padding_39
+        - Bhava_trikona
+        - Bhava_kendra
+        - Bhava_upachaya
+        - Bhava_dusthana
+        - Bhava_trishadayas
+        - Bhava_marakasthana
+        - Padding_46
+        - Padding_47
+        - Padding_48
+        - Padding_49
+        - Rasi_exalted
+        - Rasi_moolatrikona
+        - Rasi_deblited
+    AstroMetas.Nature:
+      type: string
+      enum:
+        - IgnoreNature
+        - Benefic
+        - Malefic
+        - Choosy
+        - Both
+        - Avoid
+    AstroMetas.PanchangTags:
+      type: string
+      enum:
+        - Ignore_panchangTag
+        - KrishnaPaksha
+        - ShuklaPaksha
+        - Amavasya
+        - Poornima
+        - SankataharaChaturti
+        - Shasti
+        - Ekadasi
+        - AkshayaTritiya
+        - Krithika
+        - Pradosham
+        - Sivaratri
+        - Mahasivaratri
+        - MarriageMuhurta
+    AstroObject:
+      $ref: '#/components/schemas/DashaItem'
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        birthData:
+          $ref: '#/components/schemas/BirthData'
+        planets:
+          $ref: '#/components/schemas/Planets'
+        dashas:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashaItem'
+    BirthData:
+      type: object
+      properties:
+        tob:
+          $ref: '#/components/schemas/TobData'
+          description: Date of birth
+        pob:
+          $ref: '#/components/schemas/PobData'
+          description: Place of Birth
+    CitiesGetResponse:
+      type: object
+      properties:
+        details:
+          $ref: '#/components/schemas/CityInfo'
+    CitiesSearchResponse:
+      type: object
+      properties:
+        cities:
+          type: array
+          items:
+            $ref: '#/components/schemas/CityInfo'
+    CityInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        stateId:
+          type: integer
+          format: int64
+        stateCode:
+          type: string
+        stateName:
+          type: string
+        countryId:
+          type: integer
+          format: int64
+        countryCode:
+          type: string
+        countryName:
+          type: string
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        wikiDataId:
+          type: string
+        index:
+          description: positional index
+          type: integer
+          format: int64
+    DashaGetReqeust:
+      type: object
+      properties:
+        uuid:
+          description: uuid of the user
+          type: string
+        level:
+          type: integer
+          format: int32
+    DashaGetResponse:
+      type: object
+      properties:
+        userUuid:
+          description: uuid of the user
+          type: string
+        dashaSystem:
+          $ref: '#/components/schemas/DashaSystem'
+    DashaItem:
+      $ref: '#/components/schemas/DashaItem'
+      type: object
+      properties:
+        name:
+          type: string
+        level:
+          description: denotes the level of recursion
+          type: integer
+          format: int32
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        dashas:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashaItem'
+    DashaMeta:
+      type: object
+      properties:
+        name:
+          type: string
+        yearInSeconds:
+          description: in seconds
+          type: integer
+          format: int64
+        durationYears:
+          description: in the same units as the sub dasha duration ratios
+          type: integer
+          format: int64
+        startDasa:
+          type: integer
+          format: int32
+        dasaDegrees:
+          type: number
+          format: double
+        startTime:
+          type: string
+          format: date-time
+        SubDashaMetas:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubDashaMeta'
+        type:
+          $ref: '#/components/schemas/DashaMeta.Types'
+    DashaMeta.Types:
+      type: string
+      enum:
+        - Ignore
+        - Vimshottari
+        - Ashtottari
+    DashaSystem:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/DashaMeta'
+        dashas:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashaItem'
+    DashaUpdateReqeust:
+      type: object
+      properties:
+        uuid:
+          description: uuid of the user whose dasha should be updated
+          type: string
+    DashaUpdateResponse:
+      type: object
+      properties:
+        uuid:
+          description: uuid of the user whose dasha should be updated
+          type: string
+    EphimerisRequest:
+      type: object
+      properties:
+        birthData:
+          $ref: '#/components/schemas/BirthData'
+    EphimerisResponse:
+      type: object
+      properties:
+        output:
+          type: string
+    GeoLocation:
+      type: object
+      properties:
+        lat:
+          description: Latitude of POB
+          type: number
+          format: float
+        long:
+          description: Longitude of POB
+          type: number
+          format: float
+    Kaalam:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+    Metadata:
+      type: object
+      properties:
+        uid:
+          description: UUID for the object
+          type: string
+        name:
+          description: name of the object
+          type: string
+        owner:
+          description: owner UUID of the object (user UUID)
+          type: string
+        tenancy:
+          description: tenant UUID of the object
+          type: string
+        parentUid:
+          description: parent uuid
+          type: string
+        dataEncryption:
+          type: boolean
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        chartType:
+          $ref: '#/components/schemas/Metadata.ChartType'
+    Metadata.AnnotationsEntry:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Metadata.ChartType:
+      type: string
+      enum:
+        - IgnoreChartType
+        - Self
+        - Global
+        - Client
+        - Test
+    Metadata.LabelsEntry:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+        current:
+          type: integer
+          format: int64
+        perPage:
+          type: integer
+          format: int64
+    PanchangDay:
+      $ref: '#/components/schemas/Transit'
+      type: object
+      properties:
+        year:
+          type: integer
+          format: int32
+        month:
+          type: integer
+          format: int32
+        day:
+          type: integer
+          format: int32
+        zone:
+          type: string
+        geo:
+          $ref: '#/components/schemas/GeoLocation'
+        weekday:
+          type: integer
+          format: int32
+        sunRiseSet:
+          $ref: '#/components/schemas/Kaalam'
+        moonRiseSet:
+          $ref: '#/components/schemas/Kaalam'
+        stars:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+        yogas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+        karanas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+        tithis:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+        paadas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+        lagnas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+        rahuKalam:
+          $ref: '#/components/schemas/Kaalam'
+        guliKalam:
+          $ref: '#/components/schemas/Kaalam'
+        yamaGandam:
+          $ref: '#/components/schemas/Kaalam'
+        marriage:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+            description: suitable for marriage ceremony
+        good:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+            description: general favourable timing
+        bad:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+            description: general unauspicious timing
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/AstroMetas.PanchangTags'
+    PanchangDayGetResponse:
+      type: object
+      properties:
+        day:
+          $ref: '#/components/schemas/PanchangDay'
+    PanchangMonth:
+      type: object
+      properties:
+        year:
+          type: integer
+          format: int32
+        month:
+          type: integer
+          format: int32
+        zone:
+          type: string
+        geo:
+          $ref: '#/components/schemas/GeoLocation'
+        days:
+          type: array
+          items:
+            $ref: '#/components/schemas/PanchangDay'
+    PanchangMonthGetResponse:
+      type: object
+      properties:
+        month:
+          $ref: '#/components/schemas/PanchangMonth'
+    PlanetDetails:
+      type: object
+      properties:
+        name:
+          type: string
+        longitude:
+          type: number
+          format: double
+        latitude:
+          type: number
+          format: double
+        declination:
+          type: number
+          format: double
+        speed:
+          type: number
+          format: double
+        distance:
+          type: number
+          format: double
+        star:
+          type: integer
+          format: int64
+        paada:
+          type: integer
+          format: int64
+        rasi:
+          type: integer
+          format: int64
+        bhava:
+          type: integer
+          format: int64
+        bhavaH:
+          type: integer
+          format: int64
+        exalted:
+          type: boolean
+        moolTrikona:
+          type: boolean
+        deblited:
+          type: boolean
+        ownHouse:
+          type: boolean
+        friendHouse:
+          type: boolean
+        enemyHouse:
+          type: boolean
+        neutralHouse:
+          type: boolean
+        amsa2:
+          type: integer
+          format: int64
+        amsa9:
+          type: integer
+          format: int64
+        amsa10:
+          type: integer
+          format: int64
+        amsa27:
+          type: integer
+          format: int64
+        amsa60:
+          type: integer
+          format: int64
+    Planets:
+      type: object
+      properties:
+        ephimeris:
+          type: string
+        planetsMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/PlanetDetails'
+    Planets.PlanetsMapEntry:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          $ref: '#/components/schemas/PlanetDetails'
+    PobData:
+      type: object
+      properties:
+        city:
+          description: City of Birth
+          type: string
+        state:
+          description: State of Birth
+          type: string
+        country:
+          description: Country of Birth
+          type: string
+        lat:
+          description: Latitude of POB
+          type: number
+          format: float
+        long:
+          description: Longitude of POB
+          type: number
+          format: float
+        planet:
+          description: planet - earth, tosovo, buvalok, swargalok, patala, atala, vitala
+          type: string
+        yuga:
+          description: varsha, yuga, treated as space variable
+          type: string
+    StarThithiWeekdayYoga:
+      type: object
+      properties:
+        Yoga:
+          $ref: '#/components/schemas/StarThithiWeekdayYoga.StarThithiWeekdayYogaTypes'
+        nature:
+          $ref: '#/components/schemas/AstroMetas.Nature'
+        desc:
+          type: string
+    StarThithiWeekdayYoga.StarThithiWeekdayYogaTypes:
+      type: string
+      enum:
+        - IgnoreStarThithiWeekdayYoga
+        - TriPushkaraYoga
+        - DwipushkaraYoga
+    StarWeekdayYoga:
+      type: object
+      properties:
+        Name:
+          type: string
+        Yoga:
+          $ref: '#/components/schemas/StarWeekdayYoga.StarWeekdayYogaTypes'
+        Nature:
+          $ref: '#/components/schemas/AstroMetas.Nature'
+        desc:
+          type: string
+    StarWeekdayYoga.StarWeekdayYogaTypes:
+      type: string
+      enum:
+        - IgnoreStarYoga
+        - Ananda
+        - Kaaldanda
+        - Dhumra
+        - Dhata
+        - Saumya
+        - Dhwansha
+        - Ketu
+        - Srivatsa
+        - Vajra
+        - Mudgara
+        - Chhatra
+        - Mitra
+        - Manas
+        - Padma
+        - Lumba
+        - Utpaata
+        - Mrityu
+        - Kaana
+        - Siddhi
+        - Subha
+        - Amrita
+        - Mushala
+        - Gada
+        - Matanga
+        - Raksha
+        - Chara
+        - Susthira
+        - Pravardhamama
+    SubDashaMeta:
+      type: object
+      properties:
+        name:
+          type: string
+        duration:
+          description: ratios
+          type: integer
+          format: int32
+    SunMoonEphimeris:
+      type: object
+      properties:
+        moon:
+          type: number
+          format: double
+        sun:
+          type: number
+          format: double
+    TobData:
+      type: object
+      properties:
+        d:
+          type: integer
+          format: int32
+        m:
+          type: integer
+          format: int32
+        y:
+          type: integer
+          format: int32
+        hour:
+          type: integer
+          format: int32
+        min:
+          type: integer
+          format: int32
+        sec:
+          type: integer
+          format: int32
+        zone:
+          type: string
+        dateString:
+          type: string
+        tobtime:
+          type: string
+          format: date-time
+    Transit:
+      type: object
+      properties:
+        name:
+          type: integer
+          format: int32
+        transit:
+          description: time of transit
+          type: string
+          format: date-time
+        Yoga:
+          $ref: '#/components/schemas/YogaIdentifier'
+          description: each transit can have a yoga associated with it,
+    Transits:
+      type: object
+      properties:
+        year:
+          type: integer
+          format: int32
+        month:
+          type: integer
+          format: int32
+        startTime:
+          type: string
+          format: date-time
+        ephimeris:
+          type: array
+          items:
+            $ref: '#/components/schemas/SunMoonEphimeris'
+        stars:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+        yogas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+        karanas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+        tithis:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+        paadas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transit'
+        rahuKalam:
+          $ref: '#/components/schemas/Kaalam'
+        guliKalam:
+          $ref: '#/components/schemas/Kaalam'
+        yamaGandam:
+          $ref: '#/components/schemas/Kaalam'
+    UserCreateRequest:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        birthData:
+          $ref: '#/components/schemas/BirthData'
+    UserCreateResponse:
+      type: object
+      properties:
+        astro:
+          $ref: '#/components/schemas/AstroObject'
+    UserGetRequest:
+      type: object
+      properties:
+        uuid:
+          type: string
+    UserGetResponse:
+      type: object
+      properties:
+        astro:
+          $ref: '#/components/schemas/AstroObject'
+    UserListRequest:
+      type: object
+      properties:
+        uuid:
+          type: string
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    UserListResponse:
+      type: object
+      properties:
+        astro:
+          type: array
+          items:
+            $ref: '#/components/schemas/AstroObject'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    UserUpdateRequest:
+      type: object
+      properties:
+        uuid:
+          type: string
+        birthData:
+          $ref: '#/components/schemas/BirthData'
+    UserUpdateResponse:
+      type: object
+      properties:
+        astro:
+          $ref: '#/components/schemas/AstroObject'
+    YogaIdentifier:
+      type: object
+      properties:
+        Type:
+          $ref: '#/components/schemas/YogaIdentifier.YogaTypes'
+          description: to overload the Yoga identifier, this can be used for
+        YogaStarWeekday:
+          $ref: '#/components/schemas/StarWeekdayYoga'
+        YogaStarThithiWeekday:
+          $ref: '#/components/schemas/StarThithiWeekdayYoga'
+    YogaIdentifier.YogaTypes:
+      type: string
+      enum:
+        - IgnoreYogaTypes
+        - StarWeekdayYoga
+        - StarThithiWeekdayYoga

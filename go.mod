@@ -11,6 +11,7 @@ require (
 	go.mongodb.org/mongo-driver v1.10.3
 	go.mongodb.org/mongo-driver/v2 v2.3.1
 	golang.org/x/exp v0.0.0-20221031165847-c99f073a8326
+	google.golang.org/genproto v0.0.0-20220505152158-f39f71e6c8f3
 	google.golang.org/grpc v1.75.1
 	google.golang.org/protobuf v1.36.10
 )
@@ -27,5 +28,4 @@ require (
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.29.0 // indirect
-	google.golang.org/genproto v0.0.0-20220505152158-f39f71e6c8f3 // indirect
 )
