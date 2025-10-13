@@ -339,9 +339,9 @@ message StarWeekdayYoga {
     Pravardhamama = 28;
   }
 
-  string Name = 1;
-  StarWeekdayYogaTypes Yoga = 2;
-  AstroMetas.Nature Nature = 3;
+  string name = 1;
+  StarWeekdayYogaTypes yoga = 2;
+  AstroMetas.Nature nature = 3;
   string desc = 4;
 }
 
@@ -351,7 +351,7 @@ message StarThithiWeekdayYoga {
     TriPushkaraYoga = 1;
     DwipushkaraYoga = 2;
   }
-  StarThithiWeekdayYogaTypes Yoga = 1;
+  StarThithiWeekdayYogaTypes yoga = 1;
   AstroMetas.Nature nature = 2;
   string desc = 3;
 }
@@ -365,10 +365,10 @@ message YogaIdentifier {
     StarWeekdayYoga = 1;
     StarThithiWeekdayYoga = 2;
   }
-  YogaTypes Type = 1; // to overload the Yoga identifier, this can be used for
+  YogaTypes type = 1; // to overload the Yoga identifier, this can be used for
                       // different yogas
-  oneof Yoga {
-    StarWeekdayYoga YogaStarWeekday = 2;
-    StarThithiWeekdayYoga YogaStarThithiWeekday = 3;
+  oneof yoga {
+    StarWeekdayYoga yogaStarWeekday = 2;
+    StarThithiWeekdayYoga yogaStarThithiWeekday = 3;
   }
 }
