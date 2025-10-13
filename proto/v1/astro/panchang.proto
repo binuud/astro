@@ -20,7 +20,7 @@ message SunMoonEphimeris {
 message Transit {
   int32 name = 1;
   google.protobuf.Timestamp transit = 2; // time of transit
-  YogaIdentifier Yoga = 3; // each transit can have a yoga associated with it,
+  YogaIdentifier yoga = 3; // each transit can have a yoga associated with it,
                            // the yoga can be benefic or malefic
 }
 
