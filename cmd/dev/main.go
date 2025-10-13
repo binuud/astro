@@ -3,8 +3,7 @@ package main
 import (
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/dronasys-com/astro/pkg/astro"
-	"github.com/dronasys-com/astro/pkg/foundation/config"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -45,7 +44,7 @@ func test_chart() {
 		},
 	})
 	if err != nil {
-		logrus.Error("Cannot prepare chart err(%v)", err)
+		log.Error("Cannot prepare chart err(%v)", err)
 	}
 	chart.PrintChartTable()
 }
@@ -68,7 +67,7 @@ func test_dasa() {
 		},
 	})
 	if err != nil {
-		logrus.Error("Cannot prepare chart err(%v)", err)
+		log.Error("Cannot prepare chart err(%v)", err)
 	}
 
 	dasa := astro.NewVimshottariDasha(chart.BirthData.Tob.Tobtime.AsTime())
@@ -79,7 +78,7 @@ func test_dasa() {
 }
 
 func test_newdasa() {
-	log.Infof("Config is (%v)", config.Config)
+	// log.Infof("Config is (%v)", config.Config)
 	chart, err := astro.NewAstroChart(&astroV1.BirthData{
 		Tob: &astroV1.TobData{
 			D:    04,

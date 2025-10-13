@@ -117,7 +117,7 @@ run-docker-ephimeris: ## run container image
 	docker rm -f $(EPHIMERIS_APP)
 	docker run   \
 	-e LOG_VERBOSITY="1" \
-	-p 127.0.0.1:50062:50062 \
+	-p 50062:50062 \
 	--platform linux/amd64 \
 	--name $(EPHIMERIS_APP) $(REPO)/$(EPHIMERIS_APP)
 

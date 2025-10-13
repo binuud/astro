@@ -4,17 +4,24 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"time"
+	"os"
 
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
-	"github.com/dronasys-com/astro/pkg/foundation/config"
 	"github.com/sirupsen/logrus"
-	"go.mongodb.org/mongo-driver/mongo"
-	mongolib "go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 var DataLayer_Mongo *MongoConnection
+
+type MongoConfig struct {
+	Endpoint      string /* Endpoint of the Mongo DB, this is a minimum requirement */
+	URI           string
+	DBName        string
+	User          string
+	Password      string
+	EncryptionKey string
+}
 
 type Pagination struct {
 	CurPage int
@@ -24,9 +31,7 @@ type Pagination struct {
 
 type MongoConnection struct {
 	Client     *mongo.Client
-	Endpoint   string
-	URI        string
-	DBName     string
+	Config     *MongoConfig
 	DBConnect  *mongo.Database
 	Collection string
 }
@@ -39,45 +44,64 @@ func NewDSMongoSingleton() (*MongoConnection, error) {
 		return DataLayer_Mongo, nil
 	}
 
+	logrus.Info("Initializing Mongo Connection")
+	mongoConfig := initMongoConfig()
+
 	// Create new connection, if called for the first time
+	//ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	uri := ""
-	if config.Config.MongoUser != "" {
-		uri = fmt.Sprintf(`mongodb://%s:%s@%s/`,
-			config.Config.MongoUser,
-			config.Config.MongoPassword,
-			config.Config.MongoEndpoint,
-		)
-	} else {
-		uri = fmt.Sprintf(`mongodb://%s/`,
-			config.Config.MongoEndpoint,
-		)
-	}
-
-	logrus.Infof("Datalayer connecting to - from config (%s)", config.Config.MongoEndpoint)
-	logrus.Infof("Datalayer connecting to (%s)", uri)
-	clientOptions := options.Client().ApplyURI(uri)
-	client, err := mongolib.Connect(ctx, clientOptions)
+	// logrus.Infof("Datalayer connecting to - from config (%s)", mongoConfig.Endpoint)
+	logrus.Infof("Datalayer connecting to (%s)", mongoConfig.URI)
+	clientOptions := options.Client().ApplyURI(mongoConfig.URI)
+	client, err := mongo.Connect(clientOptions)
 
 	if err != nil {
-		logrus.Fatal("DATALAYER: mongo client couldn't connect with background context: ", err)
+		logrus.Fatalf("DATALAYER: mongo client couldn't connect with background context: %v", err)
 		return nil, fmt.Errorf("todo: mongo client couldn't connect with background context: %v", err)
 	}
 
 	logrus.Info("DATALAYER: New Mongo Singleton Created ")
 
 	DataLayer_Mongo = &MongoConnection{
-		Client:   client,
-		URI:      uri,
-		Endpoint: config.Config.MongoEndpoint,
-		DBName:   config.Config.MongoDB,
+		Client: client,
+		Config: mongoConfig,
 	}
 
 	DataLayer_Mongo.Ping()
 
 	return DataLayer_Mongo, nil
 
+}
+
+/* Check whether the required env variables are set */
+func initMongoConfig() *MongoConfig {
+
+	config := &MongoConfig{
+		Endpoint:      os.Getenv("MONGO_ENDPOINT"),
+		URI:           "",
+		DBName:        os.Getenv("MONGO_DB"),
+		User:          os.Getenv("MONGO_USER"),
+		Password:      os.Getenv("MONGO_PASSWORD"),
+		EncryptionKey: os.Getenv("MONGO_ENCRYPTION_KEY"),
+	}
+
+	if config.Endpoint == "" {
+		logrus.Panic("Env variables MONGO_ENDPOINT/MONGO_DB/MONGO_USER/MONGO_PASSWORD/MONGO_ENCRYPTION_KEY not set")
+	}
+
+	if config.User != "" {
+		config.URI = fmt.Sprintf(`mongodb://%s:%s@%s/`,
+			config.User,
+			config.Password,
+			config.Endpoint,
+		)
+	} else {
+		config.URI = fmt.Sprintf(`mongodb://%s/`,
+			config.Endpoint,
+		)
+	}
+
+	return config
 }
 
 func (m *MongoConnection) SetCollection(collection string) {
@@ -102,13 +126,13 @@ func (m *MongoConnection) Ping() {
 }
 
 func (m *MongoConnection) GetCollectionInterface(collectionName string) *mongo.Collection {
-	return m.Client.Database(m.DBName).Collection(collectionName)
+	return m.Client.Database(m.Config.DBName).Collection(collectionName)
 }
 
 func (m *MongoConnection) UpdateOne(collectionName string, query interface{}, doc interface{}, upsert bool) error {
 
-	collection := m.Client.Database(m.DBName).Collection(collectionName)
-	opts := options.Update()
+	collection := m.Client.Database(m.Config.DBName).Collection(collectionName)
+	opts := options.UpdateOne()
 	opts.SetUpsert(upsert)
 	_, err := collection.UpdateOne(context.TODO(), query, doc, opts)
 	if err != nil {
@@ -120,7 +144,7 @@ func (m *MongoConnection) UpdateOne(collectionName string, query interface{}, do
 
 func (m *MongoConnection) InsertMany(collectionName string, docs ...interface{}) error {
 
-	coll := m.Client.Database(m.DBName).Collection(collectionName)
+	coll := m.Client.Database(m.Config.DBName).Collection(collectionName)
 	opts := options.InsertMany()
 	_, err := coll.InsertMany(context.TODO(), docs, opts)
 	if err != nil {
@@ -131,7 +155,7 @@ func (m *MongoConnection) InsertMany(collectionName string, docs ...interface{})
 
 func (m *MongoConnection) InsertOne(collectionName string, doc interface{}) error {
 
-	coll := m.Client.Database(m.DBName).Collection(collectionName)
+	coll := m.Client.Database(m.Config.DBName).Collection(collectionName)
 	opts := options.InsertOne()
 	_, err := coll.InsertOne(context.TODO(), doc, opts)
 	if err != nil {
@@ -143,7 +167,7 @@ func (m *MongoConnection) InsertOne(collectionName string, doc interface{}) erro
 func (m *MongoConnection) Find(collectionName string, query interface{}, sortType interface{}, currentPage int64, page_size int64) (*mongo.Cursor, error) {
 	// Pass these options to the Find method
 
-	logrus.Info(" Database ", m.DBName, " Collection ", collectionName)
+	logrus.Info(" Database ", m.Config.DBName, " Collection ", collectionName)
 	findOptions := options.Find()
 	if currentPage > 1 {
 		findOptions.SetSkip((currentPage - 1) * page_size)
@@ -152,7 +176,7 @@ func (m *MongoConnection) Find(collectionName string, query interface{}, sortTyp
 	findOptions.SetLimit(page_size)
 	findOptions.SetSort(sortType)
 
-	collection := m.Client.Database(m.DBName).Collection(collectionName)
+	collection := m.Client.Database(m.Config.DBName).Collection(collectionName)
 	// Passing bson.D{{}} as the filter matches all documents in the collection
 	cur, err := collection.Find(context.TODO(), query, findOptions)
 	if err != nil {
@@ -169,7 +193,7 @@ func (m *MongoConnection) FindWithProjection(collectionName string, query interf
 		pagination.PerPage = 50
 	}
 
-	logrus.Info(" Database ", m.DBName, " Collection ", collectionName)
+	logrus.Info(" Database ", m.Config.DBName, " Collection ", collectionName)
 	findOptions := options.Find()
 	if pagination.GetCurrent() > 1 {
 		findOptions.SetSkip((pagination.GetCurrent() - 1) * pagination.GetPerPage())
@@ -179,7 +203,7 @@ func (m *MongoConnection) FindWithProjection(collectionName string, query interf
 	findOptions.SetSort(sortType)
 	findOptions.SetProjection(projection)
 
-	collection := m.Client.Database(m.DBName).Collection(collectionName)
+	collection := m.Client.Database(m.Config.DBName).Collection(collectionName)
 	// total, err := collection.CountDocuments(context.Background(), query)
 	// if err == nil {
 	// 	pagination.Total = int64(total)
@@ -199,7 +223,7 @@ func (m *MongoConnection) FindOne(collectionName string, query interface{}, resu
 
 	findOptions := options.FindOne()
 
-	collection := m.Client.Database(m.DBName).Collection(collectionName)
+	collection := m.Client.Database(m.Config.DBName).Collection(collectionName)
 
 	err := collection.FindOne(context.TODO(), query, findOptions).Decode(result)
 	if err != nil {
@@ -211,9 +235,9 @@ func (m *MongoConnection) FindOne(collectionName string, query interface{}, resu
 
 func (m *MongoConnection) DeleteOne(collectionName string, query interface{}, result interface{}) error {
 
-	deleteOptions := options.Delete()
+	deleteOptions := options.DeleteOne()
 
-	collection := m.Client.Database(m.DBName).Collection(collectionName)
+	collection := m.Client.Database(m.Config.DBName).Collection(collectionName)
 
 	res, err := collection.DeleteOne(context.TODO(), query, deleteOptions)
 	if err != nil {
