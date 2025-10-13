@@ -2,6 +2,293 @@ openapi: 3.1.0
 info:
   title: ""
   version: ""
+paths:
+  /v1/cities/get:
+    get:
+      operationId: get
+      parameters:
+        - name: countryCode
+          in: query
+          schema:
+            type: string
+        - name: countryId
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: countryName
+          in: query
+          schema:
+            type: string
+        - name: id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: index
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: stateCode
+          in: query
+          schema:
+            type: string
+        - name: stateId
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: stateName
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: astro.Cities.Get response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitiesGetResponse'
+  /v1/cities/search:
+    get:
+      operationId: search
+      parameters:
+        - name: countryCode
+          in: query
+          schema:
+            description: either country_id or country_code or country_name
+            type: string
+        - name: countryId
+          in: query
+          schema:
+            description: either country_id or country_code or country_name
+            type: integer
+            format: int64
+        - name: countryName
+          in: query
+          schema:
+            description: either country_id or country_code or country_name
+            type: string
+        - name: id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          schema:
+            description: sub match
+            type: string
+        - name: stateCode
+          in: query
+          schema:
+            description: optional
+            type: string
+        - name: stateId
+          in: query
+          schema:
+            description: optional
+            type: integer
+            format: int64
+        - name: stateName
+          in: query
+          schema:
+            description: optional
+            type: string
+      responses:
+        "200":
+          description: astro.Cities.Search response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitiesSearchResponse'
+  /v1/panchang/getDay:
+    get:
+      operationId: getDay
+      parameters:
+        - name: birthData.pob.city
+          in: query
+          schema:
+            description: City of Birth
+            type: string
+        - name: birthData.pob.country
+          in: query
+          schema:
+            description: Country of Birth
+            type: string
+        - name: birthData.pob.lat
+          in: query
+          schema:
+            description: Latitude of POB
+            type: number
+            format: float
+        - name: birthData.pob.long
+          in: query
+          schema:
+            description: Longitude of POB
+            type: number
+            format: float
+        - name: birthData.pob.planet
+          in: query
+          schema:
+            description: planet - earth, tosovo, buvalok, swargalok, patala, atala, vitala
+            type: string
+        - name: birthData.pob.state
+          in: query
+          schema:
+            description: State of Birth
+            type: string
+        - name: birthData.pob.yuga
+          in: query
+          schema:
+            description: varsha, yuga, treated as space variable
+            type: string
+        - name: birthData.tob.d
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.dateString
+          in: query
+          schema:
+            type: string
+        - name: birthData.tob.hour
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.m
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.min
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.sec
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.tobtime
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: birthData.tob.y
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.zone
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: astro.Panchang.GetDay response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PanchangDayGetResponse'
+  /v1/panchang/getMonth:
+    get:
+      operationId: getMonth
+      parameters:
+        - name: birthData.pob.city
+          in: query
+          schema:
+            description: City of Birth
+            type: string
+        - name: birthData.pob.country
+          in: query
+          schema:
+            description: Country of Birth
+            type: string
+        - name: birthData.pob.lat
+          in: query
+          schema:
+            description: Latitude of POB
+            type: number
+            format: float
+        - name: birthData.pob.long
+          in: query
+          schema:
+            description: Longitude of POB
+            type: number
+            format: float
+        - name: birthData.pob.planet
+          in: query
+          schema:
+            description: planet - earth, tosovo, buvalok, swargalok, patala, atala, vitala
+            type: string
+        - name: birthData.pob.state
+          in: query
+          schema:
+            description: State of Birth
+            type: string
+        - name: birthData.pob.yuga
+          in: query
+          schema:
+            description: varsha, yuga, treated as space variable
+            type: string
+        - name: birthData.tob.d
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.dateString
+          in: query
+          schema:
+            type: string
+        - name: birthData.tob.hour
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.m
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.min
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.sec
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.tobtime
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: birthData.tob.y
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: birthData.tob.zone
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: astro.Panchang.GetMonth response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PanchangMonthGetResponse'
 components:
   schemas:
     AstroConstants:
@@ -323,65 +610,11 @@ components:
         pob:
           $ref: '#/components/schemas/PobData'
           description: Place of Birth
-    CitiesGetRequest:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        stateId:
-          type: integer
-          format: int64
-        stateCode:
-          type: string
-        stateName:
-          type: string
-        countryId:
-          type: integer
-          format: int64
-        countryCode:
-          type: string
-        countryName:
-          type: string
-        index:
-          type: integer
-          format: int64
     CitiesGetResponse:
       type: object
       properties:
         details:
           $ref: '#/components/schemas/CityInfo'
-    CitiesSearchRequest:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          description: sub match
-          type: string
-        stateId:
-          description: optional
-          type: integer
-          format: int64
-        stateCode:
-          description: optional
-          type: string
-        stateName:
-          description: optional
-          type: string
-        countryId:
-          description: either country_id or country_code or country_name
-          type: integer
-          format: int64
-        countryCode:
-          description: either country_id or country_code or country_name
-          type: string
-        countryName:
-          description: either country_id or country_code or country_name
-          type: string
     CitiesSearchResponse:
       type: object
       properties:
@@ -688,11 +921,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AstroMetas.PanchangTags'
-    PanchangDayGetRequest:
-      type: object
-      properties:
-        birthData:
-          $ref: '#/components/schemas/BirthData'
     PanchangDayGetResponse:
       type: object
       properties:
@@ -715,11 +943,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PanchangDay'
-    PanchangMonthGetRequest:
-      type: object
-      properties:
-        birthData:
-          $ref: '#/components/schemas/BirthData'
     PanchangMonthGetResponse:
       type: object
       properties:

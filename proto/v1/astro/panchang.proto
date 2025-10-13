@@ -8,6 +8,7 @@ package astro;
 
 option go_package = "github.com/dronasys-com/astro/gen/go/v1/astro";
 
+import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "v1/astro/metas.proto";
 
@@ -86,8 +87,16 @@ message PanchangMonth {
 }
 
 service Panchang {
-  rpc GetMonth(PanchangMonthGetRequest) returns (PanchangMonthGetResponse) {}
-  rpc GetDay(PanchangDayGetRequest) returns (PanchangDayGetResponse) {}
+  rpc GetMonth(PanchangMonthGetRequest) returns (PanchangMonthGetResponse) {
+    option (google.api.http) = {
+      get : "/v1/panchang/getMonth"
+    };
+  }
+  rpc GetDay(PanchangDayGetRequest) returns (PanchangDayGetResponse) {
+    option (google.api.http) = {
+      get : "/v1/panchang/getDay"
+    };
+  }
 }
 
 message PanchangMonthGetRequest { BirthData birthData = 1; }

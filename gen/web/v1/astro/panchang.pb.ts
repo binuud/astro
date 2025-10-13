@@ -88,9 +88,9 @@ export type PanchangDayGetResponse = {
 
 export class Panchang {
   static GetMonth(req: PanchangMonthGetRequest, initReq?: fm.InitReq): Promise<PanchangMonthGetResponse> {
-    return fm.fetchReq<PanchangMonthGetRequest, PanchangMonthGetResponse>(`/astro.Panchang/GetMonth`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+    return fm.fetchReq<PanchangMonthGetRequest, PanchangMonthGetResponse>(`/v1/panchang/getMonth?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"})
   }
   static GetDay(req: PanchangDayGetRequest, initReq?: fm.InitReq): Promise<PanchangDayGetResponse> {
-    return fm.fetchReq<PanchangDayGetRequest, PanchangDayGetResponse>(`/astro.Panchang/GetDay`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+    return fm.fetchReq<PanchangDayGetRequest, PanchangDayGetResponse>(`/v1/panchang/getDay?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"})
   }
 }

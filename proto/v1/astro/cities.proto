@@ -8,6 +8,8 @@ package astro;
 
 option go_package = "github.com/dronasys-com/astro/gen/go/v1/astro";
 
+import "google/api/annotations.proto";
+
 message CityInfo {
   int64 id = 1;
   string name = 2;
@@ -51,7 +53,14 @@ message CitiesSearchRequest {
 message CitiesSearchResponse { repeated CityInfo cities = 1; }
 
 service Cities {
-  rpc Get(CitiesGetRequest) returns (CitiesGetResponse) {} // get ephimeris data
+  rpc Get(CitiesGetRequest) returns (CitiesGetResponse) {
+    option (google.api.http) = {
+      get : "/v1/cities/get"
+    };
+  } // get ephimeris data
   rpc Search(CitiesSearchRequest) returns (CitiesSearchResponse) {
+    option (google.api.http) = {
+      get : "/v1/cities/search"
+    };
   } // get ephimeris data
 }

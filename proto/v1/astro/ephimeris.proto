@@ -8,6 +8,7 @@ package astro;
 
 option go_package = "github.com/dronasys-com/astro/gen/go/v1/astro";
 
+import "google/api/annotations.proto";
 import "v1/astro/metas.proto";
 
 message EphimerisRequest { BirthData birthData = 1; }
