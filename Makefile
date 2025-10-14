@@ -121,23 +121,23 @@ run-docker-ephimeris: ## run container image
 	--platform linux/amd64 \
 	--name $(EPHIMERIS_APP) $(REPO)/$(EPHIMERIS_APP)
 
-runContainer: ## Start container
+run-container: ## Start container
 	./scripts/startAstroContainer.sh	
 
-runAstro: ## Start astro
+run-astro: ## Start astro
 	./scripts/runAstro.sh
 
-runEphimeris: ## Run ephimeris microservice
+run-ephimeris: ## Run ephimeris microservice
 	./scripts/runEphimeris.sh	
 
-runTestData: ## Creates test data charts
+run-test-data: ## Creates test data charts
 	./scripts/runTestData.sh	
 
 test: ## Run tests
 	go test ./pkg/...
 
-testCities: ## Run tests
+test-cities: ## Run tests
 	go test ./pkg/servers/citiesServer/...	
 
-testCoverage: ## Run test coverage
+test-coverage: ## Run test coverage
 	go test ./pkg/... -coverprofile=coverage.out
