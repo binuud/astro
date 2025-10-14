@@ -3,6 +3,7 @@
 # Optional environmental variables
 REPO ?= dronasys-com
 ASTRO_APP ?= astro-backend
+COMBINED_APP ?= astro-combined
 EPHIMERIS_APP ?= astro-ephimeris
 AWS_ECR ?= 919350043131.dkr.ecr.ap-southeast-1.amazonaws.com
 
@@ -39,6 +40,10 @@ build: ## Build docker image
 # docker system prune -f
 	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) $(MULTI_PLATFORM_DOCKER) -t $(REPO)/$(ASTRO_APP) -f ./deployment/docker/astro.dockerfile .
 	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) $(MULTI_PLATFORM_DOCKER) -t $(REPO)/$(EPHIMERIS_APP) -f ./deployment/docker/ephimeris.dockerfile .
+	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) $(MULTI_PLATFORM_DOCKER) -t $(REPO)/$(COMBINED_APP) -f ./deployment/docker/combined.dockerfile .
+
+build-combined: ## Build astro combined image astro + ephimeris
+	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) $(MULTI_PLATFORM_DOCKER) -t $(REPO)/$(COMBINED_APP) -f ./deployment/docker/combined.dockerfile .
 
 deploy: ## Deploy all images to docker hub
 	@echo "====================> Pushing image to dockerhub$(AWS_ECR) ."
@@ -104,14 +109,28 @@ clean-docker: ## Clean existing containers
 run-docker-astro: ## run container image
 	docker rm -f $(ASTRO_APP)
 	docker run	\
-	-e MONGO_ENDPOINT="host.docker.internal:27027"	\
+	-e MONGO_ENDPOINT="host.docker.internal:27017"	\
 	-e MONGO_DB="astro"	\
-	-e MONGO_USER="root"	\
-	-e MONGO_PASSWORD="rootpassword" \
+	-e MONGO_USER=""	\
+	-e MONGO_PASSWORD="" \
 	-e MONGO_ENCRYPTION_KEY="" \
 	-e ASTRO_EPHIMERIS_ENDPOINT="host.docker.internal:50062" \
 	-p self.local:50061:50061 \
 	--name $(ASTRO_APP) $(REPO)/$(ASTRO_APP)
+
+run-docker-combined: ## run container for astro + ephimeris + cities
+	docker rm -f $(COMBINED_APP)
+	docker run	\
+	-e MONGO_ENDPOINT="host.docker.internal:27017"	\
+	-e MONGO_DB="astro"	\
+	-e MONGO_USER=""	\
+	-e MONGO_PASSWORD="" \
+	-e MONGO_ENCRYPTION_KEY="" \
+	-e ASTRO_EPHIMERIS_ENDPOINT="host.docker.internal:9090" \
+	-p 9090:9090 \
+	-p 9080:9080 \
+	--platform linux/amd64 \
+	--name $(COMBINED_APP) $(REPO)/$(COMBINED_APP)
 
 run-docker-ephimeris: ## run container image
 	docker rm -f $(EPHIMERIS_APP)
@@ -126,6 +145,9 @@ run-container: ## Start container
 
 run-astro: ## Start astro
 	./scripts/runAstro.sh
+
+run-combined: ## Start astro, cities, panchang, ephimeris server
+	./scripts/runCombined.sh	
 
 run-ephimeris: ## Run ephimeris microservice
 	./scripts/runEphimeris.sh	
