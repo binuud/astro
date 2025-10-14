@@ -11,6 +11,7 @@ import (
 	"github.com/dronasys-com/astro/pkg/servers/ephimerisServer"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 var (
@@ -34,6 +35,8 @@ func main() {
 
 	citiesV1.RegisterEphimerisServer(secureServer, ephimerisServer.NewGrpcEphimerisServer())
 	citiesV1.RegisterCitiesServer(secureServer, citiesServer.NewGrpcCitiesServer())
+
+	reflection.Register(secureServer)
 
 	logrus.Infof("Astro Ephimeris and Cities DB Server *) (* listening on (%v)", secureConn.Addr())
 	if err := secureServer.Serve(secureConn); err != nil {
