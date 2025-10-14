@@ -8,7 +8,9 @@ ARG TARGETARCH
 RUN mkdir /build
 COPY ./ /build/
 WORKDIR /build
+
 ENV GO111MODULE=auto
+
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build cmd/ephimeris/main.go   
 
 # generate clean, final image for end users
@@ -41,4 +43,3 @@ WORKDIR /
 
 # run binary; use vector form
 ENTRYPOINT ["./main"]
-# ENTRYPOINT ["sleep", "12000"]
