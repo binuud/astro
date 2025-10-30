@@ -3,3 +3,4 @@ coverage.out
 .vscode
 vendor/*
 vendor/
+scripts/pachangJson/panchang/*
