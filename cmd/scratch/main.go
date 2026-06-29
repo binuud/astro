@@ -29,6 +29,7 @@ func getDeclinations() error {
 	startTime := time.Date(int(START_YEAR), time.Month(START_MONTH), int(START_DAY), int(0), int(0), int(0), 0, tz)
 	nextTime := startTime
 	year := START_YEAR
+	bucketCount := 0
 
 	for year < END_YEAR {
 		bucketCount++
