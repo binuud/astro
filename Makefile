@@ -155,6 +155,9 @@ run-ephimeris: ## Run ephimeris microservice
 run-test-data: ## Creates test data charts
 	./scripts/runTestData.sh	
 
+run-scratch: ## Dev programs, to check functionality
+	./scripts/runScratch.sh	
+
 test: ## Run tests
 	go test ./pkg/...
 

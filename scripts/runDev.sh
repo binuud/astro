@@ -6,6 +6,6 @@ export MONGO_ENCRYPTION_KEY=""
 export MONGO_ENCRYPTION_KEY=""
 export TRANCE_PRODUCTION="false"
 export TRANCE_LOG_VERBOSITY="6"
-export ASTRO_EPHIMERIS_ENDPOINT="localhost:50062"
+export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090"
 
 go run ./cmd/dev/main.go
