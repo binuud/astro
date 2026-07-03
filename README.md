@@ -12,5 +12,10 @@ To see table of all planets with house information
 
 To see table of mercury with declination and longitude
 ```
-./astrobin -b1.1.2026 -ut05:15:00 -geopos80.27,13.08,0 -n60 -s15 -p2 -fTlbr
+./astrobin -b1.1.2026 -ut05:15:00 -geopos80.27,13.08,0 -n60 -s15 -p2 -fTlbDr
+```
+
+To see the table of sun with declination and longitude
+```
+./astrobin -b1.1.2026 -ut05:15:00 -geopos80.27,13.08,0 -n60 -s15 -p0 -fTlbrD
 ```

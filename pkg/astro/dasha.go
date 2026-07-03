@@ -86,7 +86,7 @@ func (d *AstroDasha) AdjustTimePeriodsWithBase(chart *astroV1.AstroObject, baseP
 	degreeCorrection := basePlanet.Longitude - float64(basePlanet.Star-1)*STAR_DEGREES
 	// degreeCorrection := math.Mod(float64(basePlanet.Longitude), PAADA_DEGREES) // rounded at paada
 
-	fmt.Println("Base Planet degree correction %f", degreeCorrection)
+	fmt.Printf("Base Planet degree correction %f", degreeCorrection)
 
 	totalDuration := 0
 	for _, dasha := range d.Meta.SubDashaMetas {

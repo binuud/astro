@@ -164,5 +164,8 @@ test: ## Run tests
 test-cities: ## Run tests
 	go test ./pkg/servers/citiesServer/...	
 
+test-astro-chart: ## Run tests on astro chart
+	 export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090";  go test -v ./pkg/astro/...	
+
 test-coverage: ## Run test coverage
 	go test ./pkg/... -coverprofile=coverage.out
