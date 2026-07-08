@@ -27,10 +27,10 @@ func TestNewAstroChart(t *testing.T) {
 
 	chart, err := NewAstroChart(&astroV1.BirthData{
 		Tob: &astroV1.TobData{
-			D:    27,
+			D:    13,
 			M:    12,
-			Y:    1977,
-			Hour: 9,
+			Y:    1989,
+			Hour: 1,
 			Min:  15,
 			Sec:  0,
 			Zone: "Asia/Kolkata",
