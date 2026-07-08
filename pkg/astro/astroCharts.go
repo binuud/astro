@@ -226,10 +226,13 @@ func (chart *Chart) CalculateBhavaChart() {
 }
 
 func (chart *Chart) PrintChartTable() {
+	planetNames := []string{"asc", "sun", "moon", "mars", "mercury", "jupiter", "venus", "saturn", "rahu", "ketu", "neptune", "uranus", "pluto"}
 	fmt.Printf("\n\n********************************************\n")
 	fmt.Printf("    Planet   R   B  BH  2H  9H 10H 27H 60H   S   P   Long  Dec Sp\n")
-	for _, planet := range chart.Planets.PlanetsMap {
+	for _, planetName := range planetNames {
+		planet := chart.Planets.PlanetsMap[planetName]
 		fmt.Printf("%10s  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d   %09.2f %09.2f %09.2f\n", planet.Name, planet.Rasi, planet.Bhava, planet.BhavaH, planet.Amsa2, planet.Amsa9, planet.Amsa10, planet.Amsa27, planet.Amsa60, planet.Star, planet.Paada, planet.Longitude, planet.Declination, planet.Speed)
 	}
+
 	fmt.Printf("\n\n********************************************\n")
 }
