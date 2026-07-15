@@ -19,3 +19,17 @@ To see the table of sun with declination and longitude
 ```
 ./astrobin -b1.1.2026 -ut05:15:00 -geopos80.27,13.08,0 -n60 -s15 -p0 -fTlbrD
 ```
+
+## panchang
+
+Panchang server is part of combined astro binary
+
+For UI panchang, we create static json files using
+```
+cd ./scripts/panchangJson
+python getPanchang.py
+```
+
+```
+curl -X GET http://localhost:9080/v1/panchang/getMonth?birthData.tob.d=1&birthData.tob.m=10&birthData.tob.y=2025&birthData.pob.city=Chennai&birthData.pob.state=TN&birthData.pob.country=IN&birthData.pob.lat=13.8784&birthData.pob.long=80.27847
+```

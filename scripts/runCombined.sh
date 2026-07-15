@@ -6,6 +6,9 @@ export MONGO_ENCRYPTION_KEY=""
 export TRANCE_PRODUCTION="false"
 export TRANCE_LOG_VERBOSITY="1"
 export DATA_PATH="./data/"
-export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090"
+#export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090"
+
+## when debugging, we can run ephimeris seperately
+export ASTRO_EPHIMERIS_ENDPOINT="localhost:50062"
 
 go run ./cmd/combined/main.go

@@ -33,6 +33,7 @@ export type Transits = {
   karanas?: Transit[]
   tithis?: Transit[]
   paadas?: Transit[]
+  rasis?: Transit[]
   rahuKalam?: Kaalam
   guliKalam?: Kaalam
   yamaGandam?: Kaalam
@@ -52,6 +53,7 @@ export type PanchangDay = {
   karanas?: Transit[]
   tithis?: Transit[]
   paadas?: Transit[]
+  rasis?: Transit[]
   lagnas?: Transit[]
   rahuKalam?: Kaalam
   guliKalam?: Kaalam

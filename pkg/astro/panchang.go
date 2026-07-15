@@ -68,6 +68,7 @@ func (p *Panchang) BuildPanchang() error {
 	curYogaIndex := 0
 	curKaranasIndex := 0
 	curPaadaIndex := 0
+	curRasiIndex := 0
 
 	for {
 
@@ -76,6 +77,7 @@ func (p *Panchang) BuildPanchang() error {
 		var yogas []*astroV1.Transit
 		var karanas []*astroV1.Transit
 		var paadas []*astroV1.Transit
+		var rasis []*astroV1.Transit
 
 		endTime := startTime.Add(time.Hour * 24)
 
@@ -84,6 +86,7 @@ func (p *Panchang) BuildPanchang() error {
 		curYogaIndex, yogas = p.GetTransitingObjects(curYogaIndex, startTime, endTime, p.Transits.Yogas)
 		curKaranasIndex, karanas = p.GetTransitingObjects(curKaranasIndex, startTime, endTime, p.Transits.Karanas)
 		curPaadaIndex, paadas = p.GetTransitingObjects(curPaadaIndex, startTime, endTime, p.Transits.Paadas)
+		curRasiIndex, rasis = p.GetTransitingObjects(curRasiIndex, startTime, endTime, p.Transits.Rasis)
 
 		panchangDay := &astroV1.PanchangDay{
 			Year:    int32(startTime.In(zone).Year()),
@@ -96,6 +99,7 @@ func (p *Panchang) BuildPanchang() error {
 			Yogas:   yogas,
 			Karanas: karanas,
 			Paadas:  paadas,
+			Rasis:   rasis,
 		}
 
 		ProcessPanchangDay(panchangDay)

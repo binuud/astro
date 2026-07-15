@@ -94,7 +94,7 @@ func main() {
 
 	db.Init()
 
-	log.Info("Astro Calc - Trance !")
+	log.Info("Astro Calc - Combined Astro, Panchang, Ephimeris !")
 	log.Info("--------->>>> Starting Astro Calc Microservice  <<<----------")
 
 	go func() {

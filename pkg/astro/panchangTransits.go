@@ -110,6 +110,7 @@ func (panchang *Transits) CalculateTransits() error {
 	}
 	panchang.getMoonPanchang()
 	panchang.getPaadaPanchang()
+	panchang.getRasiPanchang()
 	panchang.getTithiPanchang()
 	panchang.getKaranaPanchang()
 	panchang.getYogaPanchang()
@@ -208,6 +209,54 @@ func (panchang *Transits) getPaadaPanchang() {
 	}
 	// logrus.Infof("Checked Paadas %d/%d total ", counter, numItems)
 	panchang.Paadas = paadas
+
+}
+
+func (panchang *Transits) getRasiPanchang() {
+
+	// zone, _ := time.LoadLocation("Asia/Kolkata")
+
+	rasis := make([]*astroV1.Transit, 0)
+	counter := 0
+	t := panchang.StartTime.AsTime()
+	numItems := len(panchang.Ephimeris) - 1
+	currentItem := GetRasiNumber(panchang.Ephimeris[0].Moon)
+	// logrus.Infof("Checking rasi %d total ", numItems)
+
+	for counter < numItems {
+
+		nextItem := currentItem + 1
+		if nextItem > TOTAL_RASIS {
+			nextItem = 1
+		}
+
+		nextItemDegrees := RASI_DEGREES * float64(nextItem-1)
+		// logrus.Infof("Checking rasi counter (%d ), Item (%d - %d), transit degrees (%f)", counter, currentItem, nextItem, nextItemDegrees)
+
+		transitMinutes, err := GetTransitTime(panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, HOUR_MINUTES, nextItemDegrees)
+		if err == nil {
+			currentItem++
+			if currentItem > TOTAL_RASIS {
+				currentItem = 1
+			}
+
+			t1 := t.Add(time.Minute*time.Duration(transitMinutes) + time.Minute*time.Duration(counter*HOUR_MINUTES))
+
+			currentTransit := &astroV1.Transit{
+				Name:    int32(currentItem),
+				Transit: timestamppb.New(t1),
+			}
+
+			rasis = append(rasis, currentTransit)
+
+			// logrus.Infof("Paada counter (%d) %s, %f<->%f,  %v", counter, currentItem, panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, t1.In(zone))
+		}
+
+		counter++
+
+	}
+	// logrus.Infof("Checked Rasis %d/%d total ", counter, numItems)
+	panchang.Rasis = rasis
 
 }
 
