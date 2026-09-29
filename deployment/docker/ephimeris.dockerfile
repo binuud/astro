@@ -15,7 +15,11 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build cmd/ephimeris/m
 
 # generate clean, final image for end users
 # STAGE 2: build the container to run
-FROM  golang:latest 
+
+# FROM  golang:latest 
+## when running image on macos, getting rosetta error on using alpine or scratch device
+FROM ubuntu:latest
+#FROM gcr.io/distroless/static AS final
 #FROM gcr.io/distroless/base-debian11 ## for production
 ## Need to run dynamically linked bin, so using base-debian11
 

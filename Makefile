@@ -42,6 +42,9 @@ build: ## Build docker image
 	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) $(MULTI_PLATFORM_DOCKER) -t $(REPO)/$(EPHIMERIS_APP) -f ./deployment/docker/ephimeris.dockerfile .
 	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) $(MULTI_PLATFORM_DOCKER) -t $(REPO)/$(COMBINED_APP) -f ./deployment/docker/combined.dockerfile .
 
+build-ephimeris: ## Build the ephimeris docker image
+	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) $(MULTI_PLATFORM_DOCKER) -t $(REPO)/$(EPHIMERIS_APP) -f ./deployment/docker/ephimeris.dockerfile .
+
 build-combined: ## Build astro combined image astro + ephimeris
 	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) $(MULTI_PLATFORM_DOCKER) -t $(REPO)/$(COMBINED_APP) -f ./deployment/docker/combined.dockerfile .
 
@@ -165,7 +168,7 @@ test-cities: ## Run tests
 	go test ./pkg/servers/citiesServer/...	
 
 test-astro-chart: ## Run tests on astro chart
-	 export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090";  go test -v ./pkg/astro/...	
+	export ASTRO_EPHIMERIS_ENDPOINT="host.docker.internal:50062";  go test -v ./pkg/astro/...	
 
 test-coverage: ## Run test coverage
 	go test ./pkg/... -coverprofile=coverage.out
