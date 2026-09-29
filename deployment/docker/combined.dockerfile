@@ -15,7 +15,8 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build cmd/combined/ma
 # generate clean, final image for end users
 # STAGE 2: build the container to run
 #FROM gcr.io/distroless/static AS final
-FROM  golang:latest 
+FROM  ubuntu:latest 
+#FROM  golang:latest 
 
 LABEL maintainer="binu@dronasys.com"
 # USER nonroot:nonroot
