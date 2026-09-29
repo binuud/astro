@@ -11,7 +11,9 @@ WORKDIR /build
 
 ENV GO111MODULE=auto
 
+# RUN cd references/swisseph && make
 RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build cmd/ephimeris/main.go   
+
 
 # generate clean, final image for end users
 # STAGE 2: build the container to run
@@ -35,7 +37,7 @@ ENV TRANCE_VERSION=$BUILD_VER
 # COPY --chown=nonroot:nonroot --from=builder  /build/main /main
 # COPY --chown=nonroot:nonroot ./data/ /data/
 
-COPY  ./astroBin/ /astroBin
+COPY  ./astroBin/ /astroBin/
 COPY --from=builder  /build/main /main
 COPY  ./data/ /data/
 
