@@ -38,3 +38,9 @@ Check ephimeris using docker
 ```
 docker run --rm -it --entrypoint /astroBin/astrobin dronasys-com/astro-ephimeris -sid1 -b14.7.2026 -ut06:45:00 -geopos80.699997,27.080000,0 ;5D-n1 -s1 -pd -eswe -house -fPlbrds
 ```
+
+## References
+
+```
+cd references && git clone https://github.com/aloistr/swisseph.git
+```
