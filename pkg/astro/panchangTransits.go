@@ -29,7 +29,7 @@ func NewTransitsMoon(year int32, month int32) (*Transits, error) {
 	}
 
 	startTime := time.Date(int(year), time.Month(month), int(1), int(0), int(0), int(0), 0, time.UTC)
-	startTime = startTime.AddDate(0, 0, -2) // reducing 2 day to get the overlapping star
+	startTime = startTime.AddDate(0, 0, -4) // reducing 2 day to get the overlapping star and rasi
 
 	myTransits := &astroV1.Transits{
 		Year:      year,
@@ -68,7 +68,8 @@ func (panchang *Transits) getSunMoonEphimeris(year int32, month int32) ([]*astro
 	if err != nil {
 		return nil, err
 	}
-	// logrus.Infof("Moon data %v", moonEphimeris)
+	// logrus.Fatalf("Moon data %v", moonEphimeris)
+
 	moonDegreesString := strings.Split(moonEphimeris, "\n")
 	sunMoonEphimeris := make([]*astroV1.SunMoonEphimeris, 0)
 	for _, item := range moonDegreesString {
@@ -106,11 +107,12 @@ func (panchang *Transits) CalculateTransits() error {
 	var err error
 	panchang.Ephimeris, err = panchang.getSunMoonEphimeris(panchang.Year, panchang.Month)
 	if err != nil {
-		return err
+		logrus.Panic(err)
 	}
+
 	panchang.getMoonPanchang()
-	panchang.getPaadaPanchang()
 	panchang.getRasiPanchang()
+	panchang.getPaadaPanchang()
 	panchang.getTithiPanchang()
 	panchang.getKaranaPanchang()
 	panchang.getYogaPanchang()
@@ -212,6 +214,11 @@ func (panchang *Transits) getPaadaPanchang() {
 
 }
 
+// getRasiPanchang()
+// get the first rasi number, by getting the rasi associated with first moon-star in panchange
+// take the next item, and calculate the degrees associated with next rasi
+// since angular motion of earth and planet is constant in a day,
+// calculate the transit time for next item (here rasi)
 func (panchang *Transits) getRasiPanchang() {
 
 	// zone, _ := time.LoadLocation("Asia/Kolkata")
@@ -249,13 +256,13 @@ func (panchang *Transits) getRasiPanchang() {
 
 			rasis = append(rasis, currentTransit)
 
-			// logrus.Infof("Paada counter (%d) %s, %f<->%f,  %v", counter, currentItem, panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, t1.In(zone))
+			// logrus.Infof("Rasi counter (%d) %d, %f<->%f,  %v", counter, currentItem, panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, t1.In(zone))
 		}
 
 		counter++
 
 	}
-	// logrus.Infof("Checked Rasis %d/%d total ", counter, numItems)
+	logrus.Infof("Checked Rasis %d/%d total ", counter, numItems)
 	panchang.Rasis = rasis
 
 }

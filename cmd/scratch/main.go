@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dronasys-com/astro/pkg/servers/astroServer"
 	"github.com/sirupsen/logrus"
 )
 
@@ -33,11 +32,11 @@ func getDeclinations() error {
 
 	for year < END_YEAR {
 		bucketCount++
-		recordName := createRecordNameFromTime(nextTime)
-		astroObject, err := astroServer.CreateAstroObjectForTime(recordName, nextTime)
-		if err != nil {
-			return err
-		}
+		// recordName := createRecordNameFromTime(nextTime)
+		// astroObject, err := astroServer.CreateAstroObjectForTime(recordName, nextTime)
+		// if err != nil {
+		// 	return err
+		// }
 
 		nextTime = nextTime.Add(time.Minute * time.Duration(INTERVAL))
 		year = nextTime.UTC().Year()

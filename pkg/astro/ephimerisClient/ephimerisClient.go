@@ -2,11 +2,13 @@ package ephimerisClient
 
 import (
 	"context"
+	"log"
 	"os"
 
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 var EphimerisClientConnection *EphimerisClient
@@ -19,19 +21,22 @@ func NewEphimerisClient() *EphimerisClient {
 
 	// if singleton exists return same
 	if EphimerisClientConnection != nil {
-		logrus.Trace("Singleton exists, returned existing Mongo DB Connection")
+		logrus.Trace("Singleton exists, returned existing EphimerisClientConnection")
 		return EphimerisClientConnection
 	}
 
 	ephimerisEndpoint := os.Getenv("ASTRO_EPHIMERIS_ENDPOINT")
 
-	serverConn, err := grpc.Dial(ephimerisEndpoint, grpc.WithInsecure())
+	serverConn, err := grpc.NewClient(
+		ephimerisEndpoint,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
 	if err != nil {
-		logrus.Error("Cannot Dial GRPC server ", ephimerisEndpoint, err)
-		os.Exit(1)
+		log.Fatalln("Failed to dial server:", err)
 	}
+
 	// defer serverConn.Close()
-	logrus.Info("Dialed in to GRPC server ", ephimerisEndpoint, err)
+	logrus.Info("Dialed in to GRPC server ", ephimerisEndpoint)
 
 	EphimerisClientConnection = &EphimerisClient{
 		serverConn: serverConn,

@@ -9,6 +9,6 @@ export DATA_PATH="./data/"
 #export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090"
 
 ## when debugging, we can run ephimeris seperately
-export ASTRO_EPHIMERIS_ENDPOINT="localhost:50062"
+export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090"
 
 go run ./cmd/combined/main.go
