@@ -31,13 +31,13 @@ func test_newdasa() {
 		},
 	})
 	if err != nil {
-		log.Error("Cannot prepare chart err(%v)", err)
+		log.Errorf("Cannot prepare chart err(%v)", err)
 	}
 
 	dasa := astro.NewVimshottariDasha(chart.BirthData.Tob.Tobtime.AsTime())
 	curStar := chart.Planets.PlanetsMap[astro.PLANET_MOON].Star - 1
-	dasa.AdjustTimePeriodsWithBase(chart.AstroObject, astro.PLANET_MOON)
-	//dasa.AdjustTimePeriodsWithBase(chart.AstroObject, astro.PLANET_ASC)
+	// dasa.AdjustTimePeriodsWithBase(chart.AstroObject, astro.PLANET_MOON)
+	dasa.AdjustTimePeriodsWithBase(chart.AstroObject, astro.PLANET_ASC)
 	dasa.AdjustStartTime(chart.Planets.PlanetsMap[astro.PLANET_MOON].Longitude - float64(curStar)*float64(astro.STAR_DEGREES))
 	dasa.Calculate()
 	dasa.Print()

@@ -6,7 +6,6 @@ import (
 	"time"
 
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
-	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -143,7 +142,7 @@ func GetAbhijitAdjustedStarNumber(starNum int32) (int32, error) {
 
 func CloneTransit(in *astroV1.Transit) *astroV1.Transit {
 
-	logrus.Infof("Cloning Transit (%v)", in)
+	// logrus.Infof("Cloning Transit (%v)", in)
 	out := &astroV1.Transit{
 		Name:    in.Name,
 		Transit: in.Transit,

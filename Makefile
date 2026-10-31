@@ -10,6 +10,7 @@ AWS_ECR ?= 919350043131.dkr.ecr.ap-southeast-1.amazonaws.com
 BUILD_VER ?= a1.0.0
 
 DOCKER_HUB_TAG ?= a1.0.0
+GOLANG_IMAGE=golang:1.27.1
 
 TAGGED_NAME = $(REPO)/$(APP_NAME)
 
@@ -101,7 +102,10 @@ protos: ## Build Go and Web Proto
 
 compose-up: ## docker compose up
 	docker-compose up  --remove-orphans 
-	
+
+start-container: ## run this to start a golang container, with this code base mounted
+	docker run --rm -it -v .:/app -w /app dronasys-com/golang:1.27.1
+
 run: ## Run astro microservice
 	cd services/astro/cmd && ./run.sh	
 
@@ -161,14 +165,28 @@ run-test-data: ## Creates test data charts
 run-scratch: ## Dev programs, to check functionality
 	./scripts/runScratch.sh	
 
+
+run-panchang: ## Create panchang json files ./scripts/panchangJson/panchang/
+	./scripts/runPanchang.sh	
+
 test: ## Run tests
+	export DATA_PATH=`pwd`/data/; \
 	go test ./pkg/...
 
+test-panchang: ## Run panchang
+	export DATA_PATH=`pwd`/data/; \
+	export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090"; \
+	go test -v --run Test_Pacnhang_Month ./pkg/astro/
+
 test-cities: ## Run tests
+	export DATA_PATH=`pwd`/data/; \
 	go test ./pkg/servers/citiesServer/...	
 
 test-astro-chart: ## Run tests on astro chart
-	export ASTRO_EPHIMERIS_ENDPOINT="host.docker.internal:50062";  go test -v ./pkg/astro/...	
+	export ASTRO_EPHIMERIS_ENDPOINT="host.docker.internal:50062"; \  
+	export DATA_PATH=`pwd`/data/; \
+	go test -v ./pkg/astro/...	
 
 test-coverage: ## Run test coverage
+	export DATA_PATH=`pwd`/data/; \
 	go test ./pkg/... -coverprofile=coverage.out

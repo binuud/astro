@@ -42,6 +42,10 @@ func NewPanchang(year int32, month int32, day int32) (*Panchang, error) {
 	return myPanchang, nil
 }
 
+// BuildPanchang()
+// from the calculated transits
+// build the panchange structure for a month,
+// this builds the month strcuture from an array of PanchangDay
 func (p *Panchang) BuildPanchang() error {
 
 	var err error
@@ -126,12 +130,18 @@ func (p *Panchang) PrintMonth() {
 			break
 		}
 		fmt.Printf("\n\n Day               %10s %d", WEEKDAYS[day.Weekday], day.Day)
+		for _, rasi := range day.Rasis {
+			fmt.Printf("\n  Rasi   %2d %25s  %v", rasi.Name, RASI_NAMES[rasi.Name], rasi.Transit.AsTime().In(zone).Format("Jan 02, 03:04 PM"))
+		}
 		for _, star := range day.Stars {
-			fmt.Printf("\n  Star    %2d %25s  %v", star.Name, STAR_NAMES[star.Name], star.Transit.AsTime().In(zone).Format(time.Kitchen))
+			fmt.Printf("\n  Star    %2d %25s  %v", star.Name, STAR_NAMES[star.Name], star.Transit.AsTime().In(zone).Format("Jan 02, 03:04 PM"))
 			if star.Yoga.GetYogaStarWeekday() != nil {
 				fmt.Printf("\n   Yoga (%v) (%v)", star.Yoga.GetYogaStarWeekday().Name, star.Yoga.GetYogaStarWeekday().Nature)
 			}
 
+		}
+		for _, paada := range day.Paadas {
+			fmt.Printf("\n  Paada   %2d %25s  %v", paada.Name%9+1, RASI_NAMES[paada.Name/9], paada.Transit.AsTime().In(zone).Format(time.Kitchen))
 		}
 		for _, tithi := range day.Tithis {
 			fmt.Printf("\n  Tithi   %2d %25s  %v", tithi.Name, TITHI_NAMES[tithi.Name], tithi.Transit.AsTime().In(zone).Format(time.Kitchen))
@@ -142,9 +152,7 @@ func (p *Panchang) PrintMonth() {
 		for _, karana := range day.Karanas {
 			fmt.Printf("\n  Karana  %2d %25s  %v", karana.Name, KARANA_NAMES[karana.Name], karana.Transit.AsTime().In(zone).Format(time.Kitchen))
 		}
-		for _, paada := range day.Paadas {
-			fmt.Printf("\n  Paada   %2d %25s  %v", paada.Name%9+1, RASI_NAMES[paada.Name/9], paada.Transit.AsTime().In(zone).Format(time.Kitchen))
-		}
+
 		fmt.Printf("\n  Tags   %v\n\n", day.Tags)
 		fmt.Println()
 	}
@@ -173,7 +181,7 @@ func (p *Panchang) GetTransitingObjects(curIndex int, startTime time.Time, endTi
 			break
 		}
 
-		// fmt.Printf(" Checking item %d @ %v  %v <== ==> %v\n", transits[curIndex].Name, transits[curIndex].Transit.AsTime().In(zone), startTime.In(zone), endTime.In(zone))
+		fmt.Printf(" Checking item %d @ %v  %v <== ==> %v\n", transits[curIndex].Name, transits[curIndex].Transit.AsTime(), startTime, endTime)
 
 		if transits[curIndex].Transit.AsTime().After(startTime) {
 			if transits[curIndex].Transit.AsTime().Before(endTime) {
