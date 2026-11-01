@@ -9,7 +9,7 @@ for year in range(2024,2029):
         response = requests.get(url)
         response.raise_for_status()  # To raise error if the request failed
         json_data = response.json()
-        filename = f"panchang/data_{year}_{month}.json"
+        filename = f"../dataVolume/panchang/data_{year}_{month}.json"
         with open(filename, 'w') as f:
             import json
             json.dump(json_data, f, indent=4)

@@ -65,7 +65,7 @@ func (e *Ephimeris) GetSunMoonEphimerisForYear() (string, error) {
 
 func (e *Ephimeris) GetPanchangMonth() (string, error) {
 
-	numDays := 34
+	numDays := 36
 	count := numDays * 24
 	e.NewArgs().SetAyanamsa(AYANAMSA_LAHIRI).
 		SetDTPoB().SetCount(count).SetSteps("60m").SetPlanets(ARG_PLANET_SUN_MOON).
@@ -103,6 +103,9 @@ func (e *Ephimeris) SetDTPoB() *Ephimeris {
 	tob := e.BirthData.Tob.Tobtime.AsTime()
 	dateString := fmt.Sprintf("-b%d.%d.%d", tob.Day(), tob.Month(), tob.Year())
 	timeString := fmt.Sprintf("-ut%02d:%02d:%02d", tob.Hour(), tob.Minute(), tob.Second())
+
+	logrus.Infof("dateString %s ", dateString)
+	logrus.Infof("timeString %s ", timeString)
 
 	e.CmdArgs = append(e.CmdArgs, dateString)
 	e.CmdArgs = append(e.CmdArgs, timeString)

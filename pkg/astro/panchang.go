@@ -16,7 +16,7 @@ type Panchang struct {
 
 func NewPanchang(year int32, month int32, day int32) (*Panchang, error) {
 
-	transits, err := NewTransitsMoon(year, month)
+	transits, err := NewTransits(year, month)
 	if err != nil {
 		logrus.Errorf("Cannot prepare chart err(%v)", err)
 	}
@@ -74,7 +74,10 @@ func (p *Panchang) BuildPanchang() error {
 	curPaadaIndex := 0
 	curRasiIndex := 0
 
+	// from Transits, put transits in buckets of days
+
 	for {
+		// iterate over each day in a month
 
 		var stars []*astroV1.Transit
 		var tithis []*astroV1.Transit
@@ -158,6 +161,8 @@ func (p *Panchang) PrintMonth() {
 	}
 }
 
+// GetTransitingObjects()
+// get transit times of the object of interest in the given day, between start and endtime
 func (p *Panchang) GetTransitingObjects(curIndex int, startTime time.Time, endTime time.Time, transits []*astroV1.Transit) (int, []*astroV1.Transit) {
 
 	// zone, _ := time.LoadLocation(p.InDate.Zone)
@@ -165,6 +170,8 @@ func (p *Panchang) GetTransitingObjects(curIndex int, startTime time.Time, endTi
 	safeCounter := 0
 
 	// add last Transit item by default
+	// we will not display transit time for this
+	// need to handle for day 1 of month seperately
 	if curIndex > 0 {
 		lastTransit := CloneTransit(transits[curIndex-1])
 		newTransits = append(newTransits, lastTransit)
@@ -181,9 +188,9 @@ func (p *Panchang) GetTransitingObjects(curIndex int, startTime time.Time, endTi
 			break
 		}
 
-		fmt.Printf(" Checking item %d @ %v  %v <== ==> %v\n", transits[curIndex].Name, transits[curIndex].Transit.AsTime(), startTime, endTime)
+		// fmt.Printf(" Checking item %d @ %v  %v <== ==> %v\n", transits[curIndex].Name, transits[curIndex].Transit.AsTime(), startTime, endTime)
 
-		if transits[curIndex].Transit.AsTime().After(startTime) {
+		if transits[curIndex].Transit.AsTime().After(startTime) || transits[curIndex].Transit.AsTime().Equal(startTime) {
 			if transits[curIndex].Transit.AsTime().Before(endTime) {
 				// fmt.Printf(" item %s @ %v \n", transits[curIndex].Name, transits[curIndex].Transit.AsTime().In(zone))
 				newTransits = append(newTransits, transits[curIndex])

@@ -106,8 +106,7 @@ compose-up: ## docker compose up
 start-container: ## run this to start a golang container, with this code base mounted
 	docker run --rm -it -v .:/app -w /app dronasys-com/golang:1.27.1
 
-run: ## Run astro microservice
-	cd services/astro/cmd && ./run.sh	
+
 
 clean-docker: ## Clean existing containers
 	docker rm -f $(EPHIMERIS_APP)
@@ -153,7 +152,7 @@ run-container: ## Start container
 run-astro: ## Start astro
 	./scripts/runAstro.sh
 
-run-combined: ## Start astro, cities, panchang, ephimeris server
+run: ## Start astro, cities, panchang, ephimeris server
 	./scripts/runCombined.sh	
 
 run-ephimeris: ## Run ephimeris microservice
