@@ -1,16 +1,22 @@
 package astroServer
 
 import (
-	"context"
+	"fmt"
+	"slices"
+	"strings"
 	"time"
 
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/dronasys-com/astro/pkg/astro"
-	"github.com/dronasys-com/astro/pkg/dataLayer/mongo"
+	datalayer "github.com/dronasys-com/astro/pkg/dataLayer"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"google.golang.org/protobuf/types/known/timestamppb"
+)
+
+const (
+	CHARTS_DIRECTORY = "charts"
 )
 
 func CreateRecord(in *astroV1.UserCreateRequest) (*astroV1.AstroObject, error) {
@@ -49,14 +55,6 @@ func CreateRecord(in *astroV1.UserCreateRequest) (*astroV1.AstroObject, error) {
 	}
 	// chart.PrintChartTable()
 
-	// insert new chart in mongo
-	mongo, err := mongo.NewDSMongoSingleton()
-
-	if err != nil {
-		logrus.Error("Cannot connect to DB")
-		return nil, err
-	}
-
 	astroObject := &astroV1.AstroObject{
 		Metadata:  metaData,
 		BirthData: chart.BirthData,
@@ -66,52 +64,26 @@ func CreateRecord(in *astroV1.UserCreateRequest) (*astroV1.AstroObject, error) {
 		Dashas: chart.Dashas,
 	}
 
-	err = mongo.InsertOne(ASTRO_BUCKET_NAME, astroObject)
+	err = SaveAstroChart(astroObject)
 	if err != nil {
-		logrus.Error("Cannot Create Chart entry")
 		return nil, err
 	}
 
 	return astroObject, nil
 }
 
-func UpdateRecord(in *astroV1.UserUpdateRequest, filter bson.D) (*astroV1.AstroObject, error) {
-
-	// insert new chart in mongo
-	mongo, err := mongo.NewDSMongoSingleton()
-
-	if err != nil {
-		logrus.Error("Cannot connect to DB")
-		return nil, err
-	}
-
-	currentAstroObject := &astroV1.AstroObject{}
-	err = mongo.FindOne(ASTRO_BUCKET_NAME, filter, currentAstroObject)
-	if err != nil {
-		logrus.Error("Cannot Get Item ", err)
-		return nil, err
-	}
+func UpdateRecord(in *astroV1.UserUpdateRequest) (*astroV1.AstroObject, error) {
 
 	chart, err := astro.NewAstroChart(in.BirthData)
 	if err != nil {
 		return nil, err
 	}
 
-	astroObject := chart.AstroObject
-	astroObject.Metadata = currentAstroObject.Metadata
-
-	updateFields := &astroV1.AstroObject{}
-	conv, _ := bson.Marshal(astroObject)
-	bson.Unmarshal(conv, updateFields)
-	update := bson.M{
-		"$set": updateFields,
-	}
-
-	err = mongo.UpdateOne(ASTRO_BUCKET_NAME, filter, update, true)
+	err = SaveAstroChart(chart.AstroObject)
 	if err != nil {
-		logrus.Error("Cannot Update collection entry")
 		return nil, err
 	}
+
 	return &astroV1.AstroObject{
 		BirthData: chart.BirthData,
 		Planets: &astroV1.Planets{
@@ -121,14 +93,6 @@ func UpdateRecord(in *astroV1.UserUpdateRequest, filter bson.D) (*astroV1.AstroO
 }
 
 func UpSertRecord(in *astroV1.UserCreateRequest, filter bson.D) (*astroV1.AstroObject, error) {
-
-	// insert new chart in mongo
-	mongo, err := mongo.NewDSMongoSingleton()
-
-	if err != nil {
-		logrus.Error("Cannot connect to DB")
-		return nil, err
-	}
 
 	metaData := &astroV1.Metadata{
 		Uid:  uuid.New().String(),
@@ -147,31 +111,12 @@ func UpSertRecord(in *astroV1.UserCreateRequest, filter bson.D) (*astroV1.AstroO
 	astroObject := chart.AstroObject
 	astroObject.Metadata = metaData
 
-	updateFields := &astroV1.AstroObject{}
-	conv, _ := bson.Marshal(chart.AstroObject)
-	bson.Unmarshal(conv, updateFields)
-	update := bson.M{
-		"$set": updateFields,
-	}
-
-	err = mongo.UpdateOne(ASTRO_BUCKET_NAME, filter, update, true)
+	err = SaveAstroChart(astroObject)
 	if err != nil {
-		logrus.Error("Cannot Update collection entry")
 		return nil, err
 	}
+
 	return astroObject, nil
-}
-
-func BulkInsert(astroObjects []interface{}) error {
-	// insert new chart in mongo
-	mongo, err := mongo.NewDSMongoSingleton()
-
-	if err != nil {
-		logrus.Error("Cannot connect to DB")
-		return err
-	}
-	return mongo.InsertMany(ASTRO_BUCKET_NAME, astroObjects...)
-
 }
 
 func CreateAstroObjectForTime(name string, t time.Time) (*astroV1.AstroObject, error) {
@@ -222,55 +167,42 @@ func CreateBirthDataForTime(t time.Time) *astroV1.BirthData {
 	}
 }
 
-func GetRecord(filter bson.D) (*astroV1.AstroObject, error) {
-	// db654581-5870-4cb7-bfa8-bcd239499b2e
-	mongo, err := mongo.NewDSMongoSingleton()
-	if err != nil {
-		logrus.Error("Cannot connect to DB")
-		return nil, err
-	}
+func ListRecords(pagination *astroV1.Pagination) ([]*astroV1.AstroObject, error) {
 
-	// ownerUid, err := helpers.GetUserUuidFromContext(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	astroObject := &astroV1.AstroObject{}
-	err = mongo.FindOne(ASTRO_BUCKET_NAME, filter, astroObject)
-	if err != nil {
-		return nil, err
-	}
-	return astroObject, nil
-}
-
-func ListRecords(filter bson.D, projection bson.D, pagination *astroV1.Pagination) ([]*astroV1.AstroObject, error) {
 	charts := []*astroV1.AstroObject{}
 
-	mongo, err := mongo.NewDSMongoSingleton()
+	folderPath := fmt.Sprintf("%s/%s", datalayer.GetStoreDirectory(), CHARTS_DIRECTORY)
+	files, err := datalayer.ListFolder(folderPath, ".yaml")
 	if err != nil {
-		logrus.Error("Cannot connect to DB")
 		return nil, err
 	}
+	slices.Sort(files)
 
-	sortType := bson.M{}
-
-	cursor, err := mongo.FindWithProjection(ASTRO_BUCKET_NAME, filter, projection, sortType, pagination)
-	if err != nil {
-		logrus.Error("Cannot List collection ", err)
-		return nil, err
-	}
-
-	//Map result to slice
-	for cursor.Next(context.TODO()) {
-		t := astroV1.AstroObject{}
-		err := cursor.Decode(&t)
-		if err != nil {
-			return nil, err
+	for _, item := range files {
+		result := strings.Split(item, "--")
+		if len(result) == 2 {
+			astroObj := &astroV1.AstroObject{
+				Metadata: &astroV1.Metadata{
+					Uid:  result[1],
+					Name: result[0],
+				},
+			}
+			charts = append(charts, astroObj)
 		}
-		charts = append(charts, &t)
 	}
-	// once exhausted, close the cursor
-	cursor.Close(context.TODO())
-
 	return charts, nil
+}
+
+func SaveAstroChart(astroObject *astroV1.AstroObject) error {
+	fileName := fmt.Sprintf("%s--%s.yaml", astroObject.Metadata.Name, astroObject.Metadata.Uid)
+	filePath := datalayer.GetFileAbsolutePath(CHARTS_DIRECTORY, fileName)
+	return datalayer.SaveProtoYAML(filePath, astroObject)
+}
+
+func GetRecord(uuid string, name string) (*astroV1.AstroObject, error) {
+	fileName := fmt.Sprintf("%s--%s.yaml", name, uuid)
+	filePath := datalayer.GetFileAbsolutePath(CHARTS_DIRECTORY, fileName)
+	astroObject := &astroV1.AstroObject{}
+	err := datalayer.ReadProtoYAML(filePath, astroObject)
+	return astroObject, err
 }

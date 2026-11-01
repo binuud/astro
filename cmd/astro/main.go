@@ -7,7 +7,6 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/dronasys-com/astro/cmd/db"
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/dronasys-com/astro/pkg/servers/astroServer"
 	"github.com/dronasys-com/astro/pkg/servers/panchangServer"
@@ -87,8 +86,6 @@ func runGRPCServer() {
 func main() {
 
 	flag.Parse()
-
-	db.Init()
 
 	log.Info("Astro Calc - Trance !")
 	log.Info("--------->>>> Starting Astro Calc Microservice  <<<----------")

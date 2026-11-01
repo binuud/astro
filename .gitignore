@@ -6,3 +6,5 @@ vendor/
 scripts/pachangJson/panchang/*
 
 **.DS_Store
+
+dataVolume/*

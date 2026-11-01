@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dronasys-com/astro/cmd/db"
-
 	"github.com/dronasys-com/astro/pkg/servers/astroServer"
 	"github.com/sirupsen/logrus"
 )
@@ -46,7 +44,7 @@ func updateCharts() error {
 
 		if bucketCount >= BULK_UPDATE_BUCKET_SIZE {
 			logrus.Info("Bulk insert with last record (%v)", recordName)
-			astroServer.BulkInsert(astroBucket)
+			// astroServer.BulkInsert(astroBucket)
 			// reset counters
 			bucketCount = 0
 			astroBucket = make([]interface{}, 0)
@@ -59,7 +57,7 @@ func updateCharts() error {
 	if bucketCount > 0 {
 
 		logrus.Info("Bulk insert with remaining record ")
-		astroServer.BulkInsert(astroBucket)
+		// astroServer.BulkInsert(astroBucket)
 		// reset counters
 		bucketCount = 0
 		astroBucket = make([]interface{}, 0)
@@ -68,8 +66,6 @@ func updateCharts() error {
 }
 
 func main() {
-
-	db.Init()
 
 	logrus.Info("Astro Chart DB Creator - Trance !")
 	logrus.Info("--------->>>> Creates charts for 15 minute intervals  <<<----------")
