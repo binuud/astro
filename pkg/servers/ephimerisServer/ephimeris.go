@@ -2,6 +2,7 @@ package ephimerisServer
 
 import (
 	"fmt"
+	"os"
 	"os/exec"
 
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
@@ -18,7 +19,10 @@ const (
 	FLONGITUDE             = "Pl"
 	FLONGITUDEONLY         = "l"
 	PLANET_DEFAULT_COLUMNS = "Plbrds"
-	ASTRO_CMD              = "./astroBin/astrobin"
+)
+
+var (
+	ASTRO_CMD = "./astroBin/astrobin"
 )
 
 type Ephimeris struct {
@@ -28,6 +32,11 @@ type Ephimeris struct {
 
 func NewEphimeris(birthData *astroV1.BirthData) *Ephimeris {
 
+	astroCmd := os.Getenv("ASTRO_BIN")
+	if astroCmd != "" {
+		ASTRO_CMD = astroCmd
+	}
+	logrus.Infof(" Astrocmd  (%s)", ASTRO_CMD)
 	logrus.Infof(" Birthdata (%v)", birthData)
 
 	return &Ephimeris{
