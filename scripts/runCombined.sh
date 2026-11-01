@@ -10,6 +10,7 @@ export DATA_PATH="./data/"
 
 
 export FILE_STORE_PATH="./dataVolume"
+export ASTRO_BIN='./astroBin/astroBin'
 
 ## when debugging, we can run ephimeris seperately
 export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090"

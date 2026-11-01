@@ -7,7 +7,7 @@ import (
 	"time"
 
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
-	"github.com/dronasys-com/astro/pkg/astro/ephimerisClient"
+	"github.com/dronasys-com/astro/pkg/servers/ephimerisServer"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -67,11 +67,15 @@ func (transits *Transits) getSunMoonEphimeris() ([]*astroV1.SunMoonEphimeris, er
 	// 	logrus.Errorf("Cannot parse time data for astro chart err(%v)", err)
 	// }
 
-	ephimeris := ephimerisClient.NewEphimerisClient()
-	moonEphimeris, err := ephimeris.GetPanchangMonth(birthData)
+	e := ephimerisServer.NewEphimeris(birthData)
+	e.GetPanchangMonth()
+	moonEphimeris, err := e.ExecCommand()
+
 	if err != nil {
+		logrus.Errorf("Cannot get ephimeris data (%v)", err)
 		return nil, err
 	}
+
 	// logrus.Fatalf("Moon data %v", moonEphimeris)
 
 	moonDegreesString := strings.Split(moonEphimeris, "\n")
@@ -266,7 +270,10 @@ func (transits *Transits) getRasiPanchang() {
 		counter++
 
 	}
-	logrus.Infof("Checked Rasis %d/%d total ", counter, numItems)
+	logrus.Infof("Checked Rasis %d/%d total %v", counter, numItems, rasis)
+	// for _, rasi := range rasis {
+	// 	fmt.Printf("%d %v\n", rasi.Name, rasi.Transit.AsTime().In(zone))
+	// }
 	transits.Rasis = rasis
 
 }

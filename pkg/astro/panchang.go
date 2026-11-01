@@ -86,6 +86,7 @@ func (p *Panchang) BuildPanchang() error {
 		var paadas []*astroV1.Transit
 		var rasis []*astroV1.Transit
 
+		// endtime is 24 hrs plus start time
 		endTime := startTime.Add(time.Hour * 24)
 
 		curStarIndex, stars = p.GetTransitingObjects(curStarIndex, startTime, endTime, p.Transits.Stars)
@@ -158,6 +159,9 @@ func (p *Panchang) PrintMonth() {
 
 		fmt.Printf("\n  Tags   %v\n\n", day.Tags)
 		fmt.Println()
+		// if day.Day > 2 {
+		// 	break
+		// }
 	}
 }
 
@@ -175,8 +179,37 @@ func (p *Panchang) GetTransitingObjects(curIndex int, startTime time.Time, endTi
 	if curIndex > 0 {
 		lastTransit := CloneTransit(transits[curIndex-1])
 		newTransits = append(newTransits, lastTransit)
-	}
+	} else {
+		// now when curIndex = 0
+		// iterate through the transits, to find the closest transit point
+		// before the startTime
+		// this is only for the first of month
+		for {
 
+			safeCounter++
+			if safeCounter > 24 {
+				break
+			}
+			if transits[curIndex].Transit.AsTime().Equal(startTime) {
+				curIndex--
+				break
+			}
+			if transits[curIndex].Transit.AsTime().After(startTime) {
+				break
+			}
+			curIndex++
+		}
+		if curIndex < 0 {
+			curIndex = 0
+		}
+		// append the last closest transit
+		if curIndex > 0 {
+			lastTransit := CloneTransit(transits[curIndex-1])
+			newTransits = append(newTransits, lastTransit)
+		}
+
+	}
+	safeCounter = 0
 	for {
 
 		safeCounter++
