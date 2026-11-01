@@ -111,7 +111,7 @@ message UserUpdateRequest {
 
 message UserUpdateResponse { AstroObject astro = 1; }
 
-message UserGetRequest { string uuid = 1; }
+message UserGetRequest { string uuid = 1; string name = 2; }
 
 message UserGetResponse { AstroObject astro = 1; }
 

@@ -48,6 +48,9 @@ func request_Cities_Get_0(ctx context.Context, marshaler runtime.Marshaler, clie
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cities_Get_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.Get(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -79,6 +82,9 @@ func request_Cities_Search_0(ctx context.Context, marshaler runtime.Marshaler, c
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Cities_Search_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
 	}
 	msg, err := client.Search(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err

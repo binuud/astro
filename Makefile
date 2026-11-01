@@ -62,7 +62,7 @@ deploy: ## Deploy all images to docker hub
 vendor: ## go vendor and tidy
 	echo "tidy + vendor"
 	go mod tidy
-	go mod vendor	
+	go mod tidy
 
 protos-web-js: ## WebJs Proto - working for streams too
 	$(PROTOC) -I=./proto/. \
@@ -82,7 +82,7 @@ protos: ## Build Go and Web Proto
 	$(PROTOC) -I=./proto/.  \
 	--go_out=./gen/go/ \
 	--go_opt paths=source_relative \
-    --go-grpc_out=./gen/go/ \
+  --go-grpc_out=./gen/go/ \
 	--go-grpc_opt paths=source_relative \
 	--grpc-gateway_out=./gen/go/ \
 	--grpc-gateway_opt paths=source_relative \

@@ -95,6 +95,7 @@ export type UserUpdateResponse = {
 
 export type UserGetRequest = {
   uuid?: string
+  name?: string
 }
 
 export type UserGetResponse = {

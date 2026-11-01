@@ -48,6 +48,9 @@ func request_Panchang_GetMonth_0(ctx context.Context, marshaler runtime.Marshale
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Panchang_GetMonth_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
 	msg, err := client.GetMonth(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -79,6 +82,9 @@ func request_Panchang_GetDay_0(ctx context.Context, marshaler runtime.Marshaler,
 	}
 	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Panchang_GetDay_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
 	}
 	msg, err := client.GetDay(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
