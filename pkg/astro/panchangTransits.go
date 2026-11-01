@@ -16,7 +16,9 @@ type Transits struct {
 	*astroV1.Transits
 }
 
-func NewTransitsMoon(year int32, month int32) (*Transits, error) {
+// NewTransitsMoon
+// create a transit array holder, with start time set to 2 days prior in a month
+func NewTransits(year int32, month int32) (*Transits, error) {
 
 	if year < 0 || year > 2050 {
 		err := fmt.Errorf("year has to be in the range of 0 to 2050")
@@ -37,27 +39,29 @@ func NewTransitsMoon(year int32, month int32) (*Transits, error) {
 		StartTime: timestamppb.New(startTime),
 	}
 
-	// logrus.Infof("Moon degrees %v", myPanchang.Ephimeris)
-
 	return &Transits{myTransits}, nil
 }
 
-// getMoonEphimeris
+// getSunMoonEphimeris
 // arguments: year - the year for which panchang is calculated
 // returns a list of longitudes for moon for every 12hrs
 // from 1st of the year to the last date of the given year
-func (panchang *Transits) getSunMoonEphimeris(year int32, month int32) ([]*astroV1.SunMoonEphimeris, error) {
+func (transits *Transits) getSunMoonEphimeris() ([]*astroV1.SunMoonEphimeris, error) {
+
+	// Approach A: Extract all three components at once
+	year, month, date := transits.StartTime.AsTime().Date()
+
 	birthData := &astroV1.BirthData{
 		Tob: &astroV1.TobData{
-			Y:    year,
-			D:    1,
-			M:    month,
+			Y:    int32(year),
+			D:    int32(date),
+			M:    int32(month),
 			Hour: 0,
 			Min:  0,
 			Sec:  0,
 		},
 	}
-	birthData.Tob.Tobtime = timestamppb.New(panchang.StartTime.AsTime())
+	birthData.Tob.Tobtime = timestamppb.New(transits.StartTime.AsTime())
 	// birthData, err := MakeBirthData(birthData)
 	// if err != nil {
 	// 	logrus.Errorf("Cannot parse time data for astro chart err(%v)", err)
@@ -102,32 +106,32 @@ func (panchang *Transits) getSunMoonEphimeris(year int32, month int32) ([]*astro
 	return sunMoonEphimeris, nil
 }
 
-func (panchang *Transits) CalculateTransits() error {
+func (transits *Transits) CalculateTransits() error {
 
 	var err error
-	panchang.Ephimeris, err = panchang.getSunMoonEphimeris(panchang.Year, panchang.Month)
+	transits.Ephimeris, err = transits.getSunMoonEphimeris()
 	if err != nil {
 		logrus.Panic(err)
 	}
 
-	panchang.getMoonPanchang()
-	panchang.getRasiPanchang()
-	panchang.getPaadaPanchang()
-	panchang.getTithiPanchang()
-	panchang.getKaranaPanchang()
-	panchang.getYogaPanchang()
+	transits.getMoonPanchang()
+	transits.getRasiPanchang()
+	transits.getPaadaPanchang()
+	transits.getTithiPanchang()
+	transits.getKaranaPanchang()
+	transits.getYogaPanchang()
 	return nil
 }
 
-func (panchang *Transits) getMoonPanchang() {
+func (transits *Transits) getMoonPanchang() {
 
 	// zone, _ := time.LoadLocation("Asia/Kolkata")
 
 	stars := make([]*astroV1.Transit, 0)
 	counter := 0
-	t := panchang.StartTime.AsTime()
-	numItems := len(panchang.Ephimeris) - 1
-	currentStar := GetStarNumber(panchang.Ephimeris[0].Moon)
+	t := transits.StartTime.AsTime()
+	numItems := len(transits.Ephimeris) - 1
+	currentStar := GetStarNumber(transits.Ephimeris[0].Moon)
 
 	for counter < numItems {
 
@@ -139,7 +143,7 @@ func (panchang *Transits) getMoonPanchang() {
 		nextStarDegrees := STAR_DEGREES * float64(nextStar-1)
 		//logrus.Infof("Checking star current (%d), next (%d), transit degrees (%f)", currentStar, nextStar, nextStarDegrees)
 
-		transitMinutes, err := GetTransitTime(panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, HOUR_MINUTES, nextStarDegrees)
+		transitMinutes, err := GetTransitTime(transits.Ephimeris[counter].Moon, transits.Ephimeris[counter+1].Moon, HOUR_MINUTES, nextStarDegrees)
 		if err == nil {
 			currentStar++
 			if currentStar > TOTAL_STARS {
@@ -155,26 +159,26 @@ func (panchang *Transits) getMoonPanchang() {
 
 			stars = append(stars, starTransit)
 
-			// logrus.Infof("Star %s, %f<->%f,  %v", STAR_NAMES[currentStar], panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, t.In(zone))
+			// logrus.Infof("Star %s, %f<->%f,  %v", STAR_NAMES[currentStar], transits.Ephimeris[counter].Moon, transits.Ephimeris[counter+1].Moon, t.In(zone))
 		}
 
 		counter++
 
 	}
 
-	panchang.Stars = stars
+	transits.Stars = stars
 
 }
 
-func (panchang *Transits) getPaadaPanchang() {
+func (transits *Transits) getPaadaPanchang() {
 
 	// zone, _ := time.LoadLocation("Asia/Kolkata")
 
 	paadas := make([]*astroV1.Transit, 0)
 	counter := 0
-	t := panchang.StartTime.AsTime()
-	numItems := len(panchang.Ephimeris) - 1
-	currentItem := GetPaadaNumber(panchang.Ephimeris[0].Moon)
+	t := transits.StartTime.AsTime()
+	numItems := len(transits.Ephimeris) - 1
+	currentItem := GetPaadaNumber(transits.Ephimeris[0].Moon)
 	// logrus.Infof("Checking Paadas %d total ", numItems)
 
 	for counter < numItems {
@@ -187,7 +191,7 @@ func (panchang *Transits) getPaadaPanchang() {
 		nextItemDegrees := PAADA_DEGREES * float64(nextItem-1)
 		// logrus.Infof("Checking paada counter (%d ), Item (%d - %d), transit degrees (%f)", counter, currentItem, nextItem, nextItemDegrees)
 
-		transitMinutes, err := GetTransitTime(panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, HOUR_MINUTES, nextItemDegrees)
+		transitMinutes, err := GetTransitTime(transits.Ephimeris[counter].Moon, transits.Ephimeris[counter+1].Moon, HOUR_MINUTES, nextItemDegrees)
 		if err == nil {
 			currentItem++
 			if currentItem > TOTAL_PAADAS {
@@ -203,14 +207,14 @@ func (panchang *Transits) getPaadaPanchang() {
 
 			paadas = append(paadas, currentTransit)
 
-			// logrus.Infof("Paada counter (%d) %s, %f<->%f,  %v", counter, currentItem, panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, t1.In(zone))
+			// logrus.Infof("Paada counter (%d) %s, %f<->%f,  %v", counter, currentItem, transits.Ephimeris[counter].Moon, transits.Ephimeris[counter+1].Moon, t1.In(zone))
 		}
 
 		counter++
 
 	}
 	// logrus.Infof("Checked Paadas %d/%d total ", counter, numItems)
-	panchang.Paadas = paadas
+	transits.Paadas = paadas
 
 }
 
@@ -219,15 +223,15 @@ func (panchang *Transits) getPaadaPanchang() {
 // take the next item, and calculate the degrees associated with next rasi
 // since angular motion of earth and planet is constant in a day,
 // calculate the transit time for next item (here rasi)
-func (panchang *Transits) getRasiPanchang() {
+func (transits *Transits) getRasiPanchang() {
 
 	// zone, _ := time.LoadLocation("Asia/Kolkata")
 
 	rasis := make([]*astroV1.Transit, 0)
 	counter := 0
-	t := panchang.StartTime.AsTime()
-	numItems := len(panchang.Ephimeris) - 1
-	currentItem := GetRasiNumber(panchang.Ephimeris[0].Moon)
+	t := transits.StartTime.AsTime()
+	numItems := len(transits.Ephimeris) - 1
+	currentItem := GetRasiNumber(transits.Ephimeris[0].Moon)
 	// logrus.Infof("Checking rasi %d total ", numItems)
 
 	for counter < numItems {
@@ -240,7 +244,7 @@ func (panchang *Transits) getRasiPanchang() {
 		nextItemDegrees := RASI_DEGREES * float64(nextItem-1)
 		// logrus.Infof("Checking rasi counter (%d ), Item (%d - %d), transit degrees (%f)", counter, currentItem, nextItem, nextItemDegrees)
 
-		transitMinutes, err := GetTransitTime(panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, HOUR_MINUTES, nextItemDegrees)
+		transitMinutes, err := GetTransitTime(transits.Ephimeris[counter].Moon, transits.Ephimeris[counter+1].Moon, HOUR_MINUTES, nextItemDegrees)
 		if err == nil {
 			currentItem++
 			if currentItem > TOTAL_RASIS {
@@ -256,29 +260,29 @@ func (panchang *Transits) getRasiPanchang() {
 
 			rasis = append(rasis, currentTransit)
 
-			// logrus.Infof("Rasi counter (%d) %d, %f<->%f,  %v", counter, currentItem, panchang.Ephimeris[counter].Moon, panchang.Ephimeris[counter+1].Moon, t1.In(zone))
+			// logrus.Infof("Rasi counter (%d) %d, %f<->%f,  %v", counter, currentItem, transits.Ephimeris[counter].Moon, transits.Ephimeris[counter+1].Moon, t1.In(zone))
 		}
 
 		counter++
 
 	}
 	logrus.Infof("Checked Rasis %d/%d total ", counter, numItems)
-	panchang.Rasis = rasis
+	transits.Rasis = rasis
 
 }
 
-func (panchang *Transits) getTithiPanchang() {
+func (transits *Transits) getTithiPanchang() {
 	// zone, _ := time.LoadLocation("Asia/Kolkata")
 
 	tithis := make([]*astroV1.Transit, 0)
 
 	counter := 0
-	numItems := len(panchang.Ephimeris) - 1
-	currentTithi := GetTithiNumber(panchang.Ephimeris[0].Sun, panchang.Ephimeris[0].Moon)
+	numItems := len(transits.Ephimeris) - 1
+	currentTithi := GetTithiNumber(transits.Ephimeris[0].Sun, transits.Ephimeris[0].Moon)
 
 	for counter < numItems {
 
-		t := panchang.StartTime.AsTime()
+		t := transits.StartTime.AsTime()
 
 		nextTithi := currentTithi + 1
 		if nextTithi > TOTAL_TITHIS {
@@ -288,8 +292,8 @@ func (panchang *Transits) getTithiPanchang() {
 		nextTithiDegrees := TITHI_DEGREES * float64(nextTithi-1)
 		//logrus.Infof("Checking star current (%d), next (%d), transit degrees (%f)", currentStar, nextStar, nextStarDegrees)
 
-		startTithiDegree := GetTithiDegree(panchang.Ephimeris[counter].Sun, panchang.Ephimeris[counter].Moon)
-		endTithiDegree := GetTithiDegree(panchang.Ephimeris[counter+1].Sun, panchang.Ephimeris[counter+1].Moon)
+		startTithiDegree := GetTithiDegree(transits.Ephimeris[counter].Sun, transits.Ephimeris[counter].Moon)
+		endTithiDegree := GetTithiDegree(transits.Ephimeris[counter+1].Sun, transits.Ephimeris[counter+1].Moon)
 
 		transitMinutes, err := GetTransitTime(startTithiDegree, endTithiDegree, HOUR_MINUTES, nextTithiDegrees)
 		if err == nil {
@@ -314,21 +318,21 @@ func (panchang *Transits) getTithiPanchang() {
 
 	}
 
-	panchang.Tithis = tithis
+	transits.Tithis = tithis
 
 }
 
-func (panchang *Transits) getKaranaPanchang() {
+func (transits *Transits) getKaranaPanchang() {
 	// zone, _ := time.LoadLocation("Asia/Kolkata")
 
 	karanas := make([]*astroV1.Transit, 0)
 
 	counter := 0
-	numItems := len(panchang.Ephimeris) - 1
-	currentKarana := GetKaranaNumber(panchang.Ephimeris[0].Sun, panchang.Ephimeris[0].Moon)
+	numItems := len(transits.Ephimeris) - 1
+	currentKarana := GetKaranaNumber(transits.Ephimeris[0].Sun, transits.Ephimeris[0].Moon)
 
 	for counter < numItems {
-		t := panchang.StartTime.AsTime()
+		t := transits.StartTime.AsTime()
 		nextKarana := currentKarana + 1
 		if nextKarana > TOTAL_KARANAS {
 			nextKarana = 1
@@ -337,8 +341,8 @@ func (panchang *Transits) getKaranaPanchang() {
 		nextKaranaDegrees := KARANA_DEGREES * float64(nextKarana-1)
 		//logrus.Infof("Checking star current (%d), next (%d), transit degrees (%f)", currentStar, nextStar, nextStarDegrees)
 
-		startKaranaDegree := GetTithiDegree(panchang.Ephimeris[counter].Sun, panchang.Ephimeris[counter].Moon)
-		endKaranaDegree := GetTithiDegree(panchang.Ephimeris[counter+1].Sun, panchang.Ephimeris[counter+1].Moon)
+		startKaranaDegree := GetTithiDegree(transits.Ephimeris[counter].Sun, transits.Ephimeris[counter].Moon)
+		endKaranaDegree := GetTithiDegree(transits.Ephimeris[counter+1].Sun, transits.Ephimeris[counter+1].Moon)
 
 		transitMinutes, err := GetTransitTime(startKaranaDegree, endKaranaDegree, HOUR_MINUTES, nextKaranaDegrees)
 		if err == nil {
@@ -360,22 +364,22 @@ func (panchang *Transits) getKaranaPanchang() {
 
 	}
 
-	panchang.Karanas = karanas
+	transits.Karanas = karanas
 
 }
 
-func (panchang *Transits) getYogaPanchang() {
+func (transits *Transits) getYogaPanchang() {
 
 	// zone, _ := time.LoadLocation("Asia/Kolkata")
 
 	yogas := make([]*astroV1.Transit, 0)
 
 	counter := 0
-	numItems := len(panchang.Ephimeris) - 1
-	currentYoga := GetYogaNumber(panchang.Ephimeris[0].Sun, panchang.Ephimeris[0].Moon)
+	numItems := len(transits.Ephimeris) - 1
+	currentYoga := GetYogaNumber(transits.Ephimeris[0].Sun, transits.Ephimeris[0].Moon)
 	// logrus.Infof("Starting Yoga (%d)", currentYoga)
 	for counter < numItems {
-		t := panchang.StartTime.AsTime()
+		t := transits.StartTime.AsTime()
 		nextYoga := currentYoga + 1
 		if nextYoga > TOTAL_YOGAS {
 			nextYoga = 1
@@ -383,8 +387,8 @@ func (panchang *Transits) getYogaPanchang() {
 
 		nextYogaDegrees := YOGA_DEGREES * float64(nextYoga-1)
 
-		startYogaDegree := GetYogaDegree(panchang.Ephimeris[counter].Sun, panchang.Ephimeris[counter].Moon)
-		endYogaDegree := GetYogaDegree(panchang.Ephimeris[counter+1].Sun, panchang.Ephimeris[counter+1].Moon)
+		startYogaDegree := GetYogaDegree(transits.Ephimeris[counter].Sun, transits.Ephimeris[counter].Moon)
+		endYogaDegree := GetYogaDegree(transits.Ephimeris[counter+1].Sun, transits.Ephimeris[counter+1].Moon)
 
 		transitMinutes, err := GetTransitTime(startYogaDegree, endYogaDegree, HOUR_MINUTES, nextYogaDegrees)
 		if err == nil {
@@ -407,6 +411,6 @@ func (panchang *Transits) getYogaPanchang() {
 
 	}
 
-	panchang.Yogas = yogas
+	transits.Yogas = yogas
 
 }
