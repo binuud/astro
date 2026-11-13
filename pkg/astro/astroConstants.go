@@ -98,6 +98,8 @@ var STAR_NAMES_WITH_ABHIJIT = []string{"", "Aswini", "Barani", "Krittika",
 	"Poorvabhadra", "Uttarabadra", "Revathi"}
 
 var RASI_NAMES = []string{"", "Mesham", "Rishabam", "Mithunam", "Karkataka", "Simha", "Kanya", "Thula", "Vrishika", "Dhanus", "Makara", "Kumbha", "Meena"}
+var ENGLISH_RASI_NAMES = []string{"", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"}
+
 var RASI_OWNERS = []int{-1, int(astroV1.AstroConstants_Mars), int(astroV1.AstroConstants_Venus), int(astroV1.AstroConstants_Mercury),
 	int(astroV1.AstroConstants_Moon), int(astroV1.AstroConstants_Sun), int(astroV1.AstroConstants_Mercury),
 	int(astroV1.AstroConstants_Venus), int(astroV1.AstroConstants_Mars), int(astroV1.AstroConstants_Jupiter),
