@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
-	"github.com/dronasys-com/astro/pkg/astro/ephimerisClient"
+	"github.com/dronasys-com/astro/pkg/servers/ephimerisServer"
 	"github.com/sirupsen/logrus"
 )
 
@@ -31,12 +31,12 @@ func NewAstroChart(birthData *astroV1.BirthData) (*Chart, error) {
 		logrus.Errorf("Cannot parse time data for astro chart err(%v)", err)
 	}
 
-	ephimeris := ephimerisClient.NewEphimerisClient()
-	planetsEphimeris, err := ephimeris.GetPlanetsEphimeris(birthData)
+	e := ephimerisServer.NewEphimeris(birthData)
+	e.GetPlanetsEphimeris()
+	planetsEphimeris, err := e.ExecCommand()
 	if err != nil {
 		return nil, err
 	}
-
 	// moonEphimeris, err := ephimeris.GetMoonEphimeris(birthData)
 	// if err != nil {
 	// 	return nil, err
@@ -235,4 +235,16 @@ func (chart *Chart) PrintChartTable() {
 	}
 
 	fmt.Printf("\n\n********************************************\n")
+}
+
+// PrintChartDescription
+// Print the chart description in plain english
+func (chart *Chart) GetChartDescription() string {
+	planetNames := []string{"asc", "sun", "moon", "mars", "mercury", "jupiter", "venus", "saturn", "rahu", "ketu", "neptune", "uranus", "pluto"}
+	output := ""
+	for _, planetName := range planetNames {
+		planet := chart.Planets.PlanetsMap[planetName]
+		output = output + fmt.Sprintf("%s is in %s \n", planet.Name, ENGLISH_RASI_NAMES[planet.Rasi])
+	}
+	return output
 }

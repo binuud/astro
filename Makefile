@@ -49,6 +49,9 @@ build-ephimeris: ## Build the ephimeris docker image
 build-combined: ## Build astro combined image astro + ephimeris
 	docker build --no-cache  --build-arg BUILD_VER=$(BUILD_VER) $(MULTI_PLATFORM_DOCKER) -t $(REPO)/$(COMBINED_APP) -f ./deployment/docker/combined.dockerfile .
 
+build-mcp-server: ## Build astro mcp server
+	go build -o $(GOBIN)/mcp-astro-server ./cmd/mcpServer/.
+
 deploy: ## Deploy all images to docker hub
 	@echo "====================> Pushing image to dockerhub$(AWS_ECR) ."
 	## @docker login --username=$(DOCKER_HUB_USER) --password="$(DOCKER_HUB_PASSWD)"
@@ -154,6 +157,9 @@ run-astro: ## Start astro
 
 run: ## Start astro, cities, panchang, ephimeris server
 	./scripts/runCombined.sh	
+
+run-mcp-server: ## run the mcp server
+	./scripts/runMcpServer.sh	
 
 run-ephimeris: ## Run ephimeris microservice
 	./scripts/runEphimeris.sh	

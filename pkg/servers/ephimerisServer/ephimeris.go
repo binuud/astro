@@ -22,7 +22,7 @@ const (
 )
 
 var (
-	ASTRO_CMD = "./astroBin/astrobin"
+	ASTRO_CMD = "astrobin"
 )
 
 type Ephimeris struct {
