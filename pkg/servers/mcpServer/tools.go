@@ -35,24 +35,36 @@ type Input_GetAstrologicalChart struct {
 	TOB string `json:"tob" jsonschema:"The Time of birth in HH:MM"`
 }
 
+//	type Output_GetAstrologicalChart struct {
+//		Text string `json:"text" jsonschema:"The astrological position of planets in the zodiac"`
+//	}
 type Output_GetAstrologicalChart struct {
 	Text string `json:"text" jsonschema:"The astrological position of planets in the zodiac"`
 }
 
 func GetAstrologicalChart(ctx context.Context, req *mcp.CallToolRequest, input Input_GetAstrologicalChart) (
 	*mcp.CallToolResult,
-	Output_GetAstrologicalChart,
+	*Output_GetAstrologicalChart,
 	error,
 ) {
 	logrus.Infof("GetAstrologicalChart called with %v", input)
 	dob, err := parseDOB(input.DOB)
 	if err != nil {
-		return nil, Output_GetAstrologicalChart{Text: "error Cannot parse date of birth, please enter DOB in DD/MM/YYYY format"}, nil
+		return &mcp.CallToolResult{
+			Content: []mcp.Content{
+				&mcp.TextContent{Text: "error Cannot parse date of birth, please enter DOB in DD/MM/YYYY format"},
+			},
+		}, nil, nil
 	}
 
 	tob, err := parseTOB(input.TOB)
 	if err != nil {
-		return nil, Output_GetAstrologicalChart{Text: "error Cannot parse time of birth, please enter TOB in HH:MM format"}, nil
+		return &mcp.CallToolResult{
+			Content: []mcp.Content{
+				&mcp.TextContent{Text: "error Cannot parse time of birth, please enter TOB in HH:MM format"},
+			},
+		}, nil, nil
+
 	}
 
 	logrus.Infof("Creating chart for DOB %d/%d/%d :: TOB %d:%d", dob.Day(), dob.Month(), dob.Year(), tob.Hour(), tob.Minute())
@@ -77,6 +89,11 @@ func GetAstrologicalChart(ctx context.Context, req *mcp.CallToolRequest, input I
 		logrus.Errorf("Cannot prepare chart err(%v)", err)
 	}
 	out := chart.GetChartDescription()
-	return nil, Output_GetAstrologicalChart{Text: fmt.Sprintf("For your given date and time of birth, the position of planets in zodiac is %s", out)}, nil
+	return &mcp.CallToolResult{
+		Content: []mcp.Content{
+			&mcp.TextContent{Text: "For your given date and time of birth, the position of planets in zodiac is " + out},
+		},
+	}, nil, nil
+	//return nil, Output_GetAstrologicalChart{Text: fmt.Sprintf("For your given date and time of birth, the position of planets in zodiac is %s", out)}, nil
 
 }
