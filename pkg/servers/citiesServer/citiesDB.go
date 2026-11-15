@@ -34,6 +34,7 @@ func (c *CityDB) initDB() []*citiesV1.CityInfo {
 	csvFile := fmt.Sprintf("%s%s", dataPath, DB_FILE)
 	csvData, err := c.readCsvFile(csvFile)
 	if err != nil {
+		logrus.Errorf("err cannot load cities database csv file %s", csvFile)
 		panic(err)
 	}
 	return c.createInMemDB(csvData)
