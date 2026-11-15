@@ -3,6 +3,7 @@ package mcpServer
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
 	"github.com/dronasys-com/astro/pkg/astro"
@@ -30,9 +31,34 @@ func GetAge(ctx context.Context, req *mcp.CallToolRequest, input Input_GetAge) (
 	return nil, Output_GetAge{Age: fmt.Sprintf("Your age is %d", age)}, nil
 }
 
+type Input_GetLatLong struct {
+	City        string `json:"city" jsonschema:"The City for which latitude, longitude has to be found"`
+	CountryCode string `json:"countryCode" jsonschema:"The Country Code, where the city is located. Eg: IN, US"`
+}
+
+type Output_GetLatLong struct {
+	City string `json:"city" jsonschema:"The closest matching city"`
+	Lat  string `json:"lat" jsonschema:"The latitude of the city"`
+	Long string `json:"long" jsonschema:"The longitude of the city"`
+}
+
+func GetLatLong(ctx context.Context, req *mcp.CallToolRequest, input Input_GetLatLong) (
+	*mcp.CallToolResult,
+	*Output_GetLatLong,
+	error,
+) {
+	city, lat, long, err := GetLatLongForCity(input.City, input.CountryCode)
+	if err != nil {
+		return nil, nil, err
+	}
+	return nil, &Output_GetLatLong{City: city, Lat: strconv.FormatFloat(lat, 'f', 2, 64), Long: strconv.FormatFloat(long, 'f', 2, 64)}, nil
+}
+
 type Input_GetAstrologicalChart struct {
-	DOB string `json:"dob" jsonschema:"The Date of birth in DD/MM/YYYY"`
-	TOB string `json:"tob" jsonschema:"The Time of birth in HH:MM"`
+	DOB         string `json:"dob" jsonschema:"The Date of birth in DD/MM/YYYY"`
+	TOB         string `json:"tob" jsonschema:"The Time of birth in HH:MM"`
+	City        string `json:"city" jsonschema:"The City of birth"`
+	CountryCode string `json:"countryCode" jsonschema:"The Country Code, for the country of birth. Eg: IN, US"`
 }
 
 //	type Output_GetAstrologicalChart struct {
@@ -48,6 +74,7 @@ func GetAstrologicalChart(ctx context.Context, req *mcp.CallToolRequest, input I
 	error,
 ) {
 	logrus.Infof("GetAstrologicalChart called with %v", input)
+
 	dob, err := parseDOB(input.DOB)
 	if err != nil {
 		return &mcp.CallToolResult{
@@ -67,7 +94,13 @@ func GetAstrologicalChart(ctx context.Context, req *mcp.CallToolRequest, input I
 
 	}
 
+	city, lat, long, err := GetLatLongForCity(input.City, input.CountryCode)
+	if err != nil {
+		return nil, nil, err
+	}
+
 	logrus.Infof("Creating chart for DOB %d/%d/%d :: TOB %d:%d", dob.Day(), dob.Month(), dob.Year(), tob.Hour(), tob.Minute())
+	logrus.Infof("Place of Birth %s, %s [%.2f] [%.2ff]", city, input.CountryCode, lat, long)
 
 	chart, err := astro.NewAstroChart(&astroV1.BirthData{
 		Tob: &astroV1.TobData{
@@ -80,9 +113,9 @@ func GetAstrologicalChart(ctx context.Context, req *mcp.CallToolRequest, input I
 			Zone: "Asia/Kolkata",
 		},
 		Pob: &astroV1.PobData{
-			City: "Chennai",
-			Lat:  13.08,
-			Long: 80.7,
+			City: city,
+			Lat:  float32(lat),
+			Long: float32(long),
 		},
 	})
 	if err != nil {

@@ -3,6 +3,9 @@ package mcpServer
 import (
 	"fmt"
 	"time"
+
+	"github.com/dronasys-com/astro/pkg/servers/citiesServer"
+	"github.com/sirupsen/logrus"
 )
 
 func parseDOB(dobStr string) (time.Time, error) {
@@ -39,4 +42,15 @@ func CalculateAge(dobStr string) (int, error) {
 	}
 
 	return age, nil
+}
+
+func GetLatLongForCity(city string, countryCode string) (string, float64, float64, error) {
+	db := citiesServer.NewCityDB()
+	cities, err := db.SearchCity(city, countryCode)
+	if err != nil {
+		return "", 0, 0, err
+	}
+	logrus.Infof("found cities for search %s %d", city, len(cities))
+	// return the first cities lat long
+	return cities[0].Name, cities[0].Latitude, cities[0].Longitude, nil
 }
