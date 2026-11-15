@@ -244,7 +244,12 @@ func (chart *Chart) GetChartDescription() string {
 	output := ""
 	for _, planetName := range planetNames {
 		planet := chart.Planets.PlanetsMap[planetName]
-		output = output + fmt.Sprintf("%s is in %s. ", planet.Name, ENGLISH_RASI_NAMES[planet.Rasi])
+		motion := ""
+		if planet.Speed < 0 {
+			motion = "Retrograde"
+		}
+		output = output + fmt.Sprintf("%s %s in %s. ", planet.Name, motion, ENGLISH_RASI_NAMES[planet.Rasi])
+
 	}
 	return output
 }
