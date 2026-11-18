@@ -271,11 +271,12 @@ func (x *Pagination) GetPerPage() int64 {
 type PlanetDetails struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Longitude     float64                `protobuf:"fixed64,2,opt,name=longitude,proto3" json:"longitude,omitempty"`
-	Latitude      float64                `protobuf:"fixed64,3,opt,name=latitude,proto3" json:"latitude,omitempty"`
-	Declination   float64                `protobuf:"fixed64,4,opt,name=declination,proto3" json:"declination,omitempty"`
-	Speed         float64                `protobuf:"fixed64,5,opt,name=speed,proto3" json:"speed,omitempty"`
-	Distance      float64                `protobuf:"fixed64,6,opt,name=distance,proto3" json:"distance,omitempty"`
+	Longitude     float64                `protobuf:"fixed64,2,opt,name=longitude,proto3" json:"longitude,omitempty"`         // in the sky
+	RasiLongitude float64                `protobuf:"fixed64,3,opt,name=rasiLongitude,proto3" json:"rasiLongitude,omitempty"` // longitude degree in zodiac
+	Latitude      float64                `protobuf:"fixed64,4,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	Declination   float64                `protobuf:"fixed64,5,opt,name=declination,proto3" json:"declination,omitempty"`
+	Speed         float64                `protobuf:"fixed64,6,opt,name=speed,proto3" json:"speed,omitempty"`
+	Distance      float64                `protobuf:"fixed64,7,opt,name=distance,proto3" json:"distance,omitempty"`
 	Star          int64                  `protobuf:"varint,21,opt,name=star,proto3" json:"star,omitempty"`
 	Paada         int64                  `protobuf:"varint,22,opt,name=paada,proto3" json:"paada,omitempty"`
 	Rasi          int64                  `protobuf:"varint,23,opt,name=rasi,proto3" json:"rasi,omitempty"`
@@ -288,11 +289,11 @@ type PlanetDetails struct {
 	FriendHouse   bool                   `protobuf:"varint,55,opt,name=friendHouse,proto3" json:"friendHouse,omitempty"`
 	EnemyHouse    bool                   `protobuf:"varint,56,opt,name=enemyHouse,proto3" json:"enemyHouse,omitempty"`
 	NeutralHouse  bool                   `protobuf:"varint,57,opt,name=neutralHouse,proto3" json:"neutralHouse,omitempty"`
-	Amsa2         int64                  `protobuf:"varint,1002,opt,name=amsa2,proto3" json:"amsa2,omitempty"`
-	Amsa9         int64                  `protobuf:"varint,1009,opt,name=amsa9,proto3" json:"amsa9,omitempty"`
-	Amsa10        int64                  `protobuf:"varint,1010,opt,name=amsa10,proto3" json:"amsa10,omitempty"`
-	Amsa27        int64                  `protobuf:"varint,1027,opt,name=amsa27,proto3" json:"amsa27,omitempty"`
-	Amsa60        int64                  `protobuf:"varint,1060,opt,name=amsa60,proto3" json:"amsa60,omitempty"`
+	Amsa2         int64                  `protobuf:"varint,102,opt,name=amsa2,proto3" json:"amsa2,omitempty"`
+	Amsa9         int64                  `protobuf:"varint,109,opt,name=amsa9,proto3" json:"amsa9,omitempty"`
+	Amsa10        int64                  `protobuf:"varint,110,opt,name=amsa10,proto3" json:"amsa10,omitempty"`
+	Amsa27        int64                  `protobuf:"varint,127,opt,name=amsa27,proto3" json:"amsa27,omitempty"`
+	Amsa60        int64                  `protobuf:"varint,160,opt,name=amsa60,proto3" json:"amsa60,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -337,6 +338,13 @@ func (x *PlanetDetails) GetName() string {
 func (x *PlanetDetails) GetLongitude() float64 {
 	if x != nil {
 		return x.Longitude
+	}
+	return 0
+}
+
+func (x *PlanetDetails) GetRasiLongitude() float64 {
+	if x != nil {
+		return x.RasiLongitude
 	}
 	return 0
 }
@@ -1035,14 +1043,15 @@ const file_v1_astro_astro_proto_rawDesc = "" +
 	"Pagination\x12\x14\n" +
 	"\x05total\x18\x01 \x01(\x03R\x05total\x12\x18\n" +
 	"\acurrent\x18\x02 \x01(\x03R\acurrent\x12\x18\n" +
-	"\aperPage\x18\x03 \x01(\x03R\aperPage\"\xf1\x04\n" +
+	"\aperPage\x18\x03 \x01(\x03R\aperPage\"\x93\x05\n" +
 	"\rPlanetDetails\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1c\n" +
-	"\tlongitude\x18\x02 \x01(\x01R\tlongitude\x12\x1a\n" +
-	"\blatitude\x18\x03 \x01(\x01R\blatitude\x12 \n" +
-	"\vdeclination\x18\x04 \x01(\x01R\vdeclination\x12\x14\n" +
-	"\x05speed\x18\x05 \x01(\x01R\x05speed\x12\x1a\n" +
-	"\bdistance\x18\x06 \x01(\x01R\bdistance\x12\x12\n" +
+	"\tlongitude\x18\x02 \x01(\x01R\tlongitude\x12$\n" +
+	"\rrasiLongitude\x18\x03 \x01(\x01R\rrasiLongitude\x12\x1a\n" +
+	"\blatitude\x18\x04 \x01(\x01R\blatitude\x12 \n" +
+	"\vdeclination\x18\x05 \x01(\x01R\vdeclination\x12\x14\n" +
+	"\x05speed\x18\x06 \x01(\x01R\x05speed\x12\x1a\n" +
+	"\bdistance\x18\a \x01(\x01R\bdistance\x12\x12\n" +
 	"\x04star\x18\x15 \x01(\x03R\x04star\x12\x14\n" +
 	"\x05paada\x18\x16 \x01(\x03R\x05paada\x12\x12\n" +
 	"\x04rasi\x18\x17 \x01(\x03R\x04rasi\x12\x14\n" +
@@ -1056,12 +1065,12 @@ const file_v1_astro_astro_proto_rawDesc = "" +
 	"\n" +
 	"enemyHouse\x188 \x01(\bR\n" +
 	"enemyHouse\x12\"\n" +
-	"\fneutralHouse\x189 \x01(\bR\fneutralHouse\x12\x15\n" +
-	"\x05amsa2\x18\xea\a \x01(\x03R\x05amsa2\x12\x15\n" +
-	"\x05amsa9\x18\xf1\a \x01(\x03R\x05amsa9\x12\x17\n" +
-	"\x06amsa10\x18\xf2\a \x01(\x03R\x06amsa10\x12\x17\n" +
-	"\x06amsa27\x18\x83\b \x01(\x03R\x06amsa27\x12\x17\n" +
-	"\x06amsa60\x18\xa4\b \x01(\x03R\x06amsa60\"\xbc\x01\n" +
+	"\fneutralHouse\x189 \x01(\bR\fneutralHouse\x12\x14\n" +
+	"\x05amsa2\x18f \x01(\x03R\x05amsa2\x12\x14\n" +
+	"\x05amsa9\x18m \x01(\x03R\x05amsa9\x12\x16\n" +
+	"\x06amsa10\x18n \x01(\x03R\x06amsa10\x12\x16\n" +
+	"\x06amsa27\x18\x7f \x01(\x03R\x06amsa27\x12\x17\n" +
+	"\x06amsa60\x18\xa0\x01 \x01(\x03R\x06amsa60\"\xbc\x01\n" +
 	"\aPlanets\x12\x1c\n" +
 	"\tephimeris\x18\x01 \x01(\tR\tephimeris\x12>\n" +
 	"\n" +

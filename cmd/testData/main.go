@@ -43,7 +43,7 @@ func updateCharts() error {
 		astroBucket = append(astroBucket, astroObject)
 
 		if bucketCount >= BULK_UPDATE_BUCKET_SIZE {
-			logrus.Info("Bulk insert with last record (%v)", recordName)
+			logrus.Infof("Bulk insert with last record (%v)", recordName)
 			// astroServer.BulkInsert(astroBucket)
 			// reset counters
 			bucketCount = 0

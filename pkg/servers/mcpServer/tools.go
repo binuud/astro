@@ -65,7 +65,9 @@ type Input_GetAstrologicalChart struct {
 //		Text string `json:"text" jsonschema:"The astrological position of planets in the zodiac"`
 //	}
 type Output_GetAstrologicalChart struct {
-	Text string `json:"text" jsonschema:"The astrological position of planets in the zodiac"`
+	Zodiac map[string]string `json:"zodiac" jsonschema:"The zodiac where each planet is placed"`
+	House  map[string]string `json:"house" jsonschema:"The house number where each planet is placed"`
+	Text   string            `json:"text" jsonschema:"The astrological position of planets in the zodiac"`
 }
 
 func GetAstrologicalChart(ctx context.Context, req *mcp.CallToolRequest, input Input_GetAstrologicalChart) (
@@ -81,7 +83,7 @@ func GetAstrologicalChart(ctx context.Context, req *mcp.CallToolRequest, input I
 			Content: []mcp.Content{
 				&mcp.TextContent{Text: "error Cannot parse date of birth, please enter DOB in DD/MM/YYYY format"},
 			},
-		}, nil, nil
+		}, nil, fmt.Errorf("error Cannot parse date of birth, please enter DOB in DD/MM/YYYY format")
 	}
 
 	tob, err := parseTOB(input.TOB)
@@ -90,7 +92,7 @@ func GetAstrologicalChart(ctx context.Context, req *mcp.CallToolRequest, input I
 			Content: []mcp.Content{
 				&mcp.TextContent{Text: "error Cannot parse time of birth, please enter TOB in HH:MM format"},
 			},
-		}, nil, nil
+		}, nil, fmt.Errorf("error Cannot parse time of birth, please enter TOB in HH:MM format")
 
 	}
 
@@ -121,12 +123,8 @@ func GetAstrologicalChart(ctx context.Context, req *mcp.CallToolRequest, input I
 	if err != nil {
 		logrus.Errorf("Cannot prepare chart err(%v)", err)
 	}
-	out := chart.GetChartDescription()
-	return &mcp.CallToolResult{
-		Content: []mcp.Content{
-			&mcp.TextContent{Text: "For your given date and time of birth, the position of planets in zodiac is " + out},
-		},
-	}, nil, nil
+	out := _getAstrologicalChart(chart)
+	return nil, out, nil
 	//return nil, Output_GetAstrologicalChart{Text: fmt.Sprintf("For your given date and time of birth, the position of planets in zodiac is %s", out)}, nil
 
 }

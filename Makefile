@@ -109,8 +109,6 @@ compose-up: ## docker compose up
 start-container: ## run this to start a golang container, with this code base mounted
 	docker run --rm -it -v .:/app -w /app dronasys-com/golang:1.27.1
 
-
-
 clean-docker: ## Clean existing containers
 	docker rm -f $(EPHIMERIS_APP)
 	docker rm -f $(ASTRO_APP)
@@ -170,33 +168,35 @@ run-test-data: ## Creates test data charts
 run-scratch: ## Dev programs, to check functionality
 	./scripts/runScratch.sh	
 
-
 run-panchang: ## Create panchang json files ./scripts/panchangJson/panchang/
 	./scripts/runPanchang.sh	
 
+run-life-span: ## run life span and chart test
+	./scripts/runLifeSpan.sh
+
 test: ## Run tests
 	export DATA_PATH=`pwd`/data/; \
-	export ASTRO_BIN=`pwd`/astroBin/astroBin \
+	export ASTRO_BIN=`pwd`/astroBin/astroBin; \
 	go test ./pkg/...
 
 test-panchang: ## Run panchang
 	export DATA_PATH=`pwd`/data/; \
-	export ASTRO_BIN=`pwd`/astroBin/astroBin \
+	export ASTRO_BIN=`pwd`/astroBin/astroBin; \
 	export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090"; \
 	go test -v --run Test_Pacnhang_Month ./pkg/astro/
 
 test-cities: ## Run tests
 	export DATA_PATH=`pwd`/data/; \
-	export ASTRO_BIN=`pwd`/astroBin/astroBin \
+	export ASTRO_BIN=`pwd`/astroBin/astroBin; \
 	go test ./pkg/servers/citiesServer/...	
 
 test-astro-chart: ## Run tests on astro chart
-	export ASTRO_EPHIMERIS_ENDPOINT="host.docker.internal:50062"; \  
+	export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090"; \  
 	export DATA_PATH=`pwd`/data/; \
-	export ASTRO_BIN=`pwd`/astroBin/astroBin \
+	export ASTRO_BIN=`pwd`/astroBin/astroBin; \
 	go test -v ./pkg/astro/...	
 
 test-coverage: ## Run test coverage
 	export DATA_PATH=`pwd`/data/; \
-	export ASTRO_BIN=`pwd`/astroBin/astroBin \
+	export ASTRO_BIN=`pwd`/astroBin/astroBin; \
 	go test ./pkg/... -coverprofile=coverage.out

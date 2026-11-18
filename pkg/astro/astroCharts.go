@@ -147,12 +147,13 @@ func (chart *Chart) ParseEphimeris() {
 				}
 
 				planetMap[planetName] = &astroV1.PlanetDetails{
-					Name:        planetName,
-					Longitude:   longitude,
-					Latitude:    latitude,
-					Distance:    distance,
-					Declination: declination,
-					Speed:       speed,
+					Name:          planetName,
+					Longitude:     longitude,
+					RasiLongitude: math.Mod(longitude, 30),
+					Latitude:      latitude,
+					Distance:      distance,
+					Declination:   declination,
+					Speed:         speed,
 				}
 			}
 		}
@@ -228,28 +229,11 @@ func (chart *Chart) CalculateBhavaChart() {
 func (chart *Chart) PrintChartTable() {
 	planetNames := []string{"asc", "sun", "moon", "mars", "mercury", "jupiter", "venus", "saturn", "rahu", "ketu", "neptune", "uranus", "pluto"}
 	fmt.Printf("\n\n********************************************\n")
-	fmt.Printf("    Planet   R   B  BH  2H  9H 10H 27H 60H   S   P   Long  Dec Sp\n")
+	fmt.Printf("    Planet   R   B  BH  2H  9H 10H 27H 60H   S   P   RasiLong  Long      Lat.      Dec.      Sp\n")
 	for _, planetName := range planetNames {
 		planet := chart.Planets.PlanetsMap[planetName]
-		fmt.Printf("%10s  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d   %09.2f %09.2f %09.2f\n", planet.Name, planet.Rasi, planet.Bhava, planet.BhavaH, planet.Amsa2, planet.Amsa9, planet.Amsa10, planet.Amsa27, planet.Amsa60, planet.Star, planet.Paada, planet.Longitude, planet.Declination, planet.Speed)
+		fmt.Printf("%10s  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d  %02d   %09.2f %09.2f %09.2f %09.2f %09.2f\n", planet.Name, planet.Rasi, planet.Bhava, planet.BhavaH, planet.Amsa2, planet.Amsa9, planet.Amsa10, planet.Amsa27, planet.Amsa60, planet.Star, planet.Paada, planet.RasiLongitude, planet.Longitude, planet.Latitude, planet.Declination, planet.Speed)
 	}
 
 	fmt.Printf("\n\n********************************************\n")
-}
-
-// PrintChartDescription
-// Print the chart description in plain english
-func (chart *Chart) GetChartDescription() string {
-	planetNames := []string{"asc", "sun", "moon", "mars", "mercury", "jupiter", "venus", "saturn", "rahu", "ketu", "neptune", "uranus", "pluto"}
-	output := ""
-	for _, planetName := range planetNames {
-		planet := chart.Planets.PlanetsMap[planetName]
-		motion := ""
-		if planet.Speed < 0 {
-			motion = "Retrograde"
-		}
-		output = output + fmt.Sprintf("%s %s in %s. ", planet.Name, motion, ENGLISH_RASI_NAMES[planet.Rasi])
-
-	}
-	return output
 }

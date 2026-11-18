@@ -33,7 +33,7 @@ func test_newdasa() {
 	if err != nil {
 		log.Errorf("Cannot prepare chart err(%v)", err)
 	}
-
+	chart.PrintChartTable()
 	dasa := astro.NewVimshottariDasha(chart.BirthData.Tob.Tobtime.AsTime())
 	curStar := chart.Planets.PlanetsMap[astro.PLANET_MOON].Star - 1
 	// dasa.AdjustTimePeriodsWithBase(chart.AstroObject, astro.PLANET_MOON)
