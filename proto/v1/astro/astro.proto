@@ -47,11 +47,12 @@ message Pagination {
 message PlanetDetails {
   string name = 1;
 
-  double longitude = 2;
-  double latitude = 3;
-  double declination = 4;
-  double speed = 5;
-  double distance = 6;
+  double longitude = 2; // in the sky
+  double rasiLongitude = 3; // longitude degree in zodiac
+  double latitude = 4;
+  double declination = 5;
+  double speed = 6;
+  double distance = 7;
 
   int64 star = 21;
   int64 paada = 22;
@@ -68,11 +69,11 @@ message PlanetDetails {
   bool enemyHouse = 56;
   bool neutralHouse = 57;
 
-  int64 amsa2 = 1002;
-  int64 amsa9 = 1009;
-  int64 amsa10 = 1010;
-  int64 amsa27 = 1027;
-  int64 amsa60 = 1060;
+  int64 amsa2 = 102;
+  int64 amsa9 = 109;
+  int64 amsa10 = 110;
+  int64 amsa27 = 127;
+  int64 amsa60 = 160;
 }
 
 message Planets {

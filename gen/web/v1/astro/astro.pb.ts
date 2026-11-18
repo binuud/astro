@@ -40,6 +40,7 @@ export type Pagination = {
 export type PlanetDetails = {
   name?: string
   longitude?: number
+  rasiLongitude?: number
   latitude?: number
   declination?: number
   speed?: number

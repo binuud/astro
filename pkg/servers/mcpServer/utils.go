@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/dronasys-com/astro/pkg/astro"
 	"github.com/dronasys-com/astro/pkg/servers/citiesServer"
 	"github.com/sirupsen/logrus"
 )
@@ -53,4 +54,35 @@ func GetLatLongForCity(city string, countryCode string) (string, float64, float6
 	logrus.Infof("found cities for search %s %d", city, len(cities))
 	// return the first cities lat long
 	return cities[0].Name, cities[0].Latitude, cities[0].Longitude, nil
+}
+
+// PrintChartDescription
+// Print the chart description in plain english
+func _getAstrologicalChart(chart *astro.Chart) *Output_GetAstrologicalChart {
+	planetNames := []string{"asc", "sun", "moon", "mars", "mercury", "jupiter", "venus", "saturn", "rahu", "ketu", "neptune", "uranus", "pluto"}
+	output := ""
+	zodiac := make(map[string]string, 0)
+	house := make(map[string]string, 0)
+	for _, planetName := range planetNames {
+		planet := chart.Planets.PlanetsMap[planetName]
+		motion := ""
+		if planet.Speed < 0 {
+			motion = "Retrograde"
+		}
+		if motion == "Retrograde" {
+			zodiac[planet.Name] = fmt.Sprintf("Retrograde in %s at %.2f", astro.ENGLISH_RASI_NAMES[planet.Rasi], planet.RasiLongitude)
+			house[planet.Name] = fmt.Sprintf(" Retrograde in %d house", planet.BhavaH)
+		} else {
+			zodiac[planet.Name] = fmt.Sprintf("Direct in %s at %.2f", astro.ENGLISH_RASI_NAMES[planet.Rasi], planet.RasiLongitude)
+			house[planet.Name] = fmt.Sprintf("Direct in %d house", planet.BhavaH)
+		}
+
+		output = output + fmt.Sprintf("%s %s in %s. ", planet.Name, motion, astro.ENGLISH_RASI_NAMES[planet.Rasi])
+
+	}
+	return &Output_GetAstrologicalChart{
+		Text:   output,
+		Zodiac: zodiac,
+		House:  house,
+	}
 }
