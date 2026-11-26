@@ -175,28 +175,28 @@ run-life-span: ## run life span and chart test
 	./scripts/runLifeSpan.sh
 
 test: ## Run tests
-	export DATA_PATH=`pwd`/data/; \
+	export ASTRO_DATA_PATH=`pwd`/data/; \
 	export ASTRO_BIN=`pwd`/astroBin/astroBin; \
 	go test ./pkg/...
 
 test-panchang: ## Run panchang
-	export DATA_PATH=`pwd`/data/; \
+	export ASTRO_DATA_PATH=`pwd`/data/; \
 	export ASTRO_BIN=`pwd`/astroBin/astroBin; \
 	export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090"; \
 	go test -v --run Test_Pacnhang_Month ./pkg/astro/
 
 test-cities: ## Run tests
-	export DATA_PATH=`pwd`/data/; \
+	export ASTRO_DATA_PATH=`pwd`/data/; \
 	export ASTRO_BIN=`pwd`/astroBin/astroBin; \
 	go test ./pkg/servers/citiesServer/...	
 
 test-astro-chart: ## Run tests on astro chart
 	export ASTRO_EPHIMERIS_ENDPOINT="localhost:9090"; \  
-	export DATA_PATH=`pwd`/data/; \
+	export ASTRO_DATA_PATH=`pwd`/data/; \
 	export ASTRO_BIN=`pwd`/astroBin/astroBin; \
 	go test -v ./pkg/astro/...	
 
 test-coverage: ## Run test coverage
-	export DATA_PATH=`pwd`/data/; \
+	export ASTRO_DATA_PATH=`pwd`/data/; \
 	export ASTRO_BIN=`pwd`/astroBin/astroBin; \
 	go test ./pkg/... -coverprofile=coverage.out
