@@ -7,7 +7,7 @@ Binary is  ./astroBin/astrobin
 
 To see table of all planets with house information
 ```
-./astrobin -b4.2.1978 -ut05:15:00 -geopos80.27,13.08,0 -n1 -s1 -sid1 -fPl -pd -eswe -house
+./astrobin -b22.6.1974 -ut05:30:00 -geopos80.27,13.08,0 -n1 -s1 -sid1 -fPl -pd -eswe -house
 ```
 
 To see table of mercury with declination and longitude
