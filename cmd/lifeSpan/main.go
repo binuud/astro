@@ -1,8 +1,8 @@
 package main
 
 import (
-	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
-	"github.com/dronasys-com/astro/pkg/astro"
+	astroV1 "github.com/binuud/astro/gen/go/v1/astro"
+	"github.com/binuud/astro/pkg/astro"
 	log "github.com/sirupsen/logrus"
 )
 

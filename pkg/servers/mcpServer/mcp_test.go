@@ -3,7 +3,7 @@ package mcpServer_test
 import (
 	"testing"
 
-	"github.com/dronasys-com/astro/pkg/servers/mcpServer"
+	"github.com/binuud/astro/pkg/servers/mcpServer"
 )
 
 func Test_GetAge(t *testing.T) {

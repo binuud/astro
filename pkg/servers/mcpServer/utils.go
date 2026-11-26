@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dronasys-com/astro/pkg/astro"
-	"github.com/dronasys-com/astro/pkg/servers/citiesServer"
+	"github.com/binuud/astro/pkg/astro"
+	"github.com/binuud/astro/pkg/servers/citiesServer"
 	"github.com/sirupsen/logrus"
 )
 

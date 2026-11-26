@@ -3,7 +3,7 @@ package astro
 import (
 	"time"
 
-	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
+	astroV1 "github.com/binuud/astro/gen/go/v1/astro"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 

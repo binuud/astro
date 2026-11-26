@@ -3,7 +3,7 @@ package astroServer
 import (
 	"context"
 
-	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
+	astroV1 "github.com/binuud/astro/gen/go/v1/astro"
 	"github.com/sirupsen/logrus"
 )
 

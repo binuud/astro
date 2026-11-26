@@ -6,9 +6,9 @@ import (
 	"log"
 	"net"
 
-	citiesV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
-	"github.com/dronasys-com/astro/pkg/servers/citiesServer"
-	"github.com/dronasys-com/astro/pkg/servers/ephimerisServer"
+	citiesV1 "github.com/binuud/astro/gen/go/v1/astro"
+	"github.com/binuud/astro/pkg/servers/citiesServer"
+	"github.com/binuud/astro/pkg/servers/ephimerisServer"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

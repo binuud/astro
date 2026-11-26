@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strconv"
 
-	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
-	"github.com/dronasys-com/astro/pkg/astro"
+	astroV1 "github.com/binuud/astro/gen/go/v1/astro"
+	"github.com/binuud/astro/pkg/astro"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"github.com/sirupsen/logrus"
 )
