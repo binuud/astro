@@ -1,6 +1,6 @@
 package db
 
-// "github.com/dronasys-com/astro/pkg/dataLayer/mongo"
+// "github.com/binuud/astro/pkg/dataLayer/mongo"
 // "github.com/sirupsen/logrus"
 
 // const (

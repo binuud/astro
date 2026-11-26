@@ -3,7 +3,7 @@ package astroRules
 import (
 	"fmt"
 
-	aV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
+	aV1 "github.com/binuud/astro/gen/go/v1/astro"
 )
 
 const (

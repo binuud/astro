@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	astroV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
-	"github.com/dronasys-com/astro/pkg/astro"
-	datalayer "github.com/dronasys-com/astro/pkg/dataLayer"
+	astroV1 "github.com/binuud/astro/gen/go/v1/astro"
+	"github.com/binuud/astro/pkg/astro"
+	datalayer "github.com/binuud/astro/pkg/dataLayer"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"

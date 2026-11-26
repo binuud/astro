@@ -3,7 +3,7 @@ package citiesServer
 import (
 	"context"
 
-	citiesV1 "github.com/dronasys-com/astro/gen/go/v1/astro"
+	citiesV1 "github.com/binuud/astro/gen/go/v1/astro"
 	"github.com/sirupsen/logrus"
 )
 

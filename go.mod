@@ -1,4 +1,4 @@
-module github.com/dronasys-com/astro
+module github.com/binuud/astro
 
 go 1.27.2
 

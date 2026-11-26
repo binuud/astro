@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/dronasys-com/astro/pkg/servers/mcpServer"
+	"github.com/binuud/astro/pkg/servers/mcpServer"
 )
 
 func main() {
