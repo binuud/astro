@@ -200,3 +200,16 @@ test-coverage: ## Run test coverage
 	export ASTRO_DATA_PATH=`pwd`/data/; \
 	export ASTRO_BIN=`pwd`/astroBin/astroBin; \
 	go test ./pkg/... -coverprofile=coverage.out
+
+clone-submodules: ## clone submodules
+	git submodule update --init --recursive	
+
+build-astrobin-amd: ## build swiss ephimeris for amd64
+	cd ./references/swisseph/ && make clean
+	cd ./references/swisseph/ && docker run --rm --platform linux/amd64 -v  `pwd`:/src   -w /src gcc:latest make
+	cd ./references/swisseph/bin && file *
+
+build-astrobin-arm: ## build swiss ephimeris for arm64
+	cd ./references/swisseph/ && make clean
+	cd ./references/swisseph/ && docker run --rm --platform linux/arm64 -v `pwd`:/src -w /src gcc:latest make
+	cd ./references/swisseph/bin && file *
