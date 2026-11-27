@@ -27,7 +27,7 @@ func NewCityDB() *CityDB {
 
 func (c *CityDB) initDB() []*citiesV1.CityInfo {
 
-	dataPath := os.Getenv("ASTRO_ASTRO_DATA_PATH")
+	dataPath := os.Getenv("ASTRO_DATA_PATH")
 	if dataPath == "" {
 		dataPath = "./data/"
 	}
